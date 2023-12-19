@@ -11,11 +11,6 @@ Scene* mainMenu::createScene()
     return mainMenu::create();
 }
 
-static void problemLoading(const char* filename)
-{
-    printf("Error while loading: %s\n", filename);
-}
-
 // on "init" you need to initialize your instance
 bool mainMenu::init()
 {
@@ -180,10 +175,10 @@ void mainMenu::onNewGame(Ref* pSender)
 
 void mainMenu::onSettings(Ref* pSender)
 {
-
+    _director->pushScene(TransitionFade::create(1.0f, sceneSettings::createScene()));
 }
 
 void mainMenu::onAbout(Ref* pSender)
 {
-
+    _director->pushScene(TransitionFade::create(1.0f, sceneAbout::createScene()));
 }
