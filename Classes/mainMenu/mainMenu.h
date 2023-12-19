@@ -2,26 +2,23 @@
 #define _mainMenu_H_
 #include "cocos2d.h"
 
-class mainMenu : public cocos2d::Layer
+class mainMenu : public cocos2d::Scene
 {
 
 
 public:
-	static cocos2d::Scene* scene();
+	static cocos2d::Scene* createScene();
 
 	virtual bool init();
-/*
+
+	void onNewGame(cocos2d::Ref* pSender);
+
 	void onAbout(cocos2d::Ref* pSender);
 
 	void onSettings(cocos2d::Ref* pSender);
 
-	void onButtonEffect();
+	//void onButtonEffect();
 
-	void onNewGame();
-
-	virtual void update(float data);
-	
-	*/
 
 	void menuCloseCallback(cocos2d::Ref* pSender);
 

@@ -1,21 +1,14 @@
 #include "mainMenu.h"
-
+#include "globalResSetting.h"
+#include "layerAbout.h"
+#include "layerSetting.h"
+#include "layerGame.h"
 
 USING_NS_CC;
 
-Scene* mainMenu::scene()
+Scene* mainMenu::createScene()
 {
-    // 'scene' is an autorelease object
-    Scene * scene = Scene::create(); 
-   
-    // 'layer' is an autorelease object
-    mainMenu *layer = mainMenu::create();
-
-    // add layer as a child to scene
-    scene->addChild(layer);
-
-    // return the scene
-    return scene;
+    return mainMenu::create();
 }
 
 static void problemLoading(const char* filename)
@@ -27,7 +20,7 @@ static void problemLoading(const char* filename)
 bool mainMenu::init()
 {
 	// 1. super init first
-    if (!Layer::init())
+    if (!Scene::init())
     {
 		return false;
 	}
@@ -63,23 +56,51 @@ bool mainMenu::init()
 
 
     /*----------------MenuItemLabel and Background---------------------*/
-    auto label = Label::createWithTTF("Main Menu", "fonts/Marker Felt.ttf", 24);
 
-    if (label == nullptr)
+    // add "HelloWorld" splash screen"
+    auto sprite = Sprite::create(BG_PNG);
+    if (sprite == nullptr)
     {
-		problemLoading("'fonts/Marker Felt.ttf'");
-	}
+        problemLoading("'mainMenuBackground.png'");
+    }
     else
     {
-		label->setPosition(Vec2(origin.x + visibleSize.width / 2,
-            			        origin.y + visibleSize.height - label->getContentSize().height));
+        // position the sprite on the center of the screen
+        sprite->setScale(BG_SCALE);
+        sprite->setPosition(CENTER_WIN);
 
-		this->addChild(label, 1);
-	}
 
-    auto bground = Sprite::create("mainMenuBackground.png");
-    bground->setPosition(800, 460);
-    this->addChild(bground, 0);
+        // add the sprite as a child to this layer
+        this->addChild(sprite, 0);
+    }
+
+    int singalHeight = 36 / BG_SCALE + 1;
+    int singalWidth = 123 / BG_SCALE + 1;
+    Sprite* newGameNormal = Sprite::create(BG_BTNS, Rect(0, 0, singalWidth, singalHeight));
+    Sprite* newGameSelected = Sprite::create(BG_BTNS, Rect(0, singalHeight, singalWidth, singalHeight));
+    Sprite* newGameDisabled = Sprite::create(BG_BTNS, Rect(0, singalHeight * 2, singalWidth, singalHeight));
+
+    Sprite* gameSettingsNormal = Sprite::create(BG_BTNS, Rect(singalWidth, 0, singalWidth, singalHeight));
+    Sprite* gameSettingsSelected = Sprite::create(BG_BTNS, Rect(singalWidth, singalHeight, singalWidth, singalHeight));
+    Sprite* gameSettingsDisabled = Sprite::create(BG_BTNS, Rect(singalWidth, singalHeight * 2, singalWidth, singalHeight));
+
+    Sprite* aboutNormal = Sprite::create(BG_BTNS, Rect(singalWidth * 2, 0, singalWidth, singalHeight));
+    Sprite* aboutSelected = Sprite::create(BG_BTNS, Rect(singalWidth * 2, singalHeight, singalWidth, singalHeight));
+    Sprite* aboutDesabled = Sprite::create(BG_BTNS, Rect(singalWidth * 2, singalHeight * 2, singalWidth, singalHeight));
+
+    MenuItemSprite* newGame = MenuItemSprite::create(newGameNormal, newGameSelected, newGameDisabled,
+        CC_CALLBACK_1(mainMenu::onNewGame, this));
+
+    MenuItemSprite* gameSetting = MenuItemSprite::create(gameSettingsNormal, gameSettingsSelected, gameSettingsDisabled,
+        CC_CALLBACK_1(mainMenu::onSettings, this));
+    //“设置”按钮tag为20
+    gameSetting->setTag(20);
+
+    MenuItemSprite* about = MenuItemSprite::create(aboutNormal, aboutSelected, aboutDesabled,
+        CC_CALLBACK_1(mainMenu::onAbout, this));
+    //“关于”按钮tag为21
+    about->setTag(21);
+
 
     return true;
 }
@@ -90,10 +111,28 @@ void mainMenu::menuCloseCallback(Ref* pSender)
     //Close the cocos2d-x game scene and quit the application
     Director::getInstance()->end();
 
-    /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
-
-    //EventCustom customEndEvent("game_scene_close_event");
-    //_eventDispatcher->dispatchEvent(&customEndEvent);
+}
 
 
+void mainMenu::onNewGame(Ref* pSender)
+{
+    Scene* scene = Scene::create();
+    //scene->addChild(layerGame::create());
+
+    //Director::getInstance()->replaceScene(TransitionFade::create(1.2, scene));
+
+}
+
+void mainMenu::onSettings(Ref* pSender)
+{
+    //转到"SettingsLayer"
+   // Scene* scene = layerSetting::scene();
+    //Director::getInstance()->replaceScene(TransitionFade::create(1.2, scene));
+
+}
+
+void mainMenu::onAbout(Ref* pSender)
+{
+    //Scene* scene = layerAbout::scene();
+   // Director::getInstance()->replaceScene(TransitionFade::create(1.2, scene));
 }
