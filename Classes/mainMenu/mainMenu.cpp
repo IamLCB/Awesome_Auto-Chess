@@ -1,8 +1,8 @@
 #include "mainMenu.h"
 #include "globalResSetting.h"
-#include "layerAbout.h"
-#include "layerSetting.h"
-#include "layerGame.h"
+#include "sceneAbout.h"
+#include "sceneSetting.h"
+#include "sceneGame.h"
 
 USING_NS_CC;
 
@@ -55,7 +55,7 @@ bool mainMenu::init()
 
 
 
-    /*----------------MenuItemLabel and Background---------------------*/
+    /*----------------MenuBackground---------------------*/
 
     // add "HelloWorld" splash screen"
     auto sprite = Sprite::create(BG_PNG);
@@ -74,32 +74,92 @@ bool mainMenu::init()
         this->addChild(sprite, 0);
     }
 
+
     int singalHeight = 36 / BG_SCALE + 1;
     int singalWidth = 123 / BG_SCALE + 1;
+
+    /*----------------MenuItemSprite newGame--------------------*/
     Sprite* newGameNormal = Sprite::create(BG_BTNS, Rect(0, 0, singalWidth, singalHeight));
     Sprite* newGameSelected = Sprite::create(BG_BTNS, Rect(0, singalHeight, singalWidth, singalHeight));
     Sprite* newGameDisabled = Sprite::create(BG_BTNS, Rect(0, singalHeight * 2, singalWidth, singalHeight));
 
+    MenuItemSprite* newGame = MenuItemSprite::create(newGameNormal, newGameSelected, newGameDisabled,
+        CC_CALLBACK_1(mainMenu::onNewGame, this));
+
+    if (newGame == nullptr ||
+        newGame->getContentSize().width <= 0 ||
+        newGame->getContentSize().height <= 0)
+    {
+        problemLoading("'newGameNormal.png' and 'newGameSelected.png'");
+    }
+    else
+    {
+        float x = CENTER_WIN_X;
+        float y = CENTER_WIN_Y - 300;
+        newGame->setPosition(Vec2(x, y));
+        newGame->setScale(BG_SCALE);
+    }
+
+    auto menuNewGame = Menu::create(newGame, nullptr);
+    menuNewGame->setPosition(Vec2::ZERO);
+    this->addChild(menuNewGame, 1);
+   
+    
+    /*----------------MenuItemSprite gameSettings--------------------*/
     Sprite* gameSettingsNormal = Sprite::create(BG_BTNS, Rect(singalWidth, 0, singalWidth, singalHeight));
     Sprite* gameSettingsSelected = Sprite::create(BG_BTNS, Rect(singalWidth, singalHeight, singalWidth, singalHeight));
     Sprite* gameSettingsDisabled = Sprite::create(BG_BTNS, Rect(singalWidth, singalHeight * 2, singalWidth, singalHeight));
 
+    MenuItemSprite* gameSettings = MenuItemSprite::create(gameSettingsNormal, gameSettingsSelected, gameSettingsDisabled,
+        CC_CALLBACK_1(mainMenu::onSettings, this));
+
+    if (gameSettings == nullptr ||
+        gameSettings->getContentSize().width <= 0 ||
+        gameSettings->getContentSize().height <= 0)
+    {
+        problemLoading("'gameSettingsNormal.png' and 'gameSettingsSelected.png'");
+    }
+    else
+    {
+        float x = CENTER_WIN_X;
+        float y = CENTER_WIN_Y - 300 - singalHeight - 15;
+        gameSettings->setPosition(Vec2(x, y));
+        gameSettings->setScale(BG_SCALE);
+    }
+
+    auto menuGameSettings = Menu::create(gameSettings, nullptr);
+    menuGameSettings->setPosition(Vec2::ZERO);
+    this->addChild(menuGameSettings, 1);
+ 
+    
+    /*----------------MenuItemSprite about--------------------*/
     Sprite* aboutNormal = Sprite::create(BG_BTNS, Rect(singalWidth * 2, 0, singalWidth, singalHeight));
     Sprite* aboutSelected = Sprite::create(BG_BTNS, Rect(singalWidth * 2, singalHeight, singalWidth, singalHeight));
     Sprite* aboutDesabled = Sprite::create(BG_BTNS, Rect(singalWidth * 2, singalHeight * 2, singalWidth, singalHeight));
 
-    MenuItemSprite* newGame = MenuItemSprite::create(newGameNormal, newGameSelected, newGameDisabled,
-        CC_CALLBACK_1(mainMenu::onNewGame, this));
-
-    MenuItemSprite* gameSetting = MenuItemSprite::create(gameSettingsNormal, gameSettingsSelected, gameSettingsDisabled,
-        CC_CALLBACK_1(mainMenu::onSettings, this));
-    //“设置”按钮tag为20
-    gameSetting->setTag(20);
-
     MenuItemSprite* about = MenuItemSprite::create(aboutNormal, aboutSelected, aboutDesabled,
         CC_CALLBACK_1(mainMenu::onAbout, this));
+
     //“关于”按钮tag为21
     about->setTag(21);
+
+    if (about == nullptr ||
+        about->getContentSize().width <= 0 ||
+        about->getContentSize().height <= 0)
+    {
+		problemLoading("'aboutNormal.png' and 'aboutSelected.png'");
+	}
+    else
+    {
+		float x = CENTER_WIN_X;
+        float y = CENTER_WIN_Y - 300 - singalHeight * 2 - 30;
+		about->setPosition(Vec2(x, y));
+        about->setScale(BG_SCALE);
+	}
+
+    auto menuAbout = Menu::create(about, nullptr);
+    menuAbout->setPosition(Vec2::ZERO);
+    this->addChild(menuAbout, 1);
 
 
     return true;
@@ -113,26 +173,17 @@ void mainMenu::menuCloseCallback(Ref* pSender)
 
 }
 
-
 void mainMenu::onNewGame(Ref* pSender)
 {
-    Scene* scene = Scene::create();
-    //scene->addChild(layerGame::create());
-
-    //Director::getInstance()->replaceScene(TransitionFade::create(1.2, scene));
 
 }
 
 void mainMenu::onSettings(Ref* pSender)
 {
-    //转到"SettingsLayer"
-   // Scene* scene = layerSetting::scene();
-    //Director::getInstance()->replaceScene(TransitionFade::create(1.2, scene));
 
 }
 
 void mainMenu::onAbout(Ref* pSender)
 {
-    //Scene* scene = layerAbout::scene();
-   // Director::getInstance()->replaceScene(TransitionFade::create(1.2, scene));
+
 }
