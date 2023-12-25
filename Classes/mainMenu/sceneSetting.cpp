@@ -53,7 +53,7 @@ bool sceneSettings::init()
     else
     {
         // position the label on the center of the screen
-        labelSettings->setPosition(Vec2(CENTER_WIN_X, TOP_WIN_Y - labelSettings->getContentSize().height + 10));
+        labelSettings->setPosition(Vec2(CENTER_WIN_X, TOP_WIN_Y - labelSettings->getContentSize().height + 15));
 
         // add the label as a child to this layer
         this->addChild(labelSettings, 1);
@@ -66,6 +66,7 @@ bool sceneSettings::init()
     this->addChild(sprite1);
 
     /*----------------MenuItemSprite switchSound---------------------*/
+    auto* labelSound = Label::createWithTTF("Sound", "./fonts/Marker Felt.ttf", 60);
     Sprite* soundOffNormal = Sprite::create("./mainMenu/soundOffNormal.png");
     Sprite* soundOffSelected = Sprite::create("./mainMenu/soundOffSelected.png");
     Sprite* soundOnNormal = Sprite::create("./mainMenu/soundOnNormal.png");
@@ -75,6 +76,21 @@ bool sceneSettings::init()
         		            CC_CALLBACK_1(sceneSettings::soundOff, this));
     MenuItemSprite* soundOn = MenuItemSprite::create(soundOnNormal, soundOnSelected,
                             CC_CALLBACK_1(sceneSettings::soundOn, this));
+    if (labelSound == nullptr ||
+        labelSound->getContentSize().width <= 0 ||
+        labelSound->getContentSize().height <= 0)
+    {
+		problemLoading("'fonts/Marker Felt.ttf'");
+	}
+    else
+    {
+		float x = CENTER_WIN_X;
+        float y = CENTER_WIN_Y + labelSound->getContentSize().height;
+        labelSound->setPosition(Vec2(x, y));
+        labelSound->setColor(Color3B::BLACK);
+        this->addChild(labelSound, 1);
+	}
+
 
     if (soundOff == nullptr ||
         soundOff->getContentSize().width <= 0 ||
@@ -84,8 +100,8 @@ bool sceneSettings::init()
 	}
     else
     {
-		float x = CENTER_WIN_X - soundOff->getContentSize().width - 10;
-		float y = CENTER_WIN_Y;
+        float x = CENTER_WIN_X - soundOff->getContentSize().width / 2 - 10;
+        float y = CENTER_WIN_Y - 20;
 		soundOff->setPosition(Vec2(x, y));
 	}
     auto menuSoundOff = Menu::create(soundOff, nullptr);
@@ -100,8 +116,8 @@ bool sceneSettings::init()
     }
     else
     {
-        float x = CENTER_WIN_X + soundOn->getContentSize().width + 10;
-        float y = CENTER_WIN_Y;
+        float x = CENTER_WIN_X + soundOn->getContentSize().width / 2 + 10;
+        float y = CENTER_WIN_Y - 20;
         soundOn->setPosition(Vec2(x, y));
     }
     auto menuSoundOn = Menu::create(soundOn, nullptr);

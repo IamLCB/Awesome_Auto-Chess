@@ -23,7 +23,7 @@
  ****************************************************************************/
 
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
+#include "AudioEngine.h"
 #include "mainMenu.h"
 
 // #define USE_AUDIO_ENGINE 1
@@ -74,7 +74,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
     if(!glview) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
-        glview = GLViewImpl::createWithRect("Awesome_Auto-Chess", cocos2d::Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
+        glview = GLViewImpl::createWithRect("Awesome_Auto-Chess", cocos2d::Rect(0, 0, designResolutionSize.width, designResolutionSize.height));     
 #else
         glview = GLViewImpl::create("Awesome_Auto-Chess");
 #endif
@@ -111,6 +111,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // create a scene. it's an autorelease object
     auto scene = mainMenu::createScene();
 
+    static int bgMusicID;
+    bgMusicID = AudioEngine::play2d("./audio/bgMusic.mp3", true, 1.0f);
+
     // run
     director->runWithScene(scene);
 
@@ -120,7 +123,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 // This function will be called when the app is inactive. Note, when receiving a phone call it is invoked.
 void AppDelegate::applicationDidEnterBackground() {
     Director::getInstance()->stopAnimation();
-
+    AudioEngine::pauseAll();
 #if USE_AUDIO_ENGINE
     AudioEngine::pauseAll();
 #endif
@@ -129,7 +132,7 @@ void AppDelegate::applicationDidEnterBackground() {
 // this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground() {
     Director::getInstance()->startAnimation();
-
+    AudioEngine::resumeAll();
 #if USE_AUDIO_ENGINE
     AudioEngine::resumeAll();
 #endif
