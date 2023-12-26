@@ -10,21 +10,29 @@ bqzs::bqzs()
 	attack = 50; //攻击力
 	protect = 40;//护甲
 	magicPro = 20;//魔抗
-	magic = 100;
 	state = 1;//技能状态
 	price = 1;//花费
-	x = 0, y = 0;//在棋盘上的坐标
 	speed = 0.6;//攻速
+}
+
+void bqzs::upLevelbqzs(Hero* bqzs1, Hero* bqzs2, Hero* bqzs3)
+{
+	bqzs1->blood = 1080;//当前血量
+	bqzs1->maxBlood = 1080;//生命值
+	bqzs1->level = 2; //等级
+	bqzs1->attack = 90; //攻击力
+	bqzs2->removeFromParent();
+	bqzs3->removeFromParent();
 }
 
 
 Hero* bqzs::initbqzs()
 {
 	Hero* bqzs = static_cast<Hero*>(bqzs::create());
-	my = bqzs;
+	//my = bqzs;
 	bqzs->picturename = "./hero/bqzs%d.png";
 	bqzs->picturenum = 3;
-	bqzs->heroAnimation(bqzs->picturename, bqzs->picturenum, bqzs, bqzs->getPosition(), speed, -1);
+	bqzs->heroAnimation(bqzs->picturename, bqzs->picturenum, bqzs,speed, -1);
 	//tfns->autorelease();
 	return bqzs;
 }
@@ -46,7 +54,7 @@ void bqzs::Play()
 		while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK) {
 			attackNum++;//对该敌人的攻击次数+1
 			auto lambdb = [=](float dt) {
-				bqzs::bqzsnormalAttack(enemy, attackNum,add,hurt);
+				bqzs::bqzsnormalAttack(enemy, add,hurt);
 			};
 			this->schedule(lambdb, 1 / speed, "bqzsAttack");
 			//释放技能
@@ -70,6 +78,7 @@ void bqzs::Play()
 	magicPro = magicpro;
 	protect = pro;
 	}
+	this->removeFromParent();
 }
 
 void bqzs::bqzsnormalAttack(Hero* enemy, double add, int hurt)

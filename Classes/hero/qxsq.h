@@ -1,18 +1,19 @@
 #pragma once
-#include "Hero.h"
+#include "hero.h"
 
-template <typename T>
-class qxsq :public Hero<T>
+
+class qxsq :public Hero
 {
 private:
-    magic = 35;
+    double magic = 35;
 public:
     qxsq();
     void Play();
+    void upLevelqxsq(Hero* qxsq1, Hero* qxsq2, Hero* qxsq3);
     CREATE_FUNC(qxsq);
-    qxsq<T>* initqxsq();
-    void qxsqAttack(T* enemy, const int attackNum, const int hurt,const int add);
-    void shootbullet(string picturename, Point Pos, qxsq<T>* my);
+    Hero* initqxsq();
+    void qxsqAttack(Hero* enemy, const int attackNum, const int hurt,const int add);
+    void shootbullet(string picturename, Point Pos, Hero* my);
    
 };
 

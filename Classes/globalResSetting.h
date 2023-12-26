@@ -19,7 +19,7 @@
 #define RIGHT_BOTTOM_WIN Vec2(origin.x + visibleSize.width, origin.y)
 #define RIGHT_TOP_WIN Vec2(origin.x + visibleSize.width, origin.y + visibleSize.height)
 
-#define tfns 1
+#define TFNS 1
 
 static void problemLoading(const char* filename)
 {

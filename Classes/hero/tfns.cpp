@@ -14,11 +14,18 @@ tfns::tfns()
     state = ATTACK;//技能状态
     attackDistance = 3;//攻击距离
     price = 1;//花费
-    x = 0, y = 0;//在棋盘上的坐标
     speed = 0.7;//攻速
-
 }
 
+void tfns::upLeveltfns(Hero*tfns1,Hero*tfns2,Hero* tfns3) 
+{
+    tfns1->blood = 990;//当前血量
+    tfns1->maxBlood = 990;//生命值
+    tfns1->level = 2; //等级
+    tfns1->attack = 72; //攻击力
+    tfns2->removeFromParent();
+    tfns3->removeFromParent();
+}
 
 void tfns::Play()
 {
@@ -38,6 +45,7 @@ void tfns::Play()
 
         }
     }
+    this->removeFromParent();
 }
 
 

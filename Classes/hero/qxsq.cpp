@@ -1,7 +1,7 @@
 #include "qxsq.h"
 
-template <typename T>
-qxsq<T>::qxsq()
+
+qxsq::qxsq()
 {
     name = "驱邪圣枪", skillname = "冷酷追击";
     skillType = PHYSICS;
@@ -14,48 +14,57 @@ qxsq<T>::qxsq()
     state = ATTACK;//技能状态
     attackDistance = 3;//攻击距离
     price = 2;//花费
-    x = 0, y = 0;//在棋盘上的坐标
     speed = 0.65;//攻速
 }
 
-template <typename T>
-void qxsq<T>::Play()
+void qxsq::upLevelqxsq(Hero* qxsq1, Hero* qxsq2, Hero* qxsq3)
 {
-    T* enemy;
+    qxsq1->blood = 1080;//当前血量
+    qxsq1->maxBlood = 1080;//生命值
+    qxsq1->level = 2; //等级
+    qxsq1->attack = 117; //攻击力
+    qxsq2->removeFromParent();
+    qxsq3->removeFromParent();
+}
+
+void qxsq::Play()
+{
+    Hero* enemy;
     int attackNum = 0;
-    while (!isDead() && !isEnd())
+    while (!isDead() && !isWin(&myPlayerData, &opPlayerData))
     {
-        enemy = getEnemy();//锁敌，可攻击范围内最远
+        enemy = getEnemyByDistance(this, opPlayerData);//锁敌
         attackNum = 0;//攻击次数
         int hurt = (int)(attack * enemy->attackRate);//伤害值
         int add = (level == 1 ? 125 : 250);
-        while (enemy->!isDead() && isInRange(enemy) && !isDead() && state == ATTACK)//符合连续攻击条件则持续攻击 
+        while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续攻击条件则持续攻击 
         {
             attackNum++;//对该敌人的攻击次数+1
             auto lambda = [=](float dt) {
-                qxsq<T>::qxsqAttack(enemy, attackNum,hurt ,add);
+                qxsq::qxsqAttack(enemy, attackNum,hurt ,add);
             };
-            this->schedule(lambda, 1 / speed);
+            this->schedule(lambda, 1 / speed,"qxsqAttack");
         }
     }
+    this->removeFromParent();
 }
 
-template <typename T>
-qxsq<T>* qxsq<T>::initqxsq()
+
+Hero* qxsq::initqxsq()
 {
-    auto qxsq = qxsq::create();
-    my = qxsq;
-    qxsq->picturename = "./hero/qxsq.png";
-    qxsq->picturenum = 2;
-    qxsq->heroAnimation(qxsq->picturename, qxsq->picturenum, qxsq, qxsq->getPosition(), speed, -1);//??????????//未识别？
+    Hero* qxsq = static_cast<Hero*>(qxsq::create());
+   // my = qxsq;
+    qxsq->picturename = "./hero/qxsq%d.png";
+    qxsq->picturenum = 3;
+    qxsq->heroAnimation(qxsq->picturename, qxsq->picturenum, qxsq, speed, -1);
     //tfns->autorelease();
     return qxsq;
 }
 
 
 
-template <typename T>
-void qxsq<T>::qxsqAttack(T* enemy, const int attackNum,const int hurt,const int add)
+
+void qxsq::qxsqAttack(Hero* enemy, const int attackNum,const int hurt,const int add)
 {
     blue += 50;
     if (blue == blueMax)//如果连续对同一目标攻击三次
@@ -69,11 +78,11 @@ void qxsq<T>::qxsqAttack(T* enemy, const int attackNum,const int hurt,const int 
     }
     if (enemy->blood < 0)
         enemy->blood = 0;//敌方死亡
-    shootbullet("zidan.png", enemy->getPosition() - this->getPosition(), this);
+    shootbullet("zidan.png", enemy->getPosition() - this->getPosition(), this);//??????????//图片
 }
 
-template <typename T>
-void qxsq<T>::shootbullet(string picturename, Point Pos, qxsq<T>* my)
+
+void qxsq::shootbullet(string picturename, Point Pos, Hero* my)
 {
     Sprite* bullet = Sprite::create(picturename);
     this->addChild(bullet);

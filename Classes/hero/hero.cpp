@@ -6,12 +6,12 @@ Hero* createHero(int name)
     switch (name) {
         case(TFNS):
             tfns* my = new tfns();
-            hero = my->initHero();
+            hero = my->inittfns();
     }
     return hero;
 }
 
-Node* Hero::createHealthBar(const std::string& backgroundTexture, const std::string& foregroundTexture, double initialPercentage, const Vec2& position) {
+Node* Hero::createHealthBar(const string& backgroundTexture, const std::string& foregroundTexture, double initialPercentage, const Vec2& position) {
     // 创建血条底部背景精灵
     Sprite* backgroundSprite = Sprite::create(backgroundTexture);
 
@@ -121,7 +121,7 @@ bool Hero::isInAttackRange(Hero* myHero, Hero* enemyHero)
 }
 
 
-void Effect::Dizzy(Hero* enemy)
+void Dizzy(Hero* enemy)
 {
     //英雄变成灰色
     enemy->setColor(Color3B::GRAY);
@@ -136,7 +136,7 @@ void Effect::Dizzy(Hero* enemy)
     enemy->scheduleOnce(lambda, 4, "dizzyKey");
 }
 
-void Effect::sevInjure(Hero* enemy)
+void sevInjure(Hero* enemy)
 {
     //英雄变成红色
     enemy->setColor(Color3B::RED);
@@ -153,13 +153,13 @@ void Effect::sevInjure(Hero* enemy)
     enemy->scheduleOnce(lambda, 2, "sevInjureKey");
 }
 
-void Effect::proProtect(Hero* my)
+void proProtect(Hero* my)
 {
     my->protect = (int)(my->protect * 1.2);
 }
 
 
-void Effect::relProtect(Hero* enemy)
+void relProtect(Hero* enemy)
 {
     enemy->setColor(Color3B::GREEN);
     enemy->protect = (int)(enemy->protect * 0.8);
@@ -172,7 +172,7 @@ void Effect::relProtect(Hero* enemy)
 }
 
 
-void Effect::immune(Hero* enemy)
+void immune(Hero* enemy)
 {
     double Rate = enemy->attackRate;
     enemy->attackRate = 0;

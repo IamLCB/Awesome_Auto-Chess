@@ -10,6 +10,7 @@ public:
     yn();
     void Play();
     CREATE_FUNC(yn);
+    void upLevelyn(Hero* yn1, Hero* yn2, Hero* yn3);
     Hero* inityn();
     void ynNormalAttack(Hero* enemy, const int attackNum,const double add, const int hurt);
     void swordwaive(string picturename, Hero* my);
