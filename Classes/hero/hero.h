@@ -1,6 +1,9 @@
 #ifndef _HERO_H_
 #define _HERO_H_
 #include"cocos2d.h"
+#include "tfns.h"
+#include"player/playerData.h"
+#include "globalResSetting.h"
 #include<string>
 USING_NS_CC;
 
@@ -16,8 +19,6 @@ using std::string;
 class Skill;
 
 
-
-//template <typename T>
 class Hero :public Sprite
 {
 public:
@@ -65,6 +66,9 @@ public:
 		int x;
 		int y;
 	};
+	Hero* getEnemyByDistance(Hero* myHero, playerData& opPlayer, bool mode = false);
+	bool isInAttackRange(Hero* myHero, Hero* enemyHero);
+	bool isWin(playerData* myPlayer, playerData* opPlayer);
 
 	//装备？？？
 	/*---------------set类型----------------------*/
@@ -97,20 +101,21 @@ public:
 	void changeAttack(int value) { attack += value; }
 	//void equimentchange();
 	void heroAnimation(string picturename, const int picturenum, Sprite* sprite, const double speed, const int loop);
-	
+	Node* createHealthBar(const string& backgroundTexture, const string& foregroundTexture, double initialPercentage, const Vec2& position);
+
 };
 
-template <typename T>
+//template <typename T>
 class Effect
 {
 	friend Hero;
 public:
-	//void Dizzy(T* enemy);
+	void Dizzy(Hero* enemy);
 	//void Bomb(T* enemy);
-	//void proProtect(T* my);
-	//void sevInjure(T* enemy);
-	//void relProtect(T* enemy);
-	//void immune(T* enemy);
+	void proProtect(Hero* my);
+	void sevInjure(Hero* enemy);
+	void relProtect(Hero* enemy);
+	void immune(Hero* enemy);
 };
 
 /*template <typename T>
