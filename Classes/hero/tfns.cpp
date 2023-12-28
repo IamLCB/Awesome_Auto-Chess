@@ -14,7 +14,6 @@ tfns::tfns()
     state = ATTACK;//技能状态
     attackDistance = 500;//攻击距离
     price = 1;//花费
-    x = 0, y = 0;//在棋盘上的坐标
     speed = 0.7;//攻速
 }
 
@@ -30,6 +29,7 @@ void tfns::upLeveltfns(Hero* tfns1, Hero* tfns2, Hero* tfns3)
 
 void tfns::Play()
 {
+<<<<<<< HEAD
     static Hero* enemy = getEnemyByDistance(this, false, this->ofPlayer);
     static int attackNum = 0;
         auto lambda = [=](float dt) {
@@ -48,6 +48,7 @@ void tfns::Play()
         };
         this->schedule(lambdc, speed, "tmp");
     //}
+
 }
 
 Hero* tfns::inittfns()

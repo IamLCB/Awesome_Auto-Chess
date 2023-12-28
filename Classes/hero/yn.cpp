@@ -14,10 +14,18 @@ yn::yn()
     state = ATTACK;//技能状态
     attackDistance = 1;//攻击距离
     price = 3;//花费
-    x = 0, y = 0;//在棋盘上的坐标
     speed = 0.6;//攻速
 }
 
+void yn::upLevelyn(Hero* yn1, Hero* yn2, Hero* yn3)
+{
+    yn1->blood = 990;//当前血量
+    yn1->maxBlood = 990;//生命值
+    yn1->level = 2; //等级
+    yn1->attack = 126; //攻击力
+    yn2->removeFromParent();
+    yn3->removeFromParent();
+}
 
 Hero* yn::inityn()
 {
@@ -69,6 +77,7 @@ void yn::Play()
                 enemy->blood = 0;//敌方死亡
         }
     }
+    this->removeFromParent();
 }
 
 void yn::ynNormalAttack(Hero* enemy, const int attackNum,const double add,const int hurt)

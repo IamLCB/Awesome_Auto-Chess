@@ -28,7 +28,7 @@ public:
 	int protect = 0;//护甲
 	int magicPro = 10;//魔抗
 	int state;//技能状态
-	int x = 0, y = 0;//在棋盘上的坐标
+	
 	double speed = 0.6;//攻速
 	double attackRate = 1;
 
@@ -37,12 +37,6 @@ public:
 	double movespeed = 1;
 	//////////////////////
 	double attackDistance = 100;  //攻击距离
-
-	double xtemp = x;      //进入战斗时的位置(地图位置)
-	double ytemp = y;
-	//可视化
-	double height = 0; //所带图片的长度和宽度
-	double width = 0;
 	//玩家相关
 	int ofPlayer = 0;     //所属玩家
 	int price = 1;    //所需金币
@@ -102,14 +96,13 @@ public:
 };
 
 Hero* createHero(int name);
-void Dizzy(Hero* enemy);
 void bomb(Hero* enemy, int attack);
 void lightning(Hero* enemy, const int hurt);
+void Dizzy(Hero* enemy);
 void proProtect(Hero* my);
 void sevInjure(Hero* enemy);
 void relProtect(Hero* enemy);
 void immune(Hero* enemy);
-
 
 /*template <typename T>
 class Battle

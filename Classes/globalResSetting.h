@@ -26,7 +26,6 @@
 constexpr auto AI = 0;
 constexpr auto HUMAN = 1;
 
-
 static void problemLoading(const char* filename)
 {
     printf("Error while loading: %s\n", filename);
