@@ -46,7 +46,7 @@ void yn::Play()
     int attackNum = 0;
     while (!isDead() && !isWin(&myPlayerData, &opPlayerData))
     {
-        enemy = getEnemyByDistance(this, opPlayerData);//锁敌
+        //enemy = getEnemyByDistance(this, opPlayerData);//锁敌
         attackNum = 0;//攻击次数
         double add = (level == 1) ? 300 : 400;
         double exp = (level == 1) ? 3 : 4;
@@ -102,13 +102,13 @@ void yn::swordwaive(string picturename, Hero* my)
     sword->runAction(waive);
 }
 
-void yn::goaway(Point Pos,Hero* my) {
-    // 跑到远处的动作序列
-    double distance = 5;//??????????//更改距离？
-    auto run = Sequence::create(
-        MoveTo::create(1.f, Vec2(Pos.x + distance, Pos.y));//??????????//更改距离？
-        nullptr
-    );
-    // 执行动作序列
-    my->runAction(run);
-}
+//void yn::goaway(Point Pos,Hero* my) {
+//    // 跑到远处的动作序列
+//    double distance = 5;//??????????//更改距离？
+//    auto run = Sequence::create(
+//        MoveTo::create(1.f, Vec2(Pos.x + distance, Pos.y));//??????????//更改距离？
+//        nullptr
+//    );
+//    // 执行动作序列
+//    my->runAction(run);
+//}

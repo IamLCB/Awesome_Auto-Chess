@@ -33,7 +33,7 @@ void qxsq::Play()
     int attackNum = 0;
     while (!isDead() && !isWin(&myPlayerData, &opPlayerData))
     {
-        enemy = getEnemyByDistance(this, opPlayerData);//ËøµĞ
+        //enemy = getEnemyByDistance(this, opPlayerData);//ËøµĞ
         attackNum = 0;//¹¥»÷´ÎÊı
         int hurt = (int)(attack * enemy->attackRate);//ÉËº¦Öµ
         int add = (level == 1 ? 125 : 250);

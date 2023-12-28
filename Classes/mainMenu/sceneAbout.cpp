@@ -95,7 +95,7 @@ bool sceneAbout::init()
 
 
     
-    Hero* hero1 = createHero(TFNS);
+    Hero* hero1 = createHero(BQZS);
     Hero* hero2 = createHero(MLPS);
     Hero* hero3 = createHero(TFNS);
     Hero* hero4 = createHero(LTZZ);
