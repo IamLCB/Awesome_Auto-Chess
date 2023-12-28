@@ -4,7 +4,9 @@
 #include "cocos2d.h"
 #include "mainMenu/mainMenu.h"
 #include "player/playerData.h"
-#include "hero/hero.h"
+#include "game/layerSettings.h"
+//#include "shop/shopCreate.h"
+//#include "hero/hero.h"
 #include "AudioEngine.h"
 #include <vector>
 #include <string>
@@ -41,15 +43,15 @@ private:
 	bool isWin(); //判断胜利
 	void afterWin(); //胜利后的操作
 
-	void toBattleArray(Hero* hero, playerData& player); //英雄上阵
-	void toWaitingArray(Hero* hero, playerData& player); //英雄下阵
+	//void toBattleArray(Hero* hero, playerData& player); //英雄上阵
+	//void toWaitingArray(Hero* hero, playerData& player); //英雄下阵
 
 	/***********子Layer们************/
-	layerMap* mapLayer = layerMap::createMapLayer(); //地图层
-	layerplayer* playerLayer = layerplayer::createPlayerLayer(); //玩家层
-	layerHero* heroLayer = layerHero::createHeroLayer(); //英雄层
-	layerShop* shopLayer = layerShop::createShopLayer(); //商店层
-	layerSettings* settingsLayer = layerSettings::createSettingsLayer(); //设置层
+	//layerMap* mapLayer = layerMap::createMapLayer(); //地图层
+	//layerPlayer* playerLayer = layerPlayer::createPlayerLayer(); //玩家层
+	//layerHero* heroLayer = layerHero::createHeroLayer(); //英雄层
+	//Sprite* shopSprite = shopCreate::createShop(); //商店层
+	layerSettings* settingsLayer = layerSettings::createLayer(); //设置层
 
 	int gameTurn = 0; //游戏回合数
 

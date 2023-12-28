@@ -1,6 +1,7 @@
 #include "sceneAbout.h"
 #include "mainMenu.h"
 #include "globalResSetting.h"
+#include "inGameTimer/inGameTimer.h"
 
 USING_NS_CC;
 
@@ -79,7 +80,6 @@ bool sceneAbout::init()
 
     sprite1->setPosition(800, 460);
     this->addChild(sprite1);
-
 
     return true;
 

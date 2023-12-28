@@ -2,11 +2,10 @@
 #define _shopCreate_H_
 #include "cocos2d.h"
 #include "globalResSetting.h"
-#include "HelloworldScene.h"
-#include "sceneAbout.h"
-#include "sceneSetting.h"
-#include "sceneGame.h"
-#include "mainMenu.h"
+#include "mainMenu/sceneAbout.h"
+#include "mainMenu/sceneSetting.h"
+#include "game/sceneGame.h"
+#include "mainMenu/mainMenu.h"
 
 #define CENTER_BUTTON_X CENTER_WIN_X + 450
 #define CENTER_BUTTON_Y CENTER_WIN_Y + 200

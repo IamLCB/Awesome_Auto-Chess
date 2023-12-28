@@ -4,7 +4,7 @@
 #include "sceneSetting.h"
 #include "game/sceneGame.h"
 #include "sceneName.h"
-#include "hero.h"
+//#include "hero.h"
 
 USING_NS_CC;
 
