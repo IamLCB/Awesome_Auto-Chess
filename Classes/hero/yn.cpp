@@ -1,7 +1,7 @@
 #include "yn.h"
 
 
-yn::yn()
+ynyn::ynyn()
 {
     name = "隐娘", skillname = "影遁忍术";
     skillType = PHYSICS;
@@ -17,7 +17,7 @@ yn::yn()
     speed = 0.6;//攻速
 }
 
-void yn::upLevelyn(Hero* yn1, Hero* yn2, Hero* yn3)
+void ynyn::upLevelynyn(Hero* yn1, Hero* yn2, Hero* yn3)
 {
     yn1->blood = 990;//当前血量
     yn1->maxBlood = 990;//生命值
@@ -27,12 +27,12 @@ void yn::upLevelyn(Hero* yn1, Hero* yn2, Hero* yn3)
     yn3->removeFromParent();
 }
 
-Hero* yn::inityn()
+Hero* ynyn::initynyn()
 {
-    Hero* yn = static_cast<Hero*>(yn::create());
+    Hero* yn = static_cast<Hero*>(ynyn::create());
     //my = yn;
-    yn->picturename = "./hero/yn%d.png";
-    yn->picturenum = 3;
+    yn->picturename = "./hero/yn.png";
+    yn->picturenum = 1;
     yn->heroAnimation(yn->picturename, yn->picturenum, yn,  speed, -1);
    
     return yn;
@@ -40,29 +40,33 @@ Hero* yn::inityn()
 
 
 
-void yn::Play()
+void ynyn::Play()
 {
-    Hero* enemy;
-    int attackNum = 0;
-    while (!isDead() && !isWin(&myPlayerData, &opPlayerData))
+    static Hero* enemy;
+    static int attackNum = 0;
+    auto lambdd = [=](float dt) {
+        this->update(this, enemy, dt);
+    };
+    this->schedule(lambdd, 1 / 60.f, "ynynMove");
+    //while (!isDead() && !isWin(&myPlayerData, &opPlayerData))
     {
-        //enemy = getEnemyByDistance(this, opPlayerData);//锁敌
+        enemy = getEnemyByDistance(this, false, this->ofPlayer);//锁敌
         attackNum = 0;//攻击次数
-        double add = (level == 1) ? 300 : 400;
-        double exp = (level == 1) ? 3 : 4;
-        int hurt = (int)(enemy->attackRate * attack);
+        static double add = (level == 1) ? 300 : 400;
+        static double exp = (level == 1) ? 3 : 4;
+        static int hurt = (int)(enemy->attackRate * attack);
         while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续攻击条件则持续攻击 
         {
             attackNum++;//对该敌人的攻击次数+1
             auto lambda = [=](float dt) {
-                yn::ynNormalAttack(enemy, attackNum,add,hurt);
+                ynyn::ynynNormalAttack(enemy, attackNum,add,hurt);
             };
             this->schedule(lambda, 1 / speed,"ynAttack");
             // 释放技能
             if (blue == blueMax) {
                 auto lambdc = [=](float dt) {
-                    yn::swordwaive("sword.png", this);//??????????//picture
-                    yn::goaway(enemy->getPosition(),this);//跑到远处//??????????//getposition
+                    //ynyn::swordwaive("sword.png", this);//??????????//picture
+                    //yn::goaway(enemy->getPosition(),this);//跑到远处//??????????//getposition
                     if (enemy->blood > (int)(0.5 * enemy->maxBlood)) {
                         enemy->blood -= (int)(hurt - (enemy->protect) + add);//高血量加成伤害
                     }
@@ -77,17 +81,17 @@ void yn::Play()
                 enemy->blood = 0;//敌方死亡
         }
     }
-    this->removeFromParent();
+    //this->removeFromParent();
 }
 
-void yn::ynNormalAttack(Hero* enemy, const int attackNum,const double add,const int hurt)
+void ynyn::ynynNormalAttack(Hero* enemy, const int attackNum,const double add,const int hurt)
 {
     blue += 30;
     enemy->protect > hurt ? enemy->blood -= 0 : enemy->blood -= hurt - enemy->protect;//护甲抵消部分伤害
     swordwaive("sword.png", this);//??????????//picture
 }
 
-void yn::swordwaive(string picturename, Hero* my)
+void ynyn::swordwaive(string picturename, Hero* my)
 {
     Sprite* sword = Sprite::create(picturename);
     this->addChild(sword);

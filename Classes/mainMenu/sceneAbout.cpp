@@ -5,6 +5,9 @@
 #include "hero/tfns.h"
 #include "hero/mlps.h"
 #include "hero/ltzz.h"
+#include "hero/bqzs.h"
+#include "hero/yn.h"
+#include "hero/qxsq.h"
 #include <vector>
 
 using std::vector;
@@ -96,9 +99,9 @@ bool sceneAbout::init()
 
     
     Hero* hero1 = createHero(BQZS);
-    Hero* hero2 = createHero(MLPS);
-    Hero* hero3 = createHero(TFNS);
-    Hero* hero4 = createHero(LTZZ);
+    Hero* hero2 = createHero(YN);
+    Hero* hero3 = createHero(BQZS);
+    Hero* hero4 = createHero(BQZS);
 
     heros.push_back(hero1);
     heros.push_back(hero2);

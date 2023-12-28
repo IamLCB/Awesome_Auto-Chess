@@ -59,6 +59,7 @@ void bqzs::Play()
 			attackNum++;//对该敌人的攻击次数+1
 			auto lambdb = [=](float dt) {
 				bqzs::bqzsnormalAttack(enemy, add,hurt);
+				enemy->setColor(Color3B::BLACK);
 			};
 			this->schedule(lambdb, 1 / speed, "bqzsAttack");
 			//释放技能
@@ -69,7 +70,7 @@ void bqzs::Play()
 					auto lambda = [=](float dt) {
 						enemy->blood -= (int)(hurt - (enemy->protect) + add);
 						//bqzs::swordswing("",this);//??????????//picture
-						
+
 					};
 					this->schedule(lambda, 1 / speed * 2,"bqzsSkill");//快速的释放技能
 					//释放技能时候敌人变成橙色

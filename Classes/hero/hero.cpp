@@ -2,6 +2,9 @@
 #include "tfns.h"
 #include "mlps.h"
 #include "ltzz.h"
+#include "bqzs.h"
+#include "yn.h"
+#include "qxsq.h"
 
 Hero* createHero(int name) {
     Hero* hero = nullptr;
@@ -12,10 +15,28 @@ Hero* createHero(int name) {
             hero = tfnsHero->inittfns();
         }
         break;
+        case BQZS:
+        {
+            bqzs* bqzsHero = new bqzs();
+            hero = bqzsHero->initbqzs();
+        }
+        break;
         case MLPS:
         {
             mlps* mlpsHero = new mlps();
             hero = mlpsHero->initmlps();
+        }
+        break;
+        case QXSQ:
+        {
+            qxsq* qxsqHero = new qxsq();
+            hero = qxsqHero->initqxsq();
+        }
+        break;
+        case YN:
+        {
+            ynyn* ynynHero = new ynyn();
+            hero = ynynHero->initynyn();
         }
         break;
         case LTZZ:
@@ -23,6 +44,12 @@ Hero* createHero(int name) {
             ltzz* ltzzHero = new ltzz();
             hero = ltzzHero->initltzz();
         }
+        break;
+        case SNZX:
+        {
+            
+        }
+        break;
     }
     return hero;
 }

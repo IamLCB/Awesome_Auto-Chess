@@ -13,7 +13,6 @@ ltzz::ltzz()
     attackDistance = 1;//攻击距离
     magicAmount = 75;//法力值
     price = 3;//花费
-    x = 0, y = 0;//在棋盘上的坐标
     speed = 0.65;//攻速
 }
 

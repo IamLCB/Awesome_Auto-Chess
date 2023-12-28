@@ -12,7 +12,6 @@ mlps::mlps()
     magicAmount = 50;//法力值
     attackDistance = 4;//攻击距离
     price = 1;//花费
-    x = 0, y = 0;//在棋盘上的坐标
     speed = 0.65;//攻速
 }
 
