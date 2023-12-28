@@ -29,7 +29,6 @@ void tfns::upLeveltfns(Hero* tfns1, Hero* tfns2, Hero* tfns3)
 
 void tfns::Play()
 {
-<<<<<<< HEAD
     static Hero* enemy = getEnemyByDistance(this, false, this->ofPlayer);
     static int attackNum = 0;
         auto lambda = [=](float dt) {
