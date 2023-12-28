@@ -29,6 +29,7 @@ void tfns::Play()
         enemy = getEnemyByDistance(this, opPlayerData);//锁敌
         attackNum = 0;//攻击次数
         while (!enemy->isDead() && isInAttackRange(this,enemy) && !isDead() && state == ATTACK)//符合连续攻击条件则持续攻击 
+
         {
             attackNum++;//对该敌人的攻击次数+1
             auto lambda = [=](float dt) {
@@ -41,7 +42,8 @@ void tfns::Play()
 }
 
 
-Hero* tfns::initHero()
+
+Hero* tfns::inittfns()
 {
     Hero* tfns = static_cast<Hero*>(tfns::create());
     // my = tfns;

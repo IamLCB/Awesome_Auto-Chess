@@ -7,7 +7,7 @@ public:
     tfns();
     void Play();
 
-    Hero* initHero();
+    Hero* inittfns();
     void tfnsAttack(Hero* enemy, const int attackNum);
     void shootArrow(string picturename, Point deltaPos);
     CREATE_FUNC(tfns);

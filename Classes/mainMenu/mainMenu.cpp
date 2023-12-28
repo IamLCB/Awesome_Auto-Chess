@@ -2,7 +2,9 @@
 #include "globalResSetting.h"
 #include "sceneAbout.h"
 #include "sceneSetting.h"
-#include "sceneGame.h"
+#include "game/sceneGame.h"
+#include "sceneName.h"
+#include "hero.h"
 
 USING_NS_CC;
 
@@ -76,9 +78,8 @@ bool mainMenu::init()
     /*----------------MenuItemSprite newGame--------------------*/
     Sprite* newGameNormal = Sprite::create(BG_BTNS, Rect(0, 0, singalWidth, singalHeight));
     Sprite* newGameSelected = Sprite::create(BG_BTNS, Rect(0, singalHeight, singalWidth, singalHeight));
-    Sprite* newGameDisabled = Sprite::create(BG_BTNS, Rect(0, singalHeight * 2, singalWidth, singalHeight));
 
-    MenuItemSprite* newGame = MenuItemSprite::create(newGameNormal, newGameSelected, newGameDisabled,
+    MenuItemSprite* newGame = MenuItemSprite::create(newGameNormal, newGameSelected, 
         CC_CALLBACK_1(mainMenu::onNewGame, this));
 
     if (newGame == nullptr ||
@@ -103,9 +104,8 @@ bool mainMenu::init()
     /*----------------MenuItemSprite gameSettings--------------------*/
     Sprite* gameSettingsNormal = Sprite::create(BG_BTNS, Rect(singalWidth, 0, singalWidth, singalHeight));
     Sprite* gameSettingsSelected = Sprite::create(BG_BTNS, Rect(singalWidth, singalHeight, singalWidth, singalHeight));
-    Sprite* gameSettingsDisabled = Sprite::create(BG_BTNS, Rect(singalWidth, singalHeight * 2, singalWidth, singalHeight));
 
-    MenuItemSprite* gameSettings = MenuItemSprite::create(gameSettingsNormal, gameSettingsSelected, gameSettingsDisabled,
+    MenuItemSprite* gameSettings = MenuItemSprite::create(gameSettingsNormal, gameSettingsSelected,
         CC_CALLBACK_1(mainMenu::onSettings, this));
 
     if (gameSettings == nullptr ||
@@ -130,9 +130,8 @@ bool mainMenu::init()
     /*----------------MenuItemSprite about--------------------*/
     Sprite* aboutNormal = Sprite::create(BG_BTNS, Rect(singalWidth * 2, 0, singalWidth, singalHeight));
     Sprite* aboutSelected = Sprite::create(BG_BTNS, Rect(singalWidth * 2, singalHeight, singalWidth, singalHeight));
-    Sprite* aboutDesabled = Sprite::create(BG_BTNS, Rect(singalWidth * 2, singalHeight * 2, singalWidth, singalHeight));
 
-    MenuItemSprite* about = MenuItemSprite::create(aboutNormal, aboutSelected, aboutDesabled,
+    MenuItemSprite* about = MenuItemSprite::create(aboutNormal, aboutSelected, 
         CC_CALLBACK_1(mainMenu::onAbout, this));
 
     //“关于”按钮tag为21
@@ -156,7 +155,6 @@ bool mainMenu::init()
     menuAbout->setPosition(Vec2::ZERO);
     this->addChild(menuAbout, 1);
 
-
     return true;
 }
 
@@ -170,7 +168,7 @@ void mainMenu::menuCloseCallback(Ref* pSender)
 
 void mainMenu::onNewGame(Ref* pSender)
 {
-
+    _director->pushScene(TransitionFade::create(1.0f, sceneName::createScene()));
 }
 
 void mainMenu::onSettings(Ref* pSender)

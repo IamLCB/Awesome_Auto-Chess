@@ -21,6 +21,7 @@
 
 #define TFNS 1
 
+
 static void problemLoading(const char* filename)
 {
     printf("Error while loading: %s\n", filename);
