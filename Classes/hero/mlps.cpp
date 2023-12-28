@@ -41,7 +41,7 @@ void mlps::Play()
     int attackNum = 0;
     //while (!isDead() && !isWin(&myPlayerData, &opPlayerData))
     //{
-        enemy = getEnemyByDistance(this, opPlayerData);//ËøµÐ
+    enemy = getEnemyByDistance(this, false, this->ofPlayer);//ËøµÐ
         auto lambda = [=](float dt) {
             this->update(this, enemy, dt);
         };

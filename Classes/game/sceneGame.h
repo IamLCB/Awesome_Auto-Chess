@@ -45,11 +45,11 @@ private:
 	void toWaitingArray(Hero* hero, playerData& player); //英雄下阵
 
 	/***********子Layer们************/
-	layerMap* mapLayer = layerMap::createMapLayer(); //地图层
-	layerplayer* playerLayer = layerplayer::createPlayerLayer(); //玩家层
-	layerHero* heroLayer = layerHero::createHeroLayer(); //英雄层
-	layerShop* shopLayer = layerShop::createShopLayer(); //商店层
-	layerSettings* settingsLayer = layerSettings::createSettingsLayer(); //设置层
+	//layerMap* mapLayer = layerMap::createMapLayer(); //地图层
+	//layerplayer* playerLayer = layerplayer::createPlayerLayer(); //玩家层
+	//layerHero* heroLayer = layerHero::createHeroLayer(); //英雄层
+	//layerShop* shopLayer = layerShop::createShopLayer(); //商店层
+	//layerSettings* settingsLayer = layerSettings::createSettingsLayer(); //设置层
 
 	int gameTurn = 0; //游戏回合数
 

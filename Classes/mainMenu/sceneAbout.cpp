@@ -1,8 +1,21 @@
 #include "sceneAbout.h"
 #include "mainMenu.h"
 #include "globalResSetting.h"
+#include "hero/hero.h"
+#include "hero/tfns.h"
+#include "hero/mlps.h"
+#include "hero/ltzz.h"
+#include <vector>
+
+using std::vector;
 
 USING_NS_CC;
+
+void sceneAbout::playAllHeros(float dt) {
+    for (Hero* hero : heros) {
+        hero->Play();
+    }
+}
 
 Scene* sceneAbout::createScene()
 {
@@ -81,9 +94,46 @@ bool sceneAbout::init()
     this->addChild(sprite1);
 
 
+    
+    Hero* hero1 = createHero(TFNS);
+    Hero* hero2 = createHero(MLPS);
+    Hero* hero3 = createHero(TFNS);
+    Hero* hero4 = createHero(LTZZ);
+
+    heros.push_back(hero1);
+    heros.push_back(hero2);
+    heros.push_back(hero3);
+    heros.push_back(hero4);
+
+    ccArrayAppendObject(myPlayerData.battleArray, hero1);
+    hero1->ofPlayer = HUMAN;
+
+    ccArrayAppendObject(opPlayerData.battleArray, hero2);
+    hero2->ofPlayer = AI;
+
+    ccArrayAppendObject(myPlayerData.battleArray, hero3);
+    hero3->ofPlayer = HUMAN;
+
+    ccArrayAppendObject(opPlayerData.battleArray, hero4);
+    hero4->ofPlayer = AI;
+
+    hero1->setPosition(80, 46);
+    hero2->setPosition(800, 460);
+    hero3->setPosition(0, 500);
+    hero4->setPosition(1500, 800);
+
+    this->addChild(hero1, 1);
+    this->addChild(hero2, 1);
+    this->addChild(hero3, 1);
+    this->addChild(hero4, 1);
+
+    this->scheduleOnce(CC_SCHEDULE_SELECTOR(sceneAbout::playAllHeros), 1 / 60.f);
+
     return true;
 
 }
+
+
 
 void sceneAbout::aboutBack(cocos2d::Ref* pSender)
 {

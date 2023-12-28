@@ -41,7 +41,7 @@ void ltzz::Play()
     Hero* enemy, tmpEnemy;
     //while (!isDead() && !isWin(&myPlayerData, &opPlayerData))
     //{
-        enemy = getEnemyByDistance(this, opPlayerData);//锁敌
+    enemy = getEnemyByDistance(this, false, this->ofPlayer);//锁敌
         auto lambda = [=](float dt) {
             this->update(this, enemy, dt);
         };
@@ -56,7 +56,7 @@ void ltzz::Play()
             auto lambdb = [=](float dt) {
                 for (int i = 0; i < 4; i++)//最多附加攻击4名敌人
                 {
-                    Hero* tmpenemy = getEnemyByDistance(this, opPlayerData, true);//没有距离限制
+                    Hero* tmpenemy = getEnemyByDistance(this, true, this->ofPlayer);//没有距离限制
                     ltzz::ltzzAttack(tmpenemy);
                 }
             };

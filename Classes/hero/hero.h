@@ -62,7 +62,7 @@ public:
 		int x;
 		int y;
 	};
-	Hero* getEnemyByDistance(Hero* myHero, playerData& opPlayer, bool mode = false);
+	Hero* getEnemyByDistance(Hero* myHero, bool mode, bool isMyHero);
 	bool isInAttackRange(Hero* myHero, Hero* enemyHero);
 	bool isWin(playerData* myPlayer, playerData* opPlayer);
 
@@ -135,5 +135,8 @@ public:
 	int getAttackDistance() { return attackDistance; };        //获得攻击距离
 	const cocos2d::Size getContentSize() { return Size(width, height); }   //获得图片长宽
 };*/
+
+
+
 
 #endif

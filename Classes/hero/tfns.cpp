@@ -30,20 +30,7 @@ void tfns::upLeveltfns(Hero* tfns1, Hero* tfns2, Hero* tfns3)
 
 void tfns::Play()
 {
-    //Hero* enemy;
-    //int attackNum = 0;
-    //while (!isDead() && !isWin(&myPlayerData, &opPlayerData))
-    //{
-    /*Hero* sprite2 = createHero(1);
-    ccArrayAppendObject(opPlayerData.battleArray, sprite2);
-    sprite2->setPosition(0, 500);
-    this->addChild(sprite2);*/
-    //enemy = sprite2;
-       //  enemy = getEnemyByDistance(this, opPlayerData);//锁敌
-        //if (enemy == NULL)
-            //enemy = sprite2;
-        //attackNum = 0;//攻击次数
-    static Hero* enemy = getEnemyByDistance(this, opPlayerData);
+    static Hero* enemy = getEnemyByDistance(this, false, this->ofPlayer);
     static int attackNum = 0;
         auto lambda = [=](float dt) {
             this->update(this, enemy, dt);
@@ -51,13 +38,6 @@ void tfns::Play()
         this->schedule(lambda, 1 / 60.f, "tfnsMove");
         //while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续攻击条件则持续攻击 
         //{
-        //attackNum++;//对该敌人的攻击次数+1
-        //auto lambdb = [=](float dt) {
-        //    tfns::tfnsAttack(enemy, attackNum);
-        //};
-        //this->schedule(lambdb, 1 / speed, "tfnsAttack");
-        //if (attackNum > 1)
-        //    enemy->setColor(Color3B::WHITE);
         attackNum++;//对该敌人的攻击次数+1
         auto lambdb = [=](float dt) {
             tfns::tfnsAttack(enemy, attackNum);

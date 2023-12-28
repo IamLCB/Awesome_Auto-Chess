@@ -20,6 +20,11 @@
 #define RIGHT_TOP_WIN Vec2(origin.x + visibleSize.width, origin.y + visibleSize.height)
 
 #define TFNS 1
+#define MLPS 3
+#define LTZZ 7
+
+constexpr auto AI = 0;
+constexpr auto HUMAN = 1;
 
 
 static void problemLoading(const char* filename)

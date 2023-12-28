@@ -79,8 +79,15 @@ void Hero::heroAnimation(string picturename, const int picturenum, Sprite* sprit
     sprite->runAction(action);
 }
 
-Hero* Hero::getEnemyByDistance(Hero* myHero, playerData& opPlayer, bool mode)
+Hero* Hero::getEnemyByDistance(Hero* myHero, bool mode, bool isMyHero)
 {
+    playerData opPlayer;
+    if(isMyHero){
+        opPlayer = opPlayerData;
+    }
+    else {
+        opPlayer = myPlayerData;
+    }
     Point enemyPosition(0, 0);
     Point myPosition = myHero->getPosition();
     float opDistance = mode ? -999999 : 999999;
