@@ -1,7 +1,6 @@
 #ifndef _HERO_H_
 #define _HERO_H_
 #include"cocos2d.h"
-#include "tfns.h"
 #include"player/playerData.h"
 #include "globalResSetting.h"
 #include<string>
@@ -16,13 +15,9 @@ using std::string;
 #define PHYSICS 0
 #define MAGIC 1
 
-class Skill;
-
-
 class Hero :public Sprite
 {
 public:
-	//friend Effect<T>;
 	//friend Battle<T>;
 	string name, skillname;
 	int skillType = -1;
@@ -33,7 +28,7 @@ public:
 	int protect = 0;//护甲
 	int magicPro = 10;//魔抗
 	int state;//技能状态
-	
+	int x = 0, y = 0;//在棋盘上的坐标
 	double speed = 0.6;//攻速
 	double attackRate = 1;
 
@@ -42,6 +37,12 @@ public:
 	double movespeed = 1;
 	//////////////////////
 	double attackDistance = 100;  //攻击距离
+
+	double xtemp = x;      //进入战斗时的位置(地图位置)
+	double ytemp = y;
+	//可视化
+	double height = 0; //所带图片的长度和宽度
+	double width = 0;
 	//玩家相关
 	int ofPlayer = 0;     //所属玩家
 	int price = 1;    //所需金币
@@ -54,7 +55,8 @@ public:
 	//virtual void Play();//用于各个子类的进行
 	Hero() = default;
 	bool isDead();//判断是否死亡
-	//virtual Hero* initHero();
+	void update(Hero* my, Hero* enemy, float dt);
+	virtual void Play() {}
 	struct myPoint
 	{
 		int x;
@@ -99,11 +101,16 @@ public:
 
 };
 
+Hero* createHero(int name);
 void Dizzy(Hero* enemy);
+void bomb(Hero* enemy, int attack);
+void lightning(Hero* enemy, const int hurt);
 void proProtect(Hero* my);
 void sevInjure(Hero* enemy);
 void relProtect(Hero* enemy);
 void immune(Hero* enemy);
+
+
 /*template <typename T>
 class Battle
 {

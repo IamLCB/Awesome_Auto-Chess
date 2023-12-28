@@ -1,6 +1,9 @@
 #include "sceneAbout.h"
 #include "mainMenu.h"
 #include "globalResSetting.h"
+#include"hero/hero.h"
+#include"hero/tfns.h"
+#include"hero/bqzs.h"
 
 USING_NS_CC;
 
@@ -76,13 +79,18 @@ bool sceneAbout::init()
 
     /*------------------background setting-------------------*/
     auto sprite1 = Sprite::create("./mainMenu/aboutBG.jpg");
-
+    Hero* sprite = createHero(1);
+    Hero* sprite22 = createHero(1);
+    ccArrayAppendObject(myPlayerData.battleArray, sprite);
+    ccArrayAppendObject(opPlayerData.battleArray, sprite22);
     sprite1->setPosition(800, 460);
+    sprite22->setPosition(80, 46);
+    sprite->setPosition(0, 500);
     this->addChild(sprite1);
-
-
-    return true;
-
+    this->addChild(sprite22, 3);
+    this->addChild(sprite, 2);
+    sprite->Play();
+    sprite22->Play();
 }
 
 void sceneAbout::aboutBack(cocos2d::Ref* pSender)

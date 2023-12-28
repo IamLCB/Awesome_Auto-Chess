@@ -1,17 +1,33 @@
 #include "hero.h"
+#include "tfns.h"
+//#include "mlps.h"
+//#include "ltzz.h"
 
-Hero* createHero(int name)
-{
-    Hero* hero;
+Hero* createHero(int name) {
+    Hero* hero = nullptr;
     switch (name) {
-        case(TFNS):
-            tfns* my = new tfns();
-            hero = my->inittfns();
+        case TFNS:
+        {
+            tfns* tfnsHero = new tfns();
+            hero = tfnsHero->inittfns();
+        }
+        break;
+        //case MLPS:
+        //{
+           // mlps* mlpsHero = new mlps();
+           // hero = mlpsHero->initmlps();
+        //}
+       // break;
+        //case LTZZ:
+        //{
+            //ltzz* ltzzHero = new ltzz();
+            //hero = ltzzHero->initltzz();
+       // }
     }
     return hero;
 }
 
-Node* Hero::createHealthBar(const string& backgroundTexture, const std::string& foregroundTexture, double initialPercentage, const Vec2& position) {
+Node* Hero::createHealthBar(const std::string& backgroundTexture, const std::string& foregroundTexture, double initialPercentage, const Vec2& position) {
     // 创建血条底部背景精灵
     Sprite* backgroundSprite = Sprite::create(backgroundTexture);
 
@@ -39,7 +55,7 @@ Node* Hero::createHealthBar(const string& backgroundTexture, const std::string& 
 
 bool Hero::isDead()
 {
-    if (blood == 0)
+    if (this->blood == 0)
         return true;
     return false;
 }
@@ -63,7 +79,7 @@ void Hero::heroAnimation(string picturename, const int picturenum, Sprite* sprit
     sprite->runAction(action);
 }
 
-Hero* Hero::getEnemyByDistance(Hero* myHero, playerData& opPlayer, bool mode = false)
+Hero* Hero::getEnemyByDistance(Hero* myHero, playerData& opPlayer, bool mode)
 {
     Point enemyPosition(0, 0);
     Point myPosition = myHero->getPosition();
@@ -98,6 +114,34 @@ Hero* Hero::getEnemyByDistance(Hero* myHero, playerData& opPlayer, bool mode = f
     }
 
     return enemy;
+}
+
+void Hero::update(Hero* my, Hero* enemy, float dt)
+{
+    Vec2 currentPosition = my->getPosition();
+    Vec2 targetPosition = enemy->getPosition(); // 获取目标位置
+    // 设置最小的分离距离
+    float separationDistance = 200.0f;
+    // 设置移动速度
+     // 计算移动方向向量
+    Vec2 direction = targetPosition - currentPosition;
+    direction.normalize();
+    float movespeed = 100.0f;
+    // 计算两个角色之间的距离
+    float distance = currentPosition.distance(targetPosition);
+    if (distance < separationDistance)
+    {
+        // 计算分离向量
+        Vec2 separationVector = currentPosition - targetPosition;
+        separationVector.normalize();
+
+        // 根据分离向量调整移动方向
+        direction += separationVector;
+        direction.normalize();
+    }
+    // 根据方向向量移动英雄
+    Vec2 newPosition = currentPosition + direction * movespeed * dt;
+    my->setPosition(newPosition);
 }
 
 bool Hero::isWin(playerData* myPlayer, playerData* opPlayer)
@@ -180,4 +224,21 @@ void immune(Hero* enemy)
         enemy->attackRate = Rate;
     };
     enemy->scheduleOnce(lambda, 2, "immuneKey");
+}
+
+void bomb(Hero* enemy, int attack)
+{
+    //英雄变成黄色
+    enemy->setColor(Color3B::YELLOW);
+    auto lambda = [=](float dt) {
+        enemy->blood -= (int)(attack * enemy->attackRate * 1.5);
+    };
+    enemy->scheduleOnce(lambda, 2, "bombKey");
+}
+
+void lightning(Hero* enemy, const int hurt)
+{
+    //英雄变成蓝色
+    enemy->setColor(Color3B::BLUE);
+    enemy->blood -= hurt * 0.9;//造成额外90%的伤害
 }
