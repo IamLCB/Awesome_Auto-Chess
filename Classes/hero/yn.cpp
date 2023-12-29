@@ -55,7 +55,7 @@ void ynyn::Play()
         static double add = (level == 1) ? 300 : 400;
         static double exp = (level == 1) ? 3 : 4;
         static int hurt = (int)(enemy->attackRate * attack);
-        while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续攻击条件则持续攻击 
+        //while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续攻击条件则持续攻击 
         {
             attackNum++;//对该敌人的攻击次数+1
             auto lambda = [=](float dt) {
@@ -65,7 +65,7 @@ void ynyn::Play()
             // 释放技能
             if (blue == blueMax) {
                 auto lambdc = [=](float dt) {
-                    //ynyn::swordwaive("sword.png", this);//??????????//picture
+                    ynyn::swordwaive("sword.png", this);//??????????//picture
                     //yn::goaway(enemy->getPosition(),this);//跑到远处//??????????//getposition
                     if (enemy->blood > (int)(0.5 * enemy->maxBlood)) {
                         enemy->blood -= (int)(hurt - (enemy->protect) + add);//高血量加成伤害
@@ -88,7 +88,8 @@ void ynyn::ynynNormalAttack(Hero* enemy, const int attackNum,const double add,co
 {
     blue += 30;
     enemy->protect > hurt ? enemy->blood -= 0 : enemy->blood -= hurt - enemy->protect;//护甲抵消部分伤害
-    swordwaive("sword.png", this);//??????????//picture
+    //swordwaive("sword.png", this);//??????????//picture
+    //goaway(enemy->getPosition(), this);
 }
 
 void ynyn::swordwaive(string picturename, Hero* my)
@@ -106,13 +107,13 @@ void ynyn::swordwaive(string picturename, Hero* my)
     sword->runAction(waive);
 }
 
-//void yn::goaway(Point Pos,Hero* my) {
-//    // 跑到远处的动作序列
-//    double distance = 5;//??????????//更改距离？
-//    auto run = Sequence::create(
-//        MoveTo::create(1.f, Vec2(Pos.x + distance, Pos.y));//??????????//更改距离？
-//        nullptr
-//    );
-//    // 执行动作序列
-//    my->runAction(run);
-//}
+void ynyn::goaway(Point Pos, Hero* my) {
+    // 跑到远处的动作序列
+    double distance = 50; // 更改距离的值
+    auto run = Sequence::create(
+        MoveTo::create(1.0f, Vec2(Pos.x + distance, Pos.y)), // 修改移动目标的位置
+        nullptr
+    );
+    // 执行动作序列
+    my->runAction(run);
+}

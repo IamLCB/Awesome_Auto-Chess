@@ -40,28 +40,33 @@ Hero* bqzs::initbqzs()
 
 void bqzs::Play()
 {
-	static Hero* enemy;
-	static int attackNum = 0;
+	
+	
 	int magicpro = magicPro;
 	int pro = protect;
+	
+	//while (!isDead() && !isWin(&myPlayerData, &opPlayerData)) {
+	static Hero* enemy = getEnemyByDistance(this, false, this->ofPlayer);//锁敌
+	static int attackNum = 0;
 	auto lambda = [=](float dt) {
 		this->update(this, enemy, dt);
 	};
 	this->schedule(lambda, 1 / 60.f, "bqzsMove");
-	//while (!isDead() && !isWin(&myPlayerData, &opPlayerData)) {
-		enemy = getEnemyByDistance(this, false, this->ofPlayer);//锁敌
 		magicPro = magicpro;
 		protect = pro;
 		attackNum = 0;
 		static double add = (level == 1) ? 40 : 65;
 		static int hurt = (int)(enemy->attackRate * attack);
-		while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK) {
+		//while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK) {
 			attackNum++;//对该敌人的攻击次数+1
 			auto lambdb = [=](float dt) {
-				bqzs::bqzsnormalAttack(enemy, add,hurt);
-				enemy->setColor(Color3B::BLACK);
+				bqzs::bqzsnormalAttack(enemy,hurt,add);
 			};
 			this->schedule(lambdb, 1 / speed, "bqzsAttack");
+			auto lambdc = [=](float dt) {
+				enemy->setColor(Color3B::RED);
+			};
+			this->schedule(lambdc, speed, "tmp");
 			//释放技能
 			if (blue == blueMax) {
 				int i = 0;
@@ -70,12 +75,11 @@ void bqzs::Play()
 					auto lambda = [=](float dt) {
 						enemy->blood -= (int)(hurt - (enemy->protect) + add);
 						//bqzs::swordswing("",this);//??????????//picture
-
 					};
 					this->schedule(lambda, 1 / speed * 2,"bqzsSkill");//快速的释放技能
 					//释放技能时候敌人变成橙色
 					auto lambdc = [=](float dt) {
-						enemy->setColor(Color3B::ORANGE);
+						enemy->setColor(Color3B::BLACK);
 					};
 					this->schedule(lambdc, 1/speed*2, "tmp11");
 					i++;
@@ -85,17 +89,18 @@ void bqzs::Play()
 			}
 			if (enemy->blood < 0)
 				enemy->blood = 0;//敌方死亡
-		}
+		//}
 	magicPro = magicpro;
 	protect = pro;
 	//}
 	//this->removeFromParent();
 }
 
-void bqzs::bqzsnormalAttack(Hero* enemy, double add, int hurt)
+void bqzs::bqzsnormalAttack(Hero* enemy,int hurt, double add)
 {
 	blue += 30;
 	enemy->protect > hurt ? enemy->blood -= 0 : enemy->blood -= hurt- enemy->protect;//护甲抵消部分伤害
+	enemy->setColor(Color3B::ORANGE);
 	//swordwaive("sword.png",this);//??????????//picture
 }
 

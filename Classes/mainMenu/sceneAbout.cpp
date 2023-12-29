@@ -8,6 +8,7 @@
 #include "hero/bqzs.h"
 #include "hero/yn.h"
 #include "hero/qxsq.h"
+#include "hero/snzx.h"
 #include <vector>
 
 using std::vector;
@@ -99,9 +100,9 @@ bool sceneAbout::init()
 
     
     Hero* hero1 = createHero(BQZS);
-    Hero* hero2 = createHero(YN);
-    Hero* hero3 = createHero(BQZS);
-    Hero* hero4 = createHero(BQZS);
+    Hero* hero2 = createHero(QXSQ);
+    Hero* hero3 = createHero(YN);
+    Hero* hero4 = createHero(SNZX);
 
     heros.push_back(hero1);
     heros.push_back(hero2);
@@ -130,7 +131,10 @@ bool sceneAbout::init()
     this->addChild(hero3, 1);
     this->addChild(hero4, 1);
 
-    this->scheduleOnce(CC_SCHEDULE_SELECTOR(sceneAbout::playAllHeros), 1 / 60.f);
+    hero1->Play();
+    hero2->Play();
+    hero3->Play();
+    hero4->Play();
 
     return true;
 

@@ -5,6 +5,7 @@
 #include "bqzs.h"
 #include "yn.h"
 #include "qxsq.h"
+#include "snzx.h"
 
 Hero* createHero(int name) {
     Hero* hero = nullptr;
@@ -47,7 +48,8 @@ Hero* createHero(int name) {
         break;
         case SNZX:
         {
-            
+            snzx* snzxHero = new snzx();
+            hero = snzxHero->initsnzx();
         }
         break;
     }

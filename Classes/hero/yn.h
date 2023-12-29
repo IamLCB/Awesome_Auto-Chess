@@ -14,5 +14,5 @@ public:
     Hero* initynyn();
     void ynynNormalAttack(Hero* enemy, const int attackNum,const double add, const int hurt);
     void swordwaive(string picturename, Hero* my);
-    //void goaway(Point Pos, Hero* my);
+    void goaway(Point Pos, Hero* my);
 };
