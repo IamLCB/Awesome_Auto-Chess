@@ -19,6 +19,9 @@ private:
 	void calExp();								//计算经验值
 	bool playerHaveNewHero = false;				//玩家是否拥有新英雄
 
+	friend class sceneGame;
+	friend class layerPlayer;
+
 public:
 	void playerHurt(int damageBlood) { this->playerHealth -= damageBlood; }		//玩家受伤
 	void updateMoneyAndExp();													//更新金钱和经验值
@@ -34,7 +37,7 @@ public:
 	//ccArray* unequippedArray = ccArrayNew(100);		//玩家装备背包（未装备）
 	//int equippedNum = 0;							//玩家已装备装备数量
 
-	friend class sceneGame;
+
 
 };
 
