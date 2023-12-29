@@ -89,7 +89,7 @@ void ynyn::ynynNormalAttack(Hero* enemy, const int attackNum,const double add,co
     blue += 30;
     enemy->protect > hurt ? enemy->blood -= 0 : enemy->blood -= hurt - enemy->protect;//护甲抵消部分伤害
     //swordwaive("sword.png", this);//??????????//picture
-    //goaway(enemy->getPosition(), this);
+    goaway(enemy->getPosition(), this);
 }
 
 void ynyn::swordwaive(string picturename, Hero* my)
