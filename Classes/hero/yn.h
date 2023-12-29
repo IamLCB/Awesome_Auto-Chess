@@ -2,17 +2,17 @@
 #include "hero.h"
 
 
-class yn :public Hero
+class ynyn :public Hero
 {
 private:
     double magic = 75;
 public:
-    yn();
+    ynyn();
     void Play();
-    CREATE_FUNC(yn);
-    void upLevelyn(Hero* yn1, Hero* yn2, Hero* yn3);
-    Hero* inityn();
-    void ynNormalAttack(Hero* enemy, const int attackNum,const double add, const int hurt);
+    CREATE_FUNC(ynyn);
+    void upLevelynyn(Hero* yn1, Hero* yn2, Hero* yn3);
+    Hero* initynyn();
+    void ynynNormalAttack(Hero* enemy, const int attackNum,const double add, const int hurt);
     void swordwaive(string picturename, Hero* my);
     void goaway(Point Pos, Hero* my);
 };

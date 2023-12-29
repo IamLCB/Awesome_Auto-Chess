@@ -45,6 +45,7 @@ private:
 	void toWaitingArray(Hero* hero, playerData& player); //Ó¢ĞÛÏÂÕó
 
 	/***********×ÓLayerÃÇ************/
+
 	/*layerMap* mapLayer = layerMap::createMapLayer(); //µØÍ¼²ã
 	layerplayer* playerLayer = layerplayer::createPlayerLayer(); //Íæ¼Ò²ã
 	layerHero* heroLayer = layerHero::createHeroLayer(); //Ó¢ĞÛ²ã

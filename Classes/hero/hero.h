@@ -14,6 +14,7 @@ using std::string;
 #define FREEZE 0
 #define PHYSICS 0
 #define MAGIC 1
+#define TANK 2
 
 class Hero :public Sprite
 {
@@ -62,7 +63,7 @@ public:
 		int x;
 		int y;
 	};
-	Hero* getEnemyByDistance(Hero* myHero, playerData& opPlayer, bool mode = false);
+	Hero* getEnemyByDistance(Hero* myHero, bool mode, bool isMyHero);
 	bool isInAttackRange(Hero* myHero, Hero* enemyHero);
 	bool isWin(playerData* myPlayer, playerData* opPlayer);
 
@@ -109,8 +110,6 @@ void proProtect(Hero* my);
 void sevInjure(Hero* enemy);
 void relProtect(Hero* enemy);
 void immune(Hero* enemy);
-
-
 /*template <typename T>
 class Battle
 {
@@ -135,5 +134,8 @@ public:
 	int getAttackDistance() { return attackDistance; };        //获得攻击距离
 	const cocos2d::Size getContentSize() { return Size(width, height); }   //获得图片长宽
 };*/
+
+
+
 
 #endif

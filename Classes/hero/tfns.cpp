@@ -30,27 +30,25 @@ void tfns::upLeveltfns(Hero* tfns1, Hero* tfns2, Hero* tfns3)
 
 void tfns::Play()
 {
-    //Hero* enemy;
-    int attackNum = 0;
-   // while (!isDead() && !isWin(&myPlayerData, &opPlayerData))
-    {
-        attackNum = 0;//攻击次数
-        static Hero* enemy = getEnemyByDistance(this, opPlayerData);
+    static Hero* enemy = getEnemyByDistance(this, false, this->ofPlayer);
+    static int attackNum = 0;
         auto lambda = [=](float dt) {
             this->update(this, enemy, dt);
-            //int attackNum = 0;
-            //while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续攻击条件则持续攻击 
-            //{
-                //attackNum++;//对该敌人的攻击次数+1
-                //auto lambdb = [=](float dt) {
-                    //tfns::tfnsAttack(enemy, attackNum);
-                //};
-                //this->schedule(lambdb, 1 / speed, "tfnsAttack");
-
-            //}
         };
         this->schedule(lambda, 1 / 60.f, "tfnsMove");
-    }
+        //while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续攻击条件则持续攻击 
+        //{
+        attackNum++;//对该敌人的攻击次数+1
+        auto lambdb = [=](float dt) {
+            tfns::tfnsAttack(enemy, attackNum);
+        };
+        this->schedule(lambdb, 1 / speed, "tfnsAttack");
+        auto lambdc = [=](float dt) {
+            enemy->setColor(Color3B::GREEN);
+        };
+        this->schedule(lambdc, speed, "tmp");
+    //}
+
 }
 
 Hero* tfns::inittfns()
@@ -66,6 +64,7 @@ Hero* tfns::inittfns()
 void tfns::tfnsAttack(Hero* enemy, const int attackNum)
 {
     int hurt = (int)((level == 1 ? 1.08 : 1.12) * attack * enemy->attackRate);//伤害值
+    enemy->setColor(Color3B::BLUE);
     blue += 30;
     if (blue == blueMax)//如果连续攻击五次
     {
@@ -78,5 +77,4 @@ void tfns::tfnsAttack(Hero* enemy, const int attackNum)
     }
     if (enemy->blood < 0)
         enemy->blood = 0;//敌方死亡
-
 }

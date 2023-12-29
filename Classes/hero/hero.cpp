@@ -1,7 +1,12 @@
 #include "hero.h"
 #include "tfns.h"
-//#include "mlps.h"
-//#include "ltzz.h"
+#include "mlps.h"
+#include "wlshz.h"
+#include "ltzz.h"
+#include "bqzs.h"
+#include "yn.h"
+#include "qxsq.h"
+#include "snzx.h"
 
 Hero* createHero(int name) {
     Hero* hero = nullptr;
@@ -12,17 +17,46 @@ Hero* createHero(int name) {
             hero = tfnsHero->inittfns();
         }
         break;
-        //case MLPS:
-        //{
-           // mlps* mlpsHero = new mlps();
-           // hero = mlpsHero->initmlps();
-        //}
-       // break;
-        //case LTZZ:
-        //{
-            //ltzz* ltzzHero = new ltzz();
-            //hero = ltzzHero->initltzz();
-       // }
+        case BQZS:
+        {
+            bqzs* bqzsHero = new bqzs();
+            hero = bqzsHero->initbqzs();
+        }
+        break;
+        case MLPS:
+        {
+            mlps* mlpsHero = new mlps();
+            hero = mlpsHero->initmlps();
+        }
+        break;
+        case QXSQ:
+        {
+            qxsq* qxsqHero = new qxsq();
+            hero = qxsqHero->initqxsq();
+        }
+        break;
+        case YN:
+        {
+            ynyn* ynynHero = new ynyn();
+            hero = ynynHero->initynyn();
+        case WLSHZ :
+        {
+            wlshz* wlshzHero = new wlshz();
+            hero = wlshzHero->initwlshz();
+        }
+        break;
+        case LTZZ:
+        {
+            ltzz* ltzzHero = new ltzz();
+            hero = ltzzHero->initltzz();
+        }
+        break;
+        case SNZX:
+        {
+            snzx* snzxHero = new snzx();
+            hero = snzxHero->initsnzx();
+        }
+        break;
     }
     return hero;
 }
@@ -30,14 +64,16 @@ Hero* createHero(int name) {
 Node* Hero::createHealthBar(const std::string& backgroundTexture, const std::string& foregroundTexture, double initialPercentage, const Vec2& position) {
     // 创建血条底部背景精灵
     Sprite* backgroundSprite = Sprite::create(backgroundTexture);
+    backgroundSprite->setScale(250 / backgroundSprite->getContentSize().width, 50 / backgroundSprite->getContentSize().height);
 
     // 创建血条前景精灵
     Sprite* foregroundSprite = Sprite::create(foregroundTexture);
+    foregroundSprite->setScale(10 / foregroundSprite->getContentSize().width, 10 / foregroundSprite->getContentSize().height);
 
     // 创建血条的 ProgressTimer
     ProgressTimer* healthBar = ProgressTimer::create(foregroundSprite);
     healthBar->setType(ProgressTimer::Type::BAR);
-    healthBar->setMidpoint(Vec2(0, 0.5));//??????????//更改位置？
+    healthBar->setMidpoint(Vec2(0, 0));//??????????//更改位置？
     healthBar->setBarChangeRate(Vec2(1, 0));//??????????//更改位置？
     healthBar->setPercentage(initialPercentage);
 
@@ -79,8 +115,15 @@ void Hero::heroAnimation(string picturename, const int picturenum, Sprite* sprit
     sprite->runAction(action);
 }
 
-Hero* Hero::getEnemyByDistance(Hero* myHero, playerData& opPlayer, bool mode)
+Hero* Hero::getEnemyByDistance(Hero* myHero, bool mode, bool isMyHero)
 {
+    playerData opPlayer;
+    if(isMyHero){
+        opPlayer = opPlayerData;
+    }
+    else {
+        opPlayer = myPlayerData;
+    }
     Point enemyPosition(0, 0);
     Point myPosition = myHero->getPosition();
     float opDistance = mode ? -999999 : 999999;
@@ -169,7 +212,7 @@ void Dizzy(Hero* enemy)
 {
     //英雄变成灰色
     enemy->setColor(Color3B::GRAY);
-    // 禁用英雄的动作
+    //禁用英雄的动作
     enemy->stopAllActions();
     auto lambda = [=](float dt) {
         // 在这里添加恢复正常状态的操作，将英雄的颜色恢复为原始颜色
@@ -239,6 +282,6 @@ void bomb(Hero* enemy, int attack)
 void lightning(Hero* enemy, const int hurt)
 {
     //英雄变成蓝色
-    enemy->setColor(Color3B::BLUE);
+    enemy->setColor(Color3B::GRAY);
     enemy->blood -= hurt * 0.9;//造成额外90%的伤害
 }
