@@ -97,7 +97,7 @@ bool sceneAbout::init()
     
     Hero* hero1 = createHero(TFNS);
     Hero* hero2 = createHero(MLPS);
-    Hero* hero3 = createHero(TFNS);
+    Hero* hero3 = createHero(WLSHZ);
     Hero* hero4 = createHero(LTZZ);
 
     heros.push_back(hero1);
@@ -119,6 +119,7 @@ bool sceneAbout::init()
 
     hero1->setPosition(80, 46);
     hero2->setPosition(800, 460);
+    hero2->addChild(hero2->createHealthBar("./hero/backgroundTexture.png", "./hero/foregroundTexture.png", 1, hero2->getPosition()));
     hero3->setPosition(0, 500);
     hero4->setPosition(1500, 800);
 

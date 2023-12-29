@@ -21,6 +21,7 @@
 
 #define TFNS 1
 #define MLPS 3
+#define WLSHZ 5
 #define LTZZ 7
 
 constexpr auto AI = 0;

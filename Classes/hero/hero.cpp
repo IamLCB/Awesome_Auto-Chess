@@ -1,6 +1,7 @@
 #include "hero.h"
 #include "tfns.h"
 #include "mlps.h"
+#include "wlshz.h"
 #include "ltzz.h"
 
 Hero* createHero(int name) {
@@ -18,6 +19,12 @@ Hero* createHero(int name) {
             hero = mlpsHero->initmlps();
         }
         break;
+        case WLSHZ :
+        {
+            wlshz* wlshzHero = new wlshz();
+            hero = wlshzHero->initwlshz();
+        }
+        break;
         case LTZZ:
         {
             ltzz* ltzzHero = new ltzz();
@@ -30,14 +37,16 @@ Hero* createHero(int name) {
 Node* Hero::createHealthBar(const std::string& backgroundTexture, const std::string& foregroundTexture, double initialPercentage, const Vec2& position) {
     // 创建血条底部背景精灵
     Sprite* backgroundSprite = Sprite::create(backgroundTexture);
+    backgroundSprite->setScale(250 / backgroundSprite->getContentSize().width, 50 / backgroundSprite->getContentSize().height);
 
     // 创建血条前景精灵
     Sprite* foregroundSprite = Sprite::create(foregroundTexture);
+    foregroundSprite->setScale(10 / foregroundSprite->getContentSize().width, 10 / foregroundSprite->getContentSize().height);
 
     // 创建血条的 ProgressTimer
     ProgressTimer* healthBar = ProgressTimer::create(foregroundSprite);
     healthBar->setType(ProgressTimer::Type::BAR);
-    healthBar->setMidpoint(Vec2(0, 0.5));//??????????//更改位置？
+    healthBar->setMidpoint(Vec2(0, 0));//??????????//更改位置？
     healthBar->setBarChangeRate(Vec2(1, 0));//??????????//更改位置？
     healthBar->setPercentage(initialPercentage);
 
