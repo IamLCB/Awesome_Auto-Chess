@@ -14,6 +14,7 @@ using std::string;
 #define FREEZE 0
 #define PHYSICS 0
 #define MAGIC 1
+#define TANK 2
 
 class Hero :public Sprite
 {
