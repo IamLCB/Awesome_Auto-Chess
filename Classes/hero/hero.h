@@ -53,6 +53,8 @@ public:
 	virtual void Play() {}//用于各个子类的进行
 	Hero() = default;
 	bool isDead();//判断是否死亡
+	string getName() { return name; };
+	bool connetion(const playerData& myPlayerData);
 	void update(Hero* my, Hero* enemy, float dt);
 	Hero* getEnemyByDistance(Hero* myHero, bool mode, bool isMyHero);
 	bool isInAttackRange(Hero* myHero, Hero* enemyHero);

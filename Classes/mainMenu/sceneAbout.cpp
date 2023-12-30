@@ -123,6 +123,8 @@ bool sceneAbout::init()
     heros.push_back(hero7);
     heros.push_back(hero8);
 
+    
+
     ccArrayAppendObject(myPlayerData.battleArray, hero1);
     hero1->ofPlayer = HUMAN;
 
@@ -147,6 +149,8 @@ bool sceneAbout::init()
     ccArrayAppendObject(opPlayerData.battleArray, hero8);
     hero8->ofPlayer = AI;
 
+    hero2->connetion(myPlayerData);
+
     hero1->setPosition(100, 800);
     hero2->setPosition(800, 460);
     hero3->setPosition(550, 800);
@@ -164,7 +168,7 @@ bool sceneAbout::init()
     this->addChild(hero6, 1);
     this->addChild(hero7, 1);
     this->addChild(hero8, 1);
-
+    
     for (Hero* tmp : heros) {
         tmp->Play();
     }
