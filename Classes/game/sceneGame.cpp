@@ -12,7 +12,6 @@ bool sceneGame::init()
     }
 
     // 初始化游戏逻辑
-    // 例如：设置背景、初始化英雄、设置玩家数据等
 
     this->addChild(map, 0);
 
@@ -35,7 +34,6 @@ bool sceneGame::init()
     map->scheduleUpdate();
     playerLayer->scheduleUpdate();
 
-    playerLayer->scheduleUpdate();
     heroLayer->scheduleUpdate();
 
     return true;
@@ -43,8 +41,26 @@ bool sceneGame::init()
 
 void mapInit()
 {
+    auto visibleSize = Director::getInstance()->getVisibleSize();
 
-    // init chessMap[i][j] coordinate
+    float original_x = visibleSize.width / 4 - SPATIAL_DEVIATION_CORRECTION_WIDTH;
+    float original_y = visibleSize.height / 2 - SPATIAL_DEVIATION_CORRECTION_HEIGHT;
+
+    float eachCell_x = (visibleSize.width / 2 + SPATIAL_DEVIATION_CORRECTION) / CHESS_IN_A_ROW;
+    float eachCell_y = (visibleSize.height / 2 + SPATIAL_DEVIATION_CORRECTION) / CHESS_IN_A_COL;
+
+    for (int i = 0; i < CHESS_IN_A_ROW; i++)
+    {
+        for (int j = 1; j < CHESS_IN_A_COL + 1; j++)
+        {
+            chessMap[j][i].x = original_x + eachCell_x / 2 + i * eachCell_x;
+            chessMap[j][i].y = original_y + eachCell_y / 2 + (j - 1) * eachCell_y;
+        }
+        chessMap[0][i].x = original_x + eachCell_x / 2 + eachCell_x * (i - 1) + HERO_SLOT_CORRECTION_WIDTH;
+        chessMap[0][i].y = original_y - HERO_SLOT_CORRECTION_HEIGHT;
+        chessMap[CHESS_IN_A_COL + 1][i].x = original_x + eachCell_x / 2 + eachCell_x * (i - 1) + HERO_SLOT_CORRECTION_WIDTH;
+        chessMap[CHESS_IN_A_COL + 1][i].y = original_y + CHESS_IN_A_COL * eachCell_y + HERO_SLOT_CORRECTION_HEIGHT;
+    }
 }
 
 /**************鼠标操作***************/
@@ -231,27 +247,14 @@ void sceneGame::mouseMove(Event* event)
 
 Point sceneGame::inWhichCell(Point point)
 {
-    for (int p= 0; p < 8; p++)
+    for (int i = 0; i < CHESS_IN_A_COL + 2; i++)
     {
-        for (int q = 0; q < 10; q++)
+        for (int j = 0; j < CHESS_IN_A_ROW; j++)
         {
-            if (q == 0)         // 对于等候区
-            {
-                if (point.y >= 50 && point.y <= 150 &&
-                    point.x >= chessMap[p][0].x - 37.5 && point.x <= chessMap[p][0].x + 37.5)
-                    return Point(chessMap[p][q].x, chessMap[p][q].y);
-            }
-            else if (q== 9)
-            {
-                if (point.y >= 750 && point.y <= 850 &&
-                    point.x >= chessMap[p][9].x - 37.5 && point.x <= chessMap[p][9].x + 37.5)
-                    return Point(chessMap[p][q].x, chessMap[p][q].y);
-            }
-            else if (sqrt((point.x - chessMap[p][q].x) * (point.x - chessMap[p][q].x)    //遍历地图，判断是否在格子内
-                + (point.y - chessMap[p][q].y) * (point.y - chessMap[p][q].y)) < 37.5 * sqrt(2))
-                return Point(chessMap[p][q].x, chessMap[p][q].y);
+            if((sqrt((point.x - chessMap[i][j].x) * (point.x - chessMap[i][j].x)
+                + (point.y - chessMap[i][j].y) * (point.y - chessMap[i][j].y)) < JUDGE_SELECTED_RADIUS))
+                return Point(chessMap[i][j].x, chessMap[i][j].y);
         }
-
     }
     return Point(-1, -1);
 }
@@ -272,18 +275,18 @@ void sceneGame::addHeroToWaiting(playerData& player, int playerInfo)
         {
             for (int i = 0; i < 8; i++)
             {
-                if (haveChess[i][0 + 9 * playerInfo] == 0)
+                if (haveChess[0][i] == 0)
                 {
                     player.playerHaveNewHero = 0;
                     heroExist->addchild(selected);
                     player.playerMoney -= selected->getPrice();
-                    selected->setPosition(chessMap[i][0 + 9 * playerInfo].x, chessMap[i][0 + 9 * playerInfo].y);
-                    selected->set(chessMap[i][0 + 9 * playerInfo].x, chessMap[i][0 + 9 * playerInfo].y);
+                    selected->setPosition(chessMap[0][i].x, chessMap[0][i].y);
+                    selected->set(chessMap[0][i].x, chessMap[0][i].y);
                     selected->setTempPosition();
                     selected->retain();
                     selected->setPlayer(playerInfo);
                     player.heroNum[selected->getType()]++; // 棋子升级
-                    haveChess[i][0 + 9 * playerInfo] = 1;
+                    haveChess[0][i] = 1;
                     haveAdded = true;
                     break;
                 }
