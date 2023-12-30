@@ -1,25 +1,36 @@
 #include "HelloWorldScene.h"
+#include "mainMenu/mainMenu.h"
+#include "globalResSetting.h"
+#include "hero/hero.h"
+#include "hero/tfns.h"
+#include "hero/mlps.h"
+#include "hero/ltzz.h"
+#include "hero/bqzs.h"
+#include "hero/yn.h"
+#include "hero/qxsq.h"
+#include "hero/snzx.h"
+#include <vector>
+#include "inGameTimer/inGameTimer.h"
+
+using std::vector;
+
 
 USING_NS_CC;
 
-Scene* HelloWorld::createScene()
-{
-    return HelloWorld::create();
+void sceneTest::playAllHeros(float dt) {
+    for (Hero* hero : heros) {
+        hero->Play();
+    }
 }
 
-// Print useful error message instead of segfaulting when files are not there.
-static void problemLoading(const char* filename)
+Scene* sceneTest::createScene()
 {
-    printf("Error while loading: %s\n", filename);
-    printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
+    return sceneTest::create();
 }
 
-// on "init" you need to initialize your instance
-bool HelloWorld::init()
+bool sceneTest::init()
 {
-    //////////////////////////////
-    // 1. super init first
-    if ( !Scene::init() )
+    if (!Scene::init())
     {
         return false;
     }
@@ -27,87 +38,85 @@ bool HelloWorld::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
+    /*----------------MenuItemSprite aboutBack---------------------*/
+    Sprite* aboutBackNormal = Sprite::create("./mainMenu/backToMenuNormal.png");
+    Sprite* aboutBackSelected = Sprite::create("./mainMenu/backToMenuSelected.png");
 
-    // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+    MenuItemSprite* aboutBack = MenuItemSprite::create(aboutBackNormal, aboutBackSelected,
+        CC_CALLBACK_1(sceneTest::aboutBack, this));
 
-    if (closeItem == nullptr ||
-        closeItem->getContentSize().width <= 0 ||
-        closeItem->getContentSize().height <= 0)
+    if (aboutBack == nullptr ||
+        aboutBack->getContentSize().width <= 0 ||
+        aboutBack->getContentSize().height <= 0)
     {
-        problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
+        problemLoading("'backToMenuNormal.png' and 'backToMenuSelected.png'");
     }
     else
     {
-        float x = origin.x + visibleSize.width - closeItem->getContentSize().width/2;
-        float y = origin.y + closeItem->getContentSize().height/2;
-        closeItem->setPosition(Vec2(x,y));
+        float x = CENTER_WIN_X;
+        float y = BOTTOM_WIN_Y + aboutBack->getContentSize().height / 2 + 5;
+        aboutBack->setPosition(Vec2(x, y));
     }
 
-    // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
+    auto menuAboutBack = Menu::create(aboutBack, nullptr);
+    menuAboutBack->setPosition(Vec2::ZERO);
+    this->addChild(menuAboutBack, 1);
 
-    /////////////////////////////
-    // 3. add your codes below...
+    /*------------------background setting-------------------*/
+    auto sprite1 = Sprite::create("./mainMenu/aboutBG.jpg");
 
-    // add a label shows "Hello World"
-    // create and initialize a label
+    sprite1->setPosition(800, 460);
+    this->addChild(sprite1);
+    /*
+        Hero* hero1 = createHero(BQZS);
+        Hero* hero2 = createHero(QXSQ);
+        Hero* hero3 = createHero(YN);
+        Hero* hero4 = createHero(SNZX);
+        Hero* hero5 = createHero(TFNS);
+        Hero* hero6 = createHero(MLPS);
+        Hero* hero7 = createHero(WLSHZ);
+        Hero* hero8 = createHero(LTZZ);
 
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-    if (label == nullptr)
-    {
-        problemLoading("'fonts/Marker Felt.ttf'");
-    }
-    else
-    {
-        // position the label on the center of the screen
-        label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                                origin.y + visibleSize.height - label->getContentSize().height));
+        heros.push_back(hero1);
+        heros.push_back(hero2);
+        heros.push_back(hero3);
+        heros.push_back(hero4);
 
-        // add the label as a child to this layer
-        this->addChild(label, 1);
-    }
+        ccArrayAppendObject(myPlayerData.battleArray, hero1);
+        hero1->ofPlayer = HUMAN;
 
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("./mainMenu/mainMenuBackground.png");
-    if (sprite == nullptr)
-    {
-        problemLoading("'mainMenuBackground.png'");
-    }
-    else
-    {
-        // position the sprite on the center of the screen
-        sprite->setScale(1.5);
-        sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+        ccArrayAppendObject(opPlayerData.battleArray, hero2);
+        hero2->ofPlayer = AI;
 
+        ccArrayAppendObject(myPlayerData.battleArray, hero3);
+        hero3->ofPlayer = HUMAN;
 
-        // add the sprite as a child to this layer
-        this->addChild(sprite, 0);
-    }
+        ccArrayAppendObject(opPlayerData.battleArray, hero4);
+        hero4->ofPlayer = AI;
 
+        hero1->setPosition(80, 46);
+        hero2->setPosition(800, 460);
+        hero2->addChild(hero2->createHealthBar("./hero/backgroundTexture.png", "./hero/foregroundTexture.png", 1, hero2->getPosition()));
+        hero3->setPosition(0, 500);
+        hero4->setPosition(1500, 800);
 
+        this->addChild(hero1, 1);
+        this->addChild(hero2, 1);
+        this->addChild(hero3, 1);
+        this->addChild(hero4, 1);
 
+        hero1->Play();
+        hero2->Play();
+        hero3->Play();
+        hero4->Play();
+    */
     return true;
+
 }
 
 
-void HelloWorld::menuCloseCallback(Ref* pSender)
+
+void sceneTest::aboutBack(cocos2d::Ref* pSender)
 {
-    //Close the cocos2d-x game scene and quit the application
-    Director::getInstance()->end();
-
-    /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
-
-    //EventCustom customEndEvent("game_scene_close_event");
-    //_eventDispatcher->dispatchEvent(&customEndEvent);
-
-
+    _director->pushScene(TransitionFade::create(1.0f, mainMenu::createScene()));
 }

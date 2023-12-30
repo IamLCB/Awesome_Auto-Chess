@@ -8,6 +8,7 @@ void playerData::updateMoneyAndExp()
 	this->playerMoney = this->playerMoney + std::min(this->playerMoney / 10 + 5, 12); // 玩家金钱增加
 	this->playerExp += 2; // 玩家经验增加
 	this->calExp();
+
 }
 
 void playerData::calExp()

@@ -33,6 +33,8 @@ void qxsq::Play()
     static int attackNum = 0;
     auto lambdb = [=](float dt) {
         this->update(this, enemy, dt);
+        this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
+        isDead();
     };
     this->schedule(lambdb, 1 / 60.f, "qxsqMove");
     //while (!isDead() && !isWin(&myPlayerData, &opPlayerData))
@@ -87,7 +89,6 @@ void qxsq::qxsqAttack(Hero* enemy, const int attackNum,const int hurt,const int 
     }
     if (enemy->blood < 0)
         enemy->blood = 0;//µÐ·½ËÀÍö
-    //shootbullet("zidan.png", enemy->getPosition() - this->getPosition(), this);//??????????//Í¼Æ¬
 }
 
 

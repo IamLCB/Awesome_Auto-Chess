@@ -9,7 +9,7 @@
 #include "mainMenu/sceneSetting.h"
 #include "game/sceneGame.h"
 #include "mainMenu/mainMenu.h"
-#include "sceneAbout.h"
+#include "mainMenu/sceneAbout.h"
 
 #define CENTER_BUTTON_X RIGHT_WIN_X - 150
 #define CENTER_BUTTON_Y BOTTOM_WIN_Y + 100

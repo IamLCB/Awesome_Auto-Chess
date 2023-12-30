@@ -65,7 +65,9 @@ void sceneLoading::loadResources()
 	Director::getInstance()->getTextureCache()->addImageAsync("./hero/wlshz.png", CC_CALLBACK_1(sceneLoading::loadingCallBack, this));
 	Director::getInstance()->getTextureCache()->addImageAsync("./hero/yn.png", CC_CALLBACK_1(sceneLoading::loadingCallBack, this));
 
-	
+	Director::getInstance()->getTextureCache()->addImageAsync("./hero/bomb.png", CC_CALLBACK_1(sceneLoading::loadingCallBack, this));
+	Director::getInstance()->getTextureCache()->addImageAsync("./hero/lightning.png", CC_CALLBACK_1(sceneLoading::loadingCallBack, this));
+	Director::getInstance()->getTextureCache()->addImageAsync("./hero/dizzy.png", CC_CALLBACK_1(sceneLoading::loadingCallBack, this));
 }
 
 void sceneLoading::loadingCallBack(Texture2D* texture)

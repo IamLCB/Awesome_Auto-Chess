@@ -1,20 +1,25 @@
-#ifndef __HELLOWORLD_SCENE_H__
-#define __HELLOWORLD_SCENE_H__
-
+#ifndef _SCENES_TEST_H
+#define _SCENES_TEST_H
+#include "hero/hero.h"
 #include "cocos2d.h"
+#include <vector>
 
-class HelloWorld : public cocos2d::Scene
+using std::vector;
+
+class sceneTest : public cocos2d::Scene
 {
 public:
-    static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene();
 
-    virtual bool init();
-    
-    // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
-    
-    // implement the "static create()" method manually
-    CREATE_FUNC(HelloWorld);
+	virtual bool init();
+	void aboutBack(cocos2d::Ref* pSender);
+	void playAllHeros(float dt);
+	vector<Hero*> heros;
+
+	CREATE_FUNC(sceneTest);
+
 };
 
-#endif // __HELLOWORLD_SCENE_H__
+
+
+#endif // !_SCENES_ABOUT_H

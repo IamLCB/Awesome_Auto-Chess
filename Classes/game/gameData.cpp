@@ -17,8 +17,6 @@ bool gameData::init()
 	}
 
 	return true;
-
-	heroList[tfns].picName;
 }
 
 void gameData::initGameStart()

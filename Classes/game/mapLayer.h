@@ -2,21 +2,18 @@
 #define _MAP_LAYER_H_
 
 #define NO_CHESS 0
-#define CHESS_IN_A_ROW 7
-#define CHESS_IN_A_COL 6
-#define MAX_CHESS CHESS_IN_A_ROW*CHESS_IN_A_COL
-#define EFFRADIUS 10 // ´ýÐÞÕý °ë¾¶
+#define EFF_RADIUS 10 // ´ýÐÞÕý °ë¾¶
 
 #include"cocos2d.h"
+#include"globalResSetting.h"
 #include <vector>
+
 USING_NS_CC;
 
-using std::vector;
+extern Point chessMap[CHESS_IN_A_COL + 2][CHESS_IN_A_ROW];
+extern bool haveChess[CHESS_IN_A_COL + 2][CHESS_IN_A_ROW];
 
-extern vector<vector<Point>>chessMap;
-extern vector<vector<bool>>haveChess;
-
-class mapLayer : public Layer 
+class mapLayer : public Layer
 {
 public:
 	static mapLayer* createMapLayer();
@@ -24,20 +21,16 @@ public:
 	void update(float dt);
 	CREATE_FUNC(mapLayer);
 
-	//Point chessMap[CHESS_IN_A_ROW][CHESS_IN_A_COL];
-	//bool haveChess[CHESS_IN_A_ROW][CHESS_IN_A_COL];
-
-
 };
-struct Pair 
+struct Pair
 {
 	int x;
 	int y;
 
-	Pair(int x1, int y1) 
+	Pair(int x1, int y1)
 	{
-		x = x1; 
-		y = y1; 
+		x = x1;
+		y = y1;
 	}
 	Pair() { x = 0; y = 0; };
 };

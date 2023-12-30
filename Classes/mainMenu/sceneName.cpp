@@ -3,6 +3,7 @@
 #include "mainMenu.h"
 #include "globalResSetting.h"
 #include "sceneName.h"
+#include "game/sceneGame.h"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -149,15 +150,20 @@ void sceneName::editBoxEditingDidEnd(EditBox* editBox)
 void sceneName::editBoxTextChanged(EditBox* editBox, const std::string& text)
 {
 	CCLOG("editBox %p TextChanged, text: %s ", editBox, text.c_str());
-	playerName = text;
 }
 
 void sceneName::editBoxReturn(EditBox* editBox)
 {
 	CCLOG("editBox %p was returned !", editBox);
+	playerName = editBox->getText();
 }
 
 void sceneName::returnToMenu(Ref* pSender)
 {
 	_director->pushScene(TransitionFade::create(1.0f, mainMenu::createScene()));
+}
+
+void sceneName::modeAI(Ref* pSender) {
+	globalGameData->initGameStart();
+	_director->pushScene(TransitionFade::create(1.0f, sceneGame::createScene(playerName)));
 }

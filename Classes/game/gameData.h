@@ -1,11 +1,18 @@
 #ifndef _DATA_GAME_H_
 #define _DATA_GAME_H_
 #include "cocos2d.h"
-#include "player/playerData.h"
+#include "game/mapLayer.h"
 USING_NS_CC;
 
-#define maxHeroNum 20		// 最大玩家英雄数量
 #define designedHeroNum 8	// 设计英雄数量
+
+struct heroInfo
+{
+	int id = 0;
+	std::string picName = "";
+	int cost = 0;
+	bool buy = false;
+};
 
 class gameData : public Scene
 {
@@ -20,27 +27,19 @@ public:
 	CREATE_FUNC(gameData);
 };
 
-struct heroInfo
-{
-	int id = 0;
-	std::string picName = "";
-	int cost = 0;
-	bool buy = false;
-};
-
 extern gameData* globalGameData;
 
 enum heroType
 {
 	None = 0,
-	tfns,
-	bqzs,
-	mlps,
-	qxsq,
-	wlshz,
-	ynyn,
-	ltzz,
-	snzx
+	TFNS,
+	BQZS,
+	MLPS,
+	QXSQ,
+	WLSHZ,
+	YN,
+	LTZZ,
+	SNZX
 };
 
 extern heroInfo heroList[designedHeroNum];

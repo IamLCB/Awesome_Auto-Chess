@@ -21,6 +21,7 @@ class Hero :public Sprite
 public:
 	//friend Battle<T>;
 	string name, skillname;
+	int type = 0;//英雄类型
 	int skillType = -1;
 	int blood = 500;
 	int maxBlood = 500;//血量
@@ -29,7 +30,7 @@ public:
 	int protect = 0;//护甲
 	int magicPro = 10;//魔抗
 	int state;//技能状态
-	
+
 	double speed = 0.6;//攻速
 	double attackRate = 1;
 
@@ -52,14 +53,49 @@ public:
 	bool isDead();//判断是否死亡
 	void update(Hero* my, Hero* enemy, float dt);
 	virtual void Play() {}
-	struct myPoint
+	/*
+	* struct myPoint
 	{
 		int x;
 		int y;
 	};
+	*/
 	Hero* getEnemyByDistance(Hero* myHero, bool mode, bool isMyHero);
 	bool isInAttackRange(Hero* myHero, Hero* enemyHero);
 	bool isWin(playerData* myPlayer, playerData* opPlayer);
+
+	/*******************************12.30添加(可能有已经添加过的，如type)*************************/
+
+	float x = 0.f;
+	float y = 0.f;
+
+
+	float xTemp = x;
+	float yTemp = y;
+	//用于记录英雄进行移动操作前的坐标，初始设置为与原始坐标一致
+
+	void set(float x1, float y1) { x = x1, y = y1; }
+	void set(Point point) { x = point.x; y = point.y; }
+	// 对应两种重载形式
+	void setTempPosition() { xTemp = x; yTemp = y; }
+	Point getTempPosition() { return Point(xTemp, yTemp); }   //获得进入战斗时的位置
+
+	int getPrice() { return price; }
+	void setPlayer(int player) {
+		ofPlayer = player;
+		/*
+		if (player == 0)
+		{
+
+			Blood->setSprite(Sprite::create("OurBlood.png"));
+		}
+		*/
+	}
+
+	int getType() { return type; }//返回的是每种英雄的类型，playerData中的enum，默认每种英雄已经有了各自的type
+
+	/*******************************12.30添加*************************/
+
 
 	//装备？？？
 	/*---------------set类型----------------------*/

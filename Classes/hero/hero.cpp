@@ -8,78 +8,100 @@
 #include "qxsq.h"
 #include "snzx.h"
 
-Hero* createHero(int name) {
+Hero* createHero(int name)
+{
     Hero* hero = nullptr;
     switch (name) {
         case TFNS:
         {
             tfns* tfnsHero = new tfns();
             hero = tfnsHero->inittfns();
+            hero->type = TFNS;
         }
         break;
         case BQZS:
         {
             bqzs* bqzsHero = new bqzs();
             hero = bqzsHero->initbqzs();
+            hero->type = BQZS;
         }
         break;
         case MLPS:
         {
             mlps* mlpsHero = new mlps();
             hero = mlpsHero->initmlps();
+            hero->type = MLPS;
         }
         break;
         case QXSQ:
         {
             qxsq* qxsqHero = new qxsq();
             hero = qxsqHero->initqxsq();
+            hero->type = QXSQ;
         }
         break;
         case YN:
         {
             ynyn* ynynHero = new ynyn();
             hero = ynynHero->initynyn();
-        case WLSHZ :
+            hero->type = YN;
+        case WLSHZ:
         {
             wlshz* wlshzHero = new wlshz();
             hero = wlshzHero->initwlshz();
+            hero->type = WLSHZ;
         }
         break;
         case LTZZ:
         {
             ltzz* ltzzHero = new ltzz();
             hero = ltzzHero->initltzz();
+            hero->type = LTZZ;
         }
         break;
         case SNZX:
         {
             snzx* snzxHero = new snzx();
             hero = snzxHero->initsnzx();
+            hero->type = SNZX;
         }
         break;
+        }
     }
+    hero->setScale(0.25f);
+    hero->addChild(hero->createHealthBar(100));
+    /*auto lambda = [=](float dt) {
+        hero->createHealthBar((hero->getBlood() + 0.0) / (hero->getMaxBlood() + 0.0) * 100);
+    };
+    hero->schedule(lambda, 1 / hero->speed, "healthBar");*/
     return hero;
 }
 
-Node* Hero::createHealthBar(const string& backgroundTexture, const std::string& foregroundTexture, double initialPercentage, const Vec2& position) {
+
+Node* Hero::createHealthBar(double percentage)
+{
+    string backgroundTexture = "./hero/backgroundTexture.png";
+    string foregroundTexture = "./hero/foregroundTexture.png";
+    CCLOG("blood=%f", ((double)blood / (double)maxBlood) * 100);
     // 创建血条底部背景精灵
     Sprite* backgroundSprite = Sprite::create(backgroundTexture);
-    backgroundSprite->setScale(250 / backgroundSprite->getContentSize().width, 50 / backgroundSprite->getContentSize().height);
+    backgroundSprite->setScale(0.25f);
 
     // 创建血条前景精灵
-    Sprite* foregroundSprite = Sprite::create(foregroundTexture);
-    foregroundSprite->setScale(10 / foregroundSprite->getContentSize().width, 10 / foregroundSprite->getContentSize().height);
+    /*Sprite* foregroundSprite = Sprite::create(foregroundTexture);
+    foregroundSprite->setScale(0.25f);*/
 
     // 创建血条的 ProgressTimer
-    ProgressTimer* healthBar = ProgressTimer::create(foregroundSprite);
+    healthBar = ProgressTimer::create(Sprite::create(foregroundTexture));
+    healthBar->setScale(0.25f);
     healthBar->setType(ProgressTimer::Type::BAR);
-    healthBar->setMidpoint(Vec2(0, 0));//??????????//更改位置？
-    healthBar->setBarChangeRate(Vec2(1, 0));//??????????//更改位置？
-    healthBar->setPercentage(initialPercentage);
+    healthBar->setMidpoint(Point(0, 1));
+    healthBar->setBarChangeRate(Point(1, 0));
+    healthBar->setPercentage(percentage);
 
     // 设置血条底部背景精灵和 ProgressTimer 的位置
-    backgroundSprite->setPosition(position);
-    healthBar->setPosition(position);
+    backgroundSprite->setPosition(Point(400, 500));
+    healthBar->setPosition(Point(400,500));
 
     // 创建容器节点，将血条底部背景精灵和 ProgressTimer 添加到容器中
     Node* containerNode = Node::create();
@@ -91,8 +113,12 @@ Node* Hero::createHealthBar(const string& backgroundTexture, const std::string& 
 
 bool Hero::isDead()
 {
-    if (this->blood == 0)
+    if (this->blood <= 0) {
+        haveChess[pairReturn(getPosition()).x]w[pairReturn(getPosition()).y] = 0;
+        setPosition(10000, 10000);
+        set(10000, 10000);
         return true;
+    }
     return false;
 }
 
@@ -118,7 +144,7 @@ void Hero::heroAnimation(string picturename, const int picturenum, Sprite* sprit
 Hero* Hero::getEnemyByDistance(Hero* myHero, bool mode, bool isMyHero)
 {
     playerData opPlayer;
-    if(isMyHero){
+    if (isMyHero) {
         opPlayer = opPlayerData;
     }
     else {
@@ -212,6 +238,18 @@ void Dizzy(Hero* enemy)
 {
     //英雄变成灰色
     enemy->setColor(Color3B::GRAY);
+    // 创建精灵
+    Sprite* dizzy = Sprite::create("./hero/dizzy.png");
+    dizzy->setColor(Color3B::YELLOW);
+    enemy->addChild(dizzy);
+    dizzy->setPosition(Vec2(500, 400));
+
+    // 设置消失动作
+    auto removeSprite = CallFunc::create([dizzy]() {
+        dizzy->removeFromParentAndCleanup(true);
+        });
+    Sequence* sequence = Sequence::create(DelayTime::create(2.f), removeSprite, nullptr);
+    dizzy->runAction(sequence);
     //禁用英雄的动作
     enemy->stopAllActions();
     auto lambda = [=](float dt) {
@@ -273,6 +311,17 @@ void bomb(Hero* enemy, int attack)
 {
     //英雄变成黄色
     enemy->setColor(Color3B::YELLOW);
+    // 创建精灵
+    Sprite* bomb = Sprite::create("./hero/bomb.png");
+    enemy->addChild(bomb);
+    bomb->setPosition(Vec2(500, 400));
+
+    // 设置消失动作
+    auto removeSprite = CallFunc::create([bomb]() {
+        bomb->removeFromParentAndCleanup(true);
+        });
+    Sequence* sequence = Sequence::create(DelayTime::create(1.f), removeSprite, nullptr);
+    bomb->runAction(sequence);
     auto lambda = [=](float dt) {
         enemy->blood -= (int)(attack * enemy->attackRate * 1.5);
     };
@@ -281,7 +330,17 @@ void bomb(Hero* enemy, int attack)
 
 void lightning(Hero* enemy, const int hurt)
 {
-    //英雄变成蓝色
+    // 创建精灵
+    Sprite* light = Sprite::create("./hero/lightning.png");
+    enemy->addChild(light);
+    light->setPosition(Vec2(500, 400));
+
+    // 设置消失动作
+    auto removeSprite = CallFunc::create([light]() {
+        light->removeFromParentAndCleanup(true);
+        });
+    Sequence* sequence = Sequence::create(DelayTime::create(1.f), removeSprite, nullptr);
+    light->runAction(sequence);
     enemy->setColor(Color3B::GRAY);
     enemy->blood -= hurt * 0.9;//造成额外90%的伤害
 }

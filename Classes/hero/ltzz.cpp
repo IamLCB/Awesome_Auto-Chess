@@ -43,12 +43,15 @@ void ltzz::Play()
     enemy = getEnemyByDistance(this, false, this->ofPlayer);//锁敌
         auto lambda = [=](float dt) {
             this->update(this, enemy, dt);
+            this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
+            isDead();
         };
         this->schedule(lambda, 1 / 60.f, "ltzzMove");
         //while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续进攻条件
         //{
             auto lambdc = [=](float dt) {
-                ltzz::ltzzAttack(enemy);
+                if (enemy != nullptr)
+                    ltzz::ltzzAttack(enemy);
             };
             this->schedule(lambdc, 1 / speed, "ltzzAttack");
             //??????????//是否可以同时进行？
@@ -66,11 +69,11 @@ void ltzz::Play()
 
 void ltzz::ltzzAttack(Hero* enemy)
 {
-    int hurt = (int)((level == 1 ? 1.9 : 2) * attack * enemy->attackRate);//伤害值
-    //首先对先锁定的敌人进行攻击和魔法伤害
-    lightning(enemy, hurt);//闪电特效
-    enemy->protect > hurt ? enemy->blood -= 0 : enemy->blood -= hurt - enemy->protect;//物理攻击
-    enemy->magicPro > magicAmount ? enemy->blood -= 0 : enemy->blood -= magicAmount - enemy->magicPro;//魔法伤害
-    if (enemy->blood < 0) 
+    int hurt = (int)((level == 1 ? 1.9 : 2) * attack * enemy->attackRate); // 伤害值
+    // 首先对先锁定的敌人进行攻击和魔法伤害
+    lightning(enemy, hurt); // 闪电特效
+    enemy->protect > hurt ? enemy->blood -= 0 : enemy->blood -= hurt - enemy->protect; // 物理攻击
+    enemy->magicPro > magicAmount ? enemy->blood -= 0 : enemy->blood -= magicAmount - enemy->magicPro; // 魔法伤害
+    if (enemy->blood < 0)
         enemy->blood = 0;
 }
