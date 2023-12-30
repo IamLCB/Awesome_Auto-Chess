@@ -2,9 +2,10 @@
 #define _DATA_PLAYER_H_
 
 #include "cocos2d.h"
+#include "game/gameData.h"
 USING_NS_CC;
 
-#define maxHeroNum 20		//最大英雄数量
+
 
 class playerData : public Ref
 {

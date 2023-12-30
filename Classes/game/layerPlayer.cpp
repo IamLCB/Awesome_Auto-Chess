@@ -1,10 +1,10 @@
 #include "game/layerPlayer.h"
 
-const Point myBloodPos = Point(250, 610);
-const Point myExpPos = Point(250, 590);
+const Point myBloodPos = Point(180, 610);
+const Point myExpPos = Point(180, 590);
 
-const Point opBloodPos = Point(250, 710);
-const Point opExpPos = Point(250, 690);
+const Point opBloodPos = Point(180, 710);
+const Point opExpPos = Point(180, 690);
 
 layerPlayer* layerPlayer::createPlayer(string& name)
 {
@@ -13,11 +13,11 @@ layerPlayer* layerPlayer::createPlayer(string& name)
 	/**********myPlayer nickName and avatar************/
 	Sprite* myAvatar = Sprite::create("./player/avatar1.png");
 	myAvatar->setPosition(50, 600);
-	myAvatar->setScale(0.03f);
+	myAvatar->setScale(0.035f);
 	player->addChild(myAvatar);
 
-	Label* myName = Label::createWithTTF(name, "./fonts/Marker Felt.ttf", 24);
-	myName->setPosition(80 + myName->getContentSize().width, 640);
+	Label* myName = Label::createWithTTF(name, "./fonts/betterFont.ttf", 24);
+	myName->setPosition(160, 640);
 	player->addChild(myName, 1);
 
 	/**********opPlayer nickName and avatar************/
@@ -25,9 +25,9 @@ layerPlayer* layerPlayer::createPlayer(string& name)
 	opAvatar->setPosition(50, 700);
 	player->addChild(opAvatar);
 
-	Label* opName = Label::createWithTTF("opPlayer", "./fonts/Marker Felt.ttf", 24);
-	opName->setPosition(60 + opName->getContentSize().width, 740);
-	opAvatar->setScale(0.03f);
+	Label* opName = Label::createWithTTF("opPlayer", "./fonts/betterFont.ttf", 24);
+	opName->setPosition(160, 740);
+	opAvatar->setScale(0.035f);
 	player->addChild(opName, 1);
 
 	player->retain(); // retain the player
@@ -57,7 +57,7 @@ bool layerPlayer::init()
 	/**************BloodBar**************/
 	this->setPosition(0,0);
 	playerHPBarBg->setPosition(myBloodPos);
-	playerHPBarBg->setScale(0.5f);
+	playerHPBarBg->setScale(0.25f);
 	this->addChild(playerHPBarBg, 1);
 
 	playerHPBar->setType(ProgressTimer::Type::BAR);
@@ -65,14 +65,15 @@ bool layerPlayer::init()
 	playerHPBar->setMidpoint(Point(0, 1));
 	playerHPBar->setPosition(myBloodPos);
 	playerHPBar->setPercentage(myPlayerData.playerHealth);
+	playerHPBar->setScale(0.5f);
 	this->addChild(playerHPBar, 2);
 
-	playerHP->setPosition(myBloodPos.x+180, myBloodPos.y);
+	playerHP->setPosition(myBloodPos.x + 110, myBloodPos.y);
 	this->addChild(playerHP, 3);
 
 	/**************Level**************/
 	playerExpBarBg->setPosition(myExpPos);
-	playerExpBarBg->setScale(0.5f);
+	playerExpBarBg->setScale(0.25f);
 	this->addChild(playerExpBarBg, 1);
 
 	playerExpBar->setType(ProgressTimer::Type::BAR);
@@ -80,9 +81,10 @@ bool layerPlayer::init()
 	playerExpBar->setMidpoint(Point(0, 1));
 	playerExpBar->setPosition(myExpPos);
 	playerExpBar->setPercentage(myPlayerData.playerExp * 100 / myPlayerData.expToLevelUp);
+	playerExpBar->setScale(0.5f);
 	this->addChild(playerExpBar, 2);
 
-	Levels->setPosition(myExpPos.x + 190, myExpPos.y);
+	Levels->setPosition(myExpPos.x + 110, myExpPos.y);
 	this->addChild(Levels, 3);
 
 	/**************Coins**************/
@@ -93,7 +95,7 @@ bool layerPlayer::init()
 	/**************BloodBar**************/
 	this->setPosition(0, 0);
 	opplayerHPBarBg->setPosition(opBloodPos);
-	opplayerHPBarBg->setScale(0.5f);
+	opplayerHPBarBg->setScale(0.25f);
 	this->addChild(opplayerHPBarBg, 1);
 	
 	opplayerHPBar->setType(ProgressTimer::Type::BAR);
@@ -101,14 +103,15 @@ bool layerPlayer::init()
 	opplayerHPBar->setMidpoint(Point(0, 1));
 	opplayerHPBar->setPosition(opBloodPos);
 	opplayerHPBar->setPercentage(opPlayerData.playerHealth);
+	opplayerHPBar->setScale(0.5f);
 	this->addChild(opplayerHPBar, 2);
 
-	opplayerHP->setPosition(opBloodPos.x + 180, opBloodPos.y);
+	opplayerHP->setPosition(opBloodPos.x + 110, opBloodPos.y);
 	this->addChild(opplayerHP, 3);
 
 	/**************Level**************/
 	opplayerExpBarBg->setPosition(opExpPos);
-	opplayerExpBarBg->setScale(0.5f);
+	opplayerExpBarBg->setScale(0.25f);
 	this->addChild(opplayerExpBarBg, 1);
 
 	opplayerExpBar->setType(ProgressTimer::Type::BAR);
@@ -116,9 +119,10 @@ bool layerPlayer::init()
 	opplayerExpBar->setMidpoint(Point(0, 1));
 	opplayerExpBar->setPosition(opExpPos);
 	opplayerExpBar->setPercentage(opPlayerData.playerExp * 100 / opPlayerData.expToLevelUp);
+	opplayerExpBar->setScale(0.5f);
 	this->addChild(opplayerExpBar, 2);
 
-	opLevels->setPosition(opExpPos.x + 190, opExpPos.y);
+	opLevels->setPosition(opExpPos.x + 110, opExpPos.y);
 	this->addChild(opLevels, 3);
 
 	/**************Coins**************/
@@ -138,7 +142,7 @@ void layerPlayer::buyExp(Ref* pSender)
 	}
 	else
 	{
-		Label* label = Label::createWithTTF("Not enough money!", "./fonts/Marker Felt.ttf", 36);
+		Label* label = Label::createWithTTF("Not enough money!", "./fonts/betterFont.ttf", 36);
 		label->setPosition(800,400);
 		this->addChild(label, 1);
 		auto action = FadeOut::create(2.0f);

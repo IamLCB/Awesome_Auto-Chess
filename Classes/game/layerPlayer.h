@@ -18,18 +18,18 @@ public:
 	void buyExp(cocos2d::Ref* pSender);
 
 	/*************Player UIs***************/
-	Label* Coins = Label::createWithTTF("Coins: "+to_string(myPlayerData.playerMoney), "fonts/Marker Felt.ttf", 22);
-	Label* Levels = Label::createWithTTF("Lv: " + to_string(myPlayerData.playerLevel), "fonts/Marker Felt.ttf", 22);
-	Label* playerHP = Label::createWithTTF(to_string(myPlayerData.playerHealth), "fonts/Marker Felt.ttf", 24);
+	Label* Coins = Label::createWithTTF("Coins: "+to_string(myPlayerData.playerMoney), "fonts/betterFont.ttf", 22);
+	Label* Levels = Label::createWithTTF("Lv: " + to_string(myPlayerData.playerLevel), "fonts/betterFont.ttf", 22);
+	Label* playerHP = Label::createWithTTF(to_string(myPlayerData.playerHealth), "fonts/betterFont.ttf", 24);
 	ProgressTimer* playerHPBar = ProgressTimer::create(Sprite::create("./player/blood.png"));
 	Sprite* playerHPBarBg = Sprite::create("./player/bloodBg.png");
 	ProgressTimer* playerExpBar = ProgressTimer::create(Sprite::create("./player/greenBlood.png"));
 	Sprite* playerExpBarBg = Sprite::create("./player/bloodBg.png");
 
 	/*************Player2/AI UIs***************/
-	Label* opCoins = Label::createWithTTF("Coins: " + to_string(opPlayerData.playerMoney), "fonts/Marker Felt.ttf", 22);
-	Label* opLevels = Label::createWithTTF("Lv: " + to_string(opPlayerData.playerLevel), "fonts/Marker Felt.ttf", 22);
-	Label* opplayerHP = Label::createWithTTF(to_string(opPlayerData.playerHealth), "fonts/Marker Felt.ttf", 24);
+	Label* opCoins = Label::createWithTTF("Coins: " + to_string(opPlayerData.playerMoney), "fonts/betterFont.ttf", 22);
+	Label* opLevels = Label::createWithTTF("Lv: " + to_string(opPlayerData.playerLevel), "fonts/betterFont.ttf", 22);
+	Label* opplayerHP = Label::createWithTTF(to_string(opPlayerData.playerHealth), "fonts/betterFont.ttf", 24);
 	ProgressTimer* opplayerHPBar = ProgressTimer::create(Sprite::create("./player/blood.png"));
 	Sprite* opplayerHPBarBg = Sprite::create("./player/bloodBg.png");
 	ProgressTimer* opplayerExpBar = ProgressTimer::create(Sprite::create("./player/greenBlood.png"));
