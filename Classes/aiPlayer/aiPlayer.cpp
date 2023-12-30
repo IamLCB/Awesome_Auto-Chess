@@ -15,9 +15,8 @@ Hero* aiPlayer::soldHero()
 void aiPlayer::judgeGold()
 {
 	bool ifBuy = 0;
-	if (checkUpgrade())			//如果升级
-		return;
-	judgeExp();					//检查买经验
+	checkUpgrade();				//买升级
+	judgeExp();					//买经验
 	if (checkLimit() && checkHighGoldHero() && opPlayerData.playerMoney >= 2)//不超过人数限制且购买了高费英雄
 		refresh();//刷新商店
 }
