@@ -43,12 +43,14 @@ void ltzz::Play()
     enemy = getEnemyByDistance(this, false, this->ofPlayer);//锁敌
         auto lambda = [=](float dt) {
             this->update(this, enemy, dt);
+            this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
         };
         this->schedule(lambda, 1 / 60.f, "ltzzMove");
         //while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续进攻条件
         //{
             auto lambdc = [=](float dt) {
-                ltzz::ltzzAttack(enemy);
+                if (enemy != nullptr)
+                    ltzz::ltzzAttack(enemy);
             };
             this->schedule(lambdc, 1 / speed, "ltzzAttack");
             //??????????//是否可以同时进行？

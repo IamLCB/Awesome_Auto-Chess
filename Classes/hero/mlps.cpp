@@ -43,6 +43,7 @@ void mlps::Play()
     enemy = getEnemyByDistance(this, false, this->ofPlayer);//ËøµÐ
         auto lambda = [=](float dt) {
             this->update(this, enemy, dt);
+            this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
         };
         this->schedule(lambda, 1 / 60.f, "mlpsMove");
         attackNum = 0;//½ø¹¥´ÎÊý

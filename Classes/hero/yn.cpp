@@ -46,6 +46,7 @@ void ynyn::Play()
     static int attackNum = 0;
     auto lambdd = [=](float dt) {
         this->update(this, enemy, dt);
+        this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
     };
     this->schedule(lambdd, 1 / 60.f, "ynynMove");
     //while (!isDead() && !isWin(&myPlayerData, &opPlayerData))

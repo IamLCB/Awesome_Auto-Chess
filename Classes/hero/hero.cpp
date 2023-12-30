@@ -75,6 +75,7 @@ Node* Hero::createHealthBar(double percentage)
 {
     string backgroundTexture = "./hero/backgroundTexture.png";
     string foregroundTexture = "./hero/foregroundTexture.png";
+    CCLOG("blood=%f", ((double)blood / (double)maxBlood) * 100);
     // 创建血条底部背景精灵
     Sprite* backgroundSprite = Sprite::create(backgroundTexture);
     backgroundSprite->setScale(0.25f);
@@ -84,7 +85,7 @@ Node* Hero::createHealthBar(double percentage)
     foregroundSprite->setScale(0.25f);*/
 
     // 创建血条的 ProgressTimer
-    ProgressTimer* healthBar = ProgressTimer::create(Sprite::create(foregroundTexture));
+    healthBar = ProgressTimer::create(Sprite::create(foregroundTexture));
     healthBar->setScale(0.25f);
     healthBar->setType(ProgressTimer::Type::BAR);
     healthBar->setMidpoint(Point(0, 1));

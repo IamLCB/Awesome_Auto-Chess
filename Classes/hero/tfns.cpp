@@ -33,6 +33,7 @@ void tfns::Play()
     static int attackNum = 0;
         auto lambda = [=](float dt) {
             this->update(this, enemy, dt);
+            this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
         };
         this->schedule(lambda, 1 / 60.f, "tfnsMove");
         //while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续攻击条件则持续攻击 
@@ -40,7 +41,6 @@ void tfns::Play()
         attackNum++;//对该敌人的攻击次数+1
         auto lambdb = [=](float dt) {
             tfns::tfnsAttack(enemy, attackNum);
-            this->createHealthBar((blood + 0.0) / (maxBlood + 0.0) * 100);
         };
         this->schedule(lambdb, 1 / speed, "tfnsAttack");
         auto lambdc = [=](float dt) {

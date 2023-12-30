@@ -40,8 +40,6 @@ Hero* bqzs::initbqzs()
 
 void bqzs::Play()
 {
-	
-	
 	int magicpro = magicPro;
 	int pro = protect;
 	
@@ -50,6 +48,7 @@ void bqzs::Play()
 	static int attackNum = 0;
 	auto lambda = [=](float dt) {
 		this->update(this, enemy, dt);
+		this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
 	};
 	this->schedule(lambda, 1 / 60.f, "bqzsMove");
 		magicPro = magicpro;
