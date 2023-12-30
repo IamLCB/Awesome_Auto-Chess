@@ -21,6 +21,7 @@ class Hero :public Sprite
 public:
 	//friend Battle<T>;
 	string name, skillname;
+	ProgressTimer* healthBar;
 	int skillType = -1;
 	int blood = 500;
 	int maxBlood = 500;//ÑªÁ¿
@@ -52,11 +53,6 @@ public:
 	bool isDead();//ÅÐ¶ÏÊÇ·ñËÀÍö
 	void update(Hero* my, Hero* enemy, float dt);
 	virtual void Play() {}
-	struct myPoint
-	{
-		int x;
-		int y;
-	};
 	Hero* getEnemyByDistance(Hero* myHero, bool mode, bool isMyHero);
 	bool isInAttackRange(Hero* myHero, Hero* enemyHero);
 	bool isWin(playerData* myPlayer, playerData* opPlayer);

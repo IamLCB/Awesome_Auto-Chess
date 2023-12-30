@@ -43,6 +43,8 @@ void mlps::Play()
     enemy = getEnemyByDistance(this, false, this->ofPlayer);//锁敌
         auto lambda = [=](float dt) {
             this->update(this, enemy, dt);
+            this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
+            isDead();
         };
         this->schedule(lambda, 1 / 60.f, "mlpsMove");
         attackNum = 0;//进攻次数
@@ -76,9 +78,9 @@ void mlps::mlpsAttack(Hero* enemy, const int attackNum)
     {
         enemy->protect > hurt ? enemy->blood -= 0 : enemy->blood -= hurt - enemy->protect;//物理伤害
         enemy->magicPro > magicAmount ? enemy->blood -= 0 : enemy->blood -= magicAmount - enemy->magicPro;//魔法攻击
-        if (enemy->blood < 0)
-            enemy->blood = 0;//敌方已死
     }
+    if (enemy->blood < 0)
+        enemy->blood = 0;//敌方已死
     attack += attack / 2;//每次攻击会增加50%的伤害
     
     //延迟四秒

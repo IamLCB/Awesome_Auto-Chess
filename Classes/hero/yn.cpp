@@ -46,6 +46,8 @@ void ynyn::Play()
     static int attackNum = 0;
     auto lambdd = [=](float dt) {
         this->update(this, enemy, dt);
+        this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
+        isDead();
     };
     this->schedule(lambdd, 1 / 60.f, "ynynMove");
     //while (!isDead() && !isWin(&myPlayerData, &opPlayerData))
@@ -88,7 +90,9 @@ void ynyn::ynynNormalAttack(Hero* enemy, const int attackNum,const double add,co
 {
     blue += 30;
     enemy->protect > hurt ? enemy->blood -= 0 : enemy->blood -= hurt - enemy->protect;//护甲抵消部分伤害
-    //swordwaive("sword.png", this);//??????????//picture
+    if (enemy->blood < 0)
+        enemy->blood = 0;//敌方已死
+    //swordwaive("sword.png", this);
     goaway(enemy->getPosition(), this);
 }
 

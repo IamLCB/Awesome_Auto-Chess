@@ -34,6 +34,8 @@ void snzx::Play()
     {
         auto lambda = [=](float dt) {
             this->update(this, enemy, dt);
+            this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
+            isDead();
         };
         this->schedule(lambda, 1 / 60.f, "snzxMove");
         enemy = getEnemyByDistance(this, false, this->ofPlayer);//ËøµĞ
