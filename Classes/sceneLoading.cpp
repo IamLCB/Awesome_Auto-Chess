@@ -55,6 +55,17 @@ void sceneLoading::loadResources()
 	Director::getInstance()->getTextureCache()->addImageAsync("./gameScene/gameBackground.png", CC_CALLBACK_1(sceneLoading::loadingCallBack, this));
 	Director::getInstance()->getTextureCache()->addImageAsync("./player/avatar1.png", CC_CALLBACK_1(sceneLoading::loadingCallBack, this));
 	Director::getInstance()->getTextureCache()->addImageAsync("./player/avatar2.png", CC_CALLBACK_1(sceneLoading::loadingCallBack, this));
+
+	Director::getInstance()->getTextureCache()->addImageAsync("./hero/bqzs.png", CC_CALLBACK_1(sceneLoading::loadingCallBack, this));
+	Director::getInstance()->getTextureCache()->addImageAsync("./hero/ltzz.png", CC_CALLBACK_1(sceneLoading::loadingCallBack, this));
+	Director::getInstance()->getTextureCache()->addImageAsync("./hero/mlps.png", CC_CALLBACK_1(sceneLoading::loadingCallBack, this));
+	Director::getInstance()->getTextureCache()->addImageAsync("./hero/qxsq.png", CC_CALLBACK_1(sceneLoading::loadingCallBack, this));
+	Director::getInstance()->getTextureCache()->addImageAsync("./hero/snzx.png", CC_CALLBACK_1(sceneLoading::loadingCallBack, this));
+	Director::getInstance()->getTextureCache()->addImageAsync("./hero/tfns.png", CC_CALLBACK_1(sceneLoading::loadingCallBack, this));
+	Director::getInstance()->getTextureCache()->addImageAsync("./hero/wlshz.png", CC_CALLBACK_1(sceneLoading::loadingCallBack, this));
+	Director::getInstance()->getTextureCache()->addImageAsync("./hero/yn.png", CC_CALLBACK_1(sceneLoading::loadingCallBack, this));
+
+	
 }
 
 void sceneLoading::loadingCallBack(Texture2D* texture)

@@ -17,6 +17,8 @@ bool gameData::init()
 	}
 
 	return true;
+
+	heroList[tfns].picName;
 }
 
 void gameData::initGameStart()
@@ -25,12 +27,12 @@ void gameData::initGameStart()
 }
 
 heroInfo heroList[designedHeroNum] = {
-	{ 1, "TFNS", 1, false },
-	{ 2, "BQZS", 1, false },
-	{ 3, "MLPS", 1, false },
-	{ 4, "QXSQ", 1, false },
-	{ 5, "WLSHZ", 1, false },
-	{ 6, "YN", 1, false },
-	{ 7, "LTZZ", 1, false },
-	{ 8, "SNZX", 1, false }
+	{ 1, "./hero/tfns.png", 1, false },
+	{ 2, "./hero/bqzs.png", 1, false },
+	{ 3, "./hero/mlps.png", 1, false },
+	{ 4, "./hero/qxsq.png", 2, false },
+	{ 5, "./hero/wlshz.png", 2, false },
+	{ 6, "./hero/yn.png", 3, false },
+	{ 7, "./hero/ltzz.png", 3, false },
+	{ 8, "./hero/snzx.png", 4, false }
 };

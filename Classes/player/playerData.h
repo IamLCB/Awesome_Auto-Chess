@@ -31,7 +31,7 @@ public:
 	/*********玩家英雄信息**********/
 	ccArray* waitingArray = ccArrayNew(100);	//玩家备战阵容
 	ccArray* battleArray = ccArrayNew(100);		//玩家战斗阵容
-	int heroNum[maxHeroNum] = { 0 };			//玩家拥有英雄数量
+	int heroNum[20] = { 0 };			//玩家拥有英雄数量
 
 	/*********玩家装备信息**********/
 	//ccArray* equippedArray = ccArrayNew(100);		//玩家装备阵容（已装备）

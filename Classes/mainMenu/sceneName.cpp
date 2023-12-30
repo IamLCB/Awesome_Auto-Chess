@@ -31,17 +31,33 @@ bool sceneName::init()
 	bg->setPosition(800, 460);
 	this->addChild(bg);
 
+	/**************Label Name***************/
+	auto label2 = Label::createWithTTF("Login", "fonts/betterFont.ttf", 48);
+	if (label2 == nullptr)
+	{
+		problemLoading("'fonts/betterFont.ttf'");
+	}
+	else
+	{
+		label2->setPosition(Vec2(CENTER_WIN_X, TOP_WIN_Y - label2->getContentSize().height));
+		label2->setColor(Color3B::BLACK);
+		this->addChild(label2, 1);
+	}
+
 	/**************Label UserName***************/
-	auto label = Label::createWithTTF("Please Enter Your Name", "fonts/Marker Felt.ttf", 48);
+	auto label = Label::createWithTTF("Please Enter Your Name", "fonts/betterFont.ttf", 48);
 	if(label == nullptr)
 	{
 		problemLoading("'fonts/Marker Felt.ttf'");
 	}
 	else
 	{
-		label->setPosition(Vec2(CENTER_WIN_X, CENTER_WIN_Y - label->getContentSize().height));
+		label->setPosition(Vec2(CENTER_WIN_X, CENTER_WIN_Y + label->getContentSize().height + 20));
+		label->setColor(Color3B::BLACK);
 		this->addChild(label, 1);
 	}
+
+
 
 	/**************EditBox UserName***************/
 	auto nameEditBox = EditBox::create(Size(300, 60), Scale9Sprite::create("./mainMenu/nameEditBox.png"));
@@ -57,6 +73,65 @@ bool sceneName::init()
 	nameEditBox->setFontSize(30);
 	nameEditBox->setTag(1);
 	this->addChild(nameEditBox, 1);
+
+	/**************Button Return***************/
+	 /*----------------MenuItemSprite aboutBack---------------------*/
+	Sprite* aboutBackNormal = Sprite::create("./mainMenu/backToMenuNormal.png");
+	Sprite* aboutBackSelected = Sprite::create("./mainMenu/backToMenuSelected.png");
+
+	MenuItemSprite* aboutBack = MenuItemSprite::create(aboutBackNormal, aboutBackSelected,
+		CC_CALLBACK_1(sceneName::returnToMenu, this));
+
+	if (aboutBack == nullptr ||
+		aboutBack->getContentSize().width <= 0 ||
+		aboutBack->getContentSize().height <= 0)
+	{
+		problemLoading("'backToMenuNormal.png' and 'backToMenuSelected.png'");
+	}
+	else
+	{
+		float x = CENTER_WIN_X;
+		float y = BOTTOM_WIN_Y + aboutBack->getContentSize().height / 2 + 5;
+		aboutBack->setPosition(Vec2(x, y));
+	}
+
+	auto menuAboutBack = Menu::create(aboutBack, nullptr);
+	menuAboutBack->setPosition(Vec2::ZERO);
+	this->addChild(menuAboutBack, 1);
+
+	/**************Button AI***************/
+	Sprite* aiNormal = Sprite::create("./mainMenu/modeAiNormal.png");
+	Sprite* aiSelected = Sprite::create("./mainMenu/modeAiSelected.png");
+
+	MenuItemSprite* aiMode = MenuItemSprite::create(aiNormal, aiSelected,
+		CC_CALLBACK_1(sceneName::returnToMenu, this));
+
+	if (aiMode == nullptr ||
+		aiMode->getContentSize().width <= 0 ||
+		aiMode->getContentSize().height <= 0)
+	{
+		problemLoading("'modeAiNormal.png' and 'modeAiSelected.png'");
+	}
+	else
+	{
+		aiMode->setPosition(CENTER_WIN_X, CENTER_WIN_Y - aiMode->getContentSize().height-150);
+	}
+
+	auto menuaiMode = Menu::create(aiMode, nullptr);
+	menuaiMode->setPosition(Vec2::ZERO);
+	this->addChild(menuaiMode, 1);
+	/**************Label Mode***************/
+	auto mode = Label::createWithTTF("Mode:", "fonts/betterFont.ttf", 48);
+	if (mode == nullptr)
+	{
+		problemLoading("'fonts/Marker Felt.ttf'");
+	}
+	else
+	{
+		mode->setPosition(CENTER_WIN_X, aiMode->getPosition().y + mode->getContentSize().height + 20);
+		mode->setColor(Color3B::BLACK);
+		this->addChild(mode, 1);
+	}
 
 	return true;
 }
@@ -80,4 +155,9 @@ void sceneName::editBoxTextChanged(EditBox* editBox, const std::string& text)
 void sceneName::editBoxReturn(EditBox* editBox)
 {
 	CCLOG("editBox %p was returned !", editBox);
+}
+
+void sceneName::returnToMenu(Ref* pSender)
+{
+	_director->pushScene(TransitionFade::create(1.0f, mainMenu::createScene()));
 }

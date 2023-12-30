@@ -98,7 +98,7 @@ bool sceneAbout::init()
 
     sprite1->setPosition(800, 460);
     this->addChild(sprite1);
-
+/*
     Hero* hero1 = createHero(BQZS);
     Hero* hero2 = createHero(QXSQ);
     Hero* hero3 = createHero(YN);
@@ -140,7 +140,7 @@ bool sceneAbout::init()
     hero2->Play();
     hero3->Play();
     hero4->Play();
-
+*/
     return true;
 
 }

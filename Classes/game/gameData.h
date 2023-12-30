@@ -33,14 +33,14 @@ extern gameData* globalGameData;
 enum heroType
 {
 	None = 0,
-	TFNS,
-	BQZS,
-	MLPS,
-	QXSQ,
-	WLSHZ,
-	YN,
-	LTZZ,
-	SNZX
+	tfns,
+	bqzs,
+	mlps,
+	qxsq,
+	wlshz,
+	ynyn,
+	ltzz,
+	snzx
 };
 
 extern heroInfo heroList[designedHeroNum];
