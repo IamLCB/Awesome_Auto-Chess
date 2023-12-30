@@ -78,7 +78,7 @@ void sceneGame::mouseInit()
     {
         if (chessSelected < SEPARATION && chessSelected != -1)
         {
-            auto crt = static_cast<Hero*>(myPlayerData.battleArray->arr[chessSelected]);
+            auto crt = static_cast<Hero*>(myPlayerData.battleArray->arr[chessSelected - 1]);
             crt->setPosition(inWhichCell(crt->getTempPosition()));
             crt->set(crt->getTempPosition());
             chessSelected = -1; // 重置棋子的位置并清除选中状态
@@ -104,7 +104,7 @@ void sceneGame::mouseUp(Event* event)
     {
         if (chessSelected >= 0 && chessSelected < SEPARATION)
         {
-            auto crt = static_cast<Hero*>(myPlayerData.battleArray->arr[chessSelected]);
+            auto crt = static_cast<Hero*>(myPlayerData.waitingArray->arr[chessSelected]);
             if (haveChess[pairReturn(crt->getPosition()).x][pairReturn(crt->getPosition()).y] == 1)   // 避免重复选择
             {
                 crt->setPosition(inWhichCell(crt->getTempPosition()));
@@ -126,7 +126,7 @@ void sceneGame::mouseUp(Event* event)
         }
         else if (chessSelected >= SEPARATION) // 备战区的棋子
         {
-            auto crt = ((Hero*)(myPlayerData.battleArray->arr[chessSelected - SEPARATION]));
+            auto crt = ((Hero*)(myPlayerData.battleArray->arr[chessSelected - SEPARATION - 1]));
             if (haveChess[pairReturn(crt->getPosition()).x][pairReturn(crt->getPosition()).y] == 1)   // 避免重复选择
             {
                 crt->setPosition(inWhichCell(crt->getTempPosition()));
@@ -171,8 +171,7 @@ void sceneGame::mouseDown(Event* event)
     auto e = static_cast<EventMouse*>(event);
 
     // 判断鼠标按下是在备战区还是战斗区
-    if (mouseInBattleArray(myPlayerData.battleArray, e) == 1) { ; }
-    else
+    if (mouseInBattleArray(myPlayerData.battleArray, e) == 1)
         mouseInBattleArray(myPlayerData.waitingArray, e);
 }
 
@@ -186,7 +185,7 @@ void sceneGame::mouseMove(Event* event)
     {
         if (chessSelected < SEPARATION && afterFight->totalTime < 1e-2)// 没时间了,不进行移动操作
         {
-            auto crt = static_cast<Hero*>(myPlayerData.battleArray->arr[chessSelected]);
+            auto crt = static_cast<Hero*>(myPlayerData.battleArray->arr[chessSelected - 1]);
             crt->setPosition(inWhichCell(crt->getTempPosition()));
             crt->set(inWhichCell(crt->getTempPosition()));
             chessSelected = -1; // 完成操作，鼠标回到未选中状态
@@ -194,7 +193,7 @@ void sceneGame::mouseMove(Event* event)
         }
         else if (chessSelected < SEPARATION) // 可以移动备战区的棋子到棋盘上
         {
-            auto crt = static_cast<Hero*>(myPlayerData.battleArray->arr[chessSelected]);
+            auto crt = static_cast<Hero*>(myPlayerData.battleArray->arr[chessSelected - 1]);
             auto crtPosition = inWhichCell(crt->getPosition());
 
             if (crtPosition != Point(-1, -1) && crtPosition.x <= chessMap[3][0].x + eachCell_y / 2) //  空气墙，限制在我方场上
@@ -211,7 +210,7 @@ void sceneGame::mouseMove(Event* event)
         }
         else if (chessSelected >= SEPARATION) // 对于战斗区的棋子
         {
-            auto crt = static_cast<Hero*>(myPlayerData.waitingArray->arr[chessSelected - SEPARATION]);
+            auto crt = static_cast<Hero*>(myPlayerData.waitingArray->arr[chessSelected - SEPARATION - 1]);
             auto crtPosition = inWhichCell(crt->getPosition());
             if (crtPosition != Point(-1, -1) && crtPosition.x <= chessMap[3][0].x + eachCell_y / 2) //  空气墙，限制在我方场上
             {
@@ -245,6 +244,15 @@ Point sceneGame::inWhichCell(const Point point) const
 /**************计时器***************/
 void sceneGame::update(float dt) // 实时更新
 {
+    static int test = 0;
+    if (test == 0) {
+        Hero* newHero1 = createHero(TFNS);
+        //Hero* newHero2 = createHero(TFNS);
+        ccArrayAppendObject(myPlayerData.waitingArray, newHero1);
+        //ccArrayAppendObject(myPlayerData.waitingArray, newHero2);
+        myPlayerData.playerHaveNewHero = 1;
+        test++;
+    }
     if (afterFight->totalTime > 1e-6) //备战时间
     {
         heroExist->heroUpgrade(myPlayerData);
@@ -255,7 +263,7 @@ void sceneGame::update(float dt) // 实时更新
 
     }
 
-    mouseInit();
+    mouseMainEvent(); 
 
     if (afterFight->totalTime < -1e-2) // 战斗时间
     {
