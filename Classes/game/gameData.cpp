@@ -1,5 +1,5 @@
 #include "game/gameData.h"
-
+#include"game/mapLayer.h"
 gameData* globalGameData = gameData::createGameData();
 
 gameData* gameData::createGameData()

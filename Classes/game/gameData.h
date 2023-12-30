@@ -1,7 +1,7 @@
 #ifndef _DATA_GAME_H_
 #define _DATA_GAME_H_
 #include "cocos2d.h"
-#include "player/playerData.h"
+#include"game/mapLayer.h"
 USING_NS_CC;
 
 #define maxHeroNum 20		// 最大玩家英雄数量

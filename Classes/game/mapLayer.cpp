@@ -1,17 +1,13 @@
 #include"mapLayer.h"
 
-Point chessMap[6][8];
-bool haveChess[6][8] = { false };
-const Point chessMap[1][7] = { Point(-1, -1) };
-const Point chessMap[4][7] = { Point(-1, -1) };
-const bool haveChess[1][7] = { false };
-const bool haveChess[4][7] = { false };
+Point chessMap[CHESS_IN_A_COL + 2][CHESS_IN_A_ROW];
+bool haveChess[CHESS_IN_A_COL + 2][CHESS_IN_A_ROW] = { false };
 
 mapLayer* mapLayer::createMapLayer()
 {
-	auto temp = mapLayer::create();
-	temp->retain();
-	return temp;
+    auto temp = mapLayer::create();
+    temp->retain();
+    return temp;
 }
 
 bool mapLayer::init()
@@ -27,23 +23,24 @@ bool mapLayer::init()
     auto gameBackGround = Sprite::create("./game/gameBackground.png");
 
     gameBackGround->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
-    gameBackGround->setScale(visibleSize.width / gameBackGround->getContentSize().width, visibleSize.height / gameBackGround->getContentSize().height);
+    gameBackGround->setScale(visibleSize.width / gameBackGround->getContentSize().width, 
+        visibleSize.height / gameBackGround->getContentSize().height);
 
     this->addChild(gameBackGround);
-    
+
 
     return true;
 
 }
 
-Pair pairReturn(Point point)
+Pair pairReturn(const Point point)
 {
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < CHESS_IN_A_COL + 2; i++)
     {
-        for (int j = 0; j < 8; j++)
+        for (int j = 0; j < CHESS_IN_A_ROW; j++)
         {
-            if ((point.x - chessMap[i][j].x) * (point.x - chessMap[i][j].x) +
-                (point.y - chessMap[i][j].y) * (point.y - chessMap[i][j].y) < EFF_RADIUS)
+            if (((point.x - chessMap[i][j].x) * (point.x - chessMap[i][j].x) +
+                (point.y - chessMap[i][j].y) * (point.y - chessMap[i][j].y)) < EFF_RADIUS * EFF_RADIUS)
             {
                 return Pair(i, j);
             }
