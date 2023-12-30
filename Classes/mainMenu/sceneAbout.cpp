@@ -10,8 +10,10 @@
 #include "hero/qxsq.h"
 #include "hero/snzx.h"
 #include <vector>
+#include "inGameTimer/inGameTimer.h"
 
 using std::vector;
+
 
 USING_NS_CC;
 
@@ -96,9 +98,6 @@ bool sceneAbout::init()
 
     sprite1->setPosition(800, 460);
     this->addChild(sprite1);
-
-
-    
 
     Hero* hero1 = createHero(BQZS);
     Hero* hero2 = createHero(QXSQ);
