@@ -8,65 +8,68 @@
 #include "qxsq.h"
 #include "snzx.h"
 
-Hero* createHero(int name)
-{
+Hero* createHero(int name) {
     Hero* hero = nullptr;
     switch (name) {
         case TFNS:
         {
             tfns* tfnsHero = new tfns();
             hero = tfnsHero->inittfns();
+            hero->type = TFNS;
         }
         break;
         case BQZS:
         {
             bqzs* bqzsHero = new bqzs();
             hero = bqzsHero->initbqzs();
+            hero->type = BQZS;
         }
         break;
         case MLPS:
         {
             mlps* mlpsHero = new mlps();
             hero = mlpsHero->initmlps();
+            hero->type = MLPS;
         }
         break;
         case QXSQ:
         {
             qxsq* qxsqHero = new qxsq();
             hero = qxsqHero->initqxsq();
+            hero->type = QXSQ;
         }
         break;
         case YN:
         {
             ynyn* ynynHero = new ynyn();
             hero = ynynHero->initynyn();
+            hero->type = YN;
         }
         break;
         case WLSHZ:
         {
             wlshz* wlshzHero = new wlshz();
             hero = wlshzHero->initwlshz();
+            hero->type = WLSHZ;
         }
         break;
         case LTZZ:
         {
             ltzz* ltzzHero = new ltzz();
             hero = ltzzHero->initltzz();
+            hero->type = LTZZ;
         }
         break;
         case SNZX:
         {
             snzx* snzxHero = new snzx();
             hero = snzxHero->initsnzx();
+            hero->type = SNZX;
         }
         break;
     }
     hero->setScale(0.25f);
     hero->addChild(hero->createHealthBar(100));
-    /*auto lambda = [=](float dt) {
-        hero->createHealthBar((hero->getBlood() + 0.0) / (hero->getMaxBlood() + 0.0) * 100);
-    };
-    hero->schedule(lambda, 1 / hero->speed, "healthBar");*/
     return hero;
 }
 
@@ -229,6 +232,17 @@ void Dizzy(Hero* enemy)
 {
     //英雄变成灰色
     enemy->setColor(Color3B::GRAY);
+    // 创建精灵
+    Sprite* dizzy = Sprite::create("./hero/dizzy.png");
+    enemy->addChild(dizzy);
+    dizzy->setPosition(Vec2(500, 400));
+
+    // 设置消失动作
+    auto removeSprite = CallFunc::create([dizzy]() {
+        dizzy->removeFromParentAndCleanup(true);
+        });
+    Sequence* sequence = Sequence::create(DelayTime::create(2.f), removeSprite, nullptr);
+    dizzy->runAction(sequence);
     //禁用英雄的动作
     enemy->stopAllActions();
     auto lambda = [=](float dt) {
@@ -288,8 +302,6 @@ void immune(Hero* enemy)
 
 void bomb(Hero* enemy, int attack)
 {
-    //英雄变成黄色
-    enemy->setColor(Color3B::YELLOW);
     // 创建精灵
     Sprite* bomb = Sprite::create("./hero/bomb.png");
     enemy->addChild(bomb);

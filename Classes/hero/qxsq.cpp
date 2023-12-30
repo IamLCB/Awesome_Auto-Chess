@@ -89,7 +89,6 @@ void qxsq::qxsqAttack(Hero* enemy, const int attackNum,const int hurt,const int 
     }
     if (enemy->blood < 0)
         enemy->blood = 0;//µÐ·½ËÀÍö
-    //shootbullet("zidan.png", enemy->getPosition() - this->getPosition(), this);//??????????//Í¼Æ¬
 }
 
 

@@ -41,24 +41,21 @@ void mlps::Play()
     //while (!isDead() && !isWin(&myPlayerData, &opPlayerData))
     //{
     enemy = getEnemyByDistance(this, false, this->ofPlayer);//锁敌
-        auto lambda = [=](float dt) {
-            this->update(this, enemy, dt);
-            this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
-            isDead();
-        };
-        this->schedule(lambda, 1 / 60.f, "mlpsMove");
-        attackNum = 0;//进攻次数
+    auto lambda = [=](float dt) {
+        this->update(this, enemy, dt);
+        this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
+        isDead();
+    };
+    this->schedule(lambda, 1 / 60.f, "mlpsMove");
+    attackNum = 0;//进攻次数
         //while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK) //符合连续进攻条件
         //{
-            attackNum++;//进攻次数+1
-            auto lambdb = [=](float dt) {
-                mlps::mlpsAttack(enemy, attackNum);
-            };
-            this->schedule(lambdb, 1 / speed, "mlpsAttack");
-            auto lambdc = [=](float dt) {
-                enemy->setColor(Color3B::YELLOW);
-            };
-            this->schedule(lambdc, speed, "tmp");
+    attackNum++;//进攻次数+1
+    auto lambdb = [=](float dt) {
+        bomb(enemy, attack);//爆炸特效
+        mlps::mlpsAttack(enemy, attackNum);
+    };
+    this->schedule(lambdb, 1 / speed, "mlpsAttack");
         //}
     //}
 }
@@ -67,20 +64,18 @@ void mlps::mlpsAttack(Hero* enemy, const int attackNum)
 {
     int hurt = (int)(attack * enemy->attackRate);//伤害值
     blue += 30;
-    enemy->setColor(Color3B::RED);
     if (blue == blueMax)//如果连续攻击五次
     {
         enemy->blood -= level == 1 ? 95 : 135;//造成真实伤害
-        bomb(enemy, attack);//爆炸特效
         blue = 0;
     }
     else
     {
         enemy->protect > hurt ? enemy->blood -= 0 : enemy->blood -= hurt - enemy->protect;//物理伤害
         enemy->magicPro > magicAmount ? enemy->blood -= 0 : enemy->blood -= magicAmount - enemy->magicPro;//魔法攻击
-        if (enemy->blood < 0)
-            enemy->blood = 0;//敌方已死
     }
+    if (enemy->blood < 0)
+        enemy->blood = 0;//敌方已死
     attack += attack / 2;//每次攻击会增加50%的伤害
     
     //延迟四秒

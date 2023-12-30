@@ -100,6 +100,8 @@ void bqzs::bqzsnormalAttack(Hero* enemy, int hurt, double add)
 {
 	blue += 30;
 	enemy->protect > hurt ? enemy->blood -= 0 : enemy->blood -= hurt - enemy->protect;//护甲抵消部分伤害
+	if (enemy->blood < 0)
+		enemy->blood = 0;
 	enemy->setColor(Color3B::ORANGE);
 	swordwaive(this);
 }

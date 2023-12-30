@@ -82,7 +82,7 @@ void snzx::snzxAttack(Hero* enemy, const int attackNum,const int hurt, const int
     }
     else
     {
-        enemy->setColor(Color3B::YELLOW);
+        //enemy->setColor(Color3B::YELLOW);
         enemy->protect > hurt ? enemy->blood -= 0 : enemy->blood -= hurt - enemy->protect;//护甲抵消部分伤害
     }
     if (enemy->blood < 0)

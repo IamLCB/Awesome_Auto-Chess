@@ -9,6 +9,7 @@
 #include "hero/yn.h"
 #include "hero/qxsq.h"
 #include "hero/snzx.h"
+#include "game/gameData.h"
 #include <vector>
 using std::vector;
 
@@ -109,7 +110,7 @@ bool sceneTest::init()
     hero8->ofPlayer = AI;
 
     hero1->setPosition(100, 800);
-    hero2->setPosition(550, 0);
+    hero2->setPosition(550, 460);
     hero3->setPosition(550, 800);
     hero4->setPosition(550, 0);
     hero5->setPosition(1000, 800);

@@ -8,6 +8,7 @@ void playerData::updateMoneyAndExp()
 	this->playerMoney = this->playerMoney + std::min(this->playerMoney / 10 + 5, 12); // 玩家金钱增加
 	this->playerExp += 2; // 玩家经验增加
 	this->calExp();
+
 }
 
 void playerData::calExp()
@@ -30,7 +31,7 @@ void playerData::playerInit()
 {
 	this->battleArray = ccArrayNew(100);
 	this->waitingArray = ccArrayNew(100);
-	this->playerMaxHealth = 100;	
+	this->playerMaxHealth = 100;
 	this->playerHealth = this->playerMaxHealth;
 	this->playerLevel = 1;
 	this->playerExp = 0;

@@ -22,6 +22,7 @@ public:
 	//friend Battle<T>;
 	string name, skillname;
 	ProgressTimer* healthBar;
+	int type = 0;
 	int skillType = -1;
 	int blood = 500;
 	int maxBlood = 500;//血量
@@ -48,16 +49,40 @@ public:
 public:
 	string picturename;   //图片名字
 	int picturenum;       //图片张数
-	//virtual void Play();//用于各个子类的进行
+	virtual void Play() {}//用于各个子类的进行
 	Hero() = default;
 	bool isDead();//判断是否死亡
 	void update(Hero* my, Hero* enemy, float dt);
-	virtual void Play() {}
 	Hero* getEnemyByDistance(Hero* myHero, bool mode, bool isMyHero);
 	bool isInAttackRange(Hero* myHero, Hero* enemyHero);
 	bool isWin(playerData* myPlayer, playerData* opPlayer);
 	int getBlood() { return blood; }
 	int getMaxBlood() { return maxBlood; }
+
+	/*******************************12.30添加(可能有已经添加过的，如type)*************************/
+
+	float x = 0.f;
+	float y = 0.f;
+
+
+	float xTemp = x;
+	float yTemp = y;
+	//用于记录英雄进行移动操作前的坐标，初始设置为与原始坐标一致
+
+	void set(float x1, float y1) { x = x1, y = y1; }
+	void set(Point point) { x = point.x; y = point.y; }
+	// 对应两种重载形式
+	void setTempPosition() { xTemp = x; yTemp = y; }
+	Point getTempPosition() { return Point(xTemp, yTemp); }   //获得进入战斗时的位置
+
+	int getPrice() { return price; }
+	void setPlayer(int player) {
+		ofPlayer = player;
+	}
+
+	int getType() { return type; }//返回的是每种英雄的类型，playerData中的enum，默认每种英雄已经有了各自的type
+
+	/*******************************12.30添加*************************/
 
 	//装备？？？
 	/*---------------set类型----------------------*/
