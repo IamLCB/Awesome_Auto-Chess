@@ -63,48 +63,48 @@ void layerHero::update(float dt)
 
 void layerHero::heroUpgrade(playerData& pData)
 {
-	//for (int i = 0; i < 18; i++)
-	//{
-	//	Hero* temp[3] = { nullptr,nullptr,nullptr };
-	//	ccArray* tempArray[3] = {};
-	//	int s = 0; //三个待升级棋子
-	//	if (pData.heroNum[i] >= 3 && i < 18)
-	//	{
-	//		for (int j = 0; j < pData.waitingArray->num; j++)
-	//		{
-	//			if ((static_cast<Hero*>(pData.waitingArray->arr[j]))->getType() == i)
-	//			{
-	//				if (s < 3)
-	//				{
-	//					temp[s] = static_cast<Hero*> (pData.waitingArray->arr[j]);
-	//					tempArray[s] = pData.waitingArray;
-	//					s++;
-	//				}
-	//				if (s == 3)
-	//					break;
-	//			}
-	//		}
-	//		if (s < 3)
-	//		{
-	//			for (int j = 0; j < pData.battleArray->num; j++)
-	//			{
-	//				if ((static_cast<Hero*>(pData.battleArray->arr[j]))->getType() == i)
-	//				{
-	//					if (s < 3)
-	//					{
-	//						temp[s] = static_cast<Hero*> (pData.battleArray->arr[j]);
-	//						tempArray[s] = pData.battleArray;
-	//						s++;
-	//					}
-	//					if (s == 3)
-	//						break;
+	for (int i = 0; i < 18; i++)
+	{
+		Hero* temp[3] = { nullptr,nullptr,nullptr };
+		ccArray* tempArray[3] = {};
+		int s = 0; //三个待升级棋子
+		if (pData.heroNum[i] >= 3 && i < 18)
+		{
+			for (int j = 0; j < pData.waitingArray->num; j++)
+			{
+				if ((static_cast<Hero*>(pData.waitingArray->arr[j]))->getType() == i)
+				{
+					if (s < 3)
+					{
+						temp[s] = static_cast<Hero*> (pData.waitingArray->arr[j]);
+						tempArray[s] = pData.waitingArray;
+						s++;
+					}
+					if (s == 3)
+						break;
+				}
+			}
+			if (s < 3)
+			{
+				for (int j = 0; j < pData.battleArray->num; j++)
+				{
+					if ((static_cast<Hero*>(pData.battleArray->arr[j]))->getType() == i)
+					{
+						if (s < 3)
+						{
+							temp[s] = static_cast<Hero*> (pData.battleArray->arr[j]);
+							tempArray[s] = pData.battleArray;
+							s++;
+						}
+						if (s == 3)
+							break;
 
-	//				}
-	//			}
-	//		}
-	//		/**/
-	//	}
-	//}
+					}
+				}
+			}
+			/**/
+		}
+	}
 }
 
 Hero* layerHero::upgradeHeroInit(int type) {
