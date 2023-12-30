@@ -12,6 +12,8 @@ struct heroInfo
 	std::string picName = "";
 	int cost = 0;
 	bool buy = false;
+	heroInfo() : id(0), picName(""), cost(0), buy(false) {};
+	heroInfo(int id1, std::string picName1, int cost1, bool buy1) : id(id1), picName(picName1), cost(cost1), buy(buy1) {};
 };
 
 class gameData : public Scene

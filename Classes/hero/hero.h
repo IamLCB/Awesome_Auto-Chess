@@ -21,7 +21,9 @@ class Hero :public Sprite
 public:
 	//friend Battle<T>;
 	string name, skillname;
-	int type = 0;//英雄类型
+	ProgressTimer* healthBar;
+	int type = 0;
+	string advice;//前排中排后排建议
 	int skillType = -1;
 	int blood = 500;
 	int maxBlood = 500;//血量
@@ -48,21 +50,16 @@ public:
 public:
 	string picturename;   //图片名字
 	int picturenum;       //图片张数
-	//virtual void Play();//用于各个子类的进行
+	virtual void Play() {}//用于各个子类的进行
 	Hero() = default;
 	bool isDead();//判断是否死亡
 	void update(Hero* my, Hero* enemy, float dt);
-	virtual void Play() {}
-	/*
-	* struct myPoint
-	{
-		int x;
-		int y;
-	};
-	*/
 	Hero* getEnemyByDistance(Hero* myHero, bool mode, bool isMyHero);
 	bool isInAttackRange(Hero* myHero, Hero* enemyHero);
 	bool isWin(playerData* myPlayer, playerData* opPlayer);
+	int getBlood() { return blood; }
+	int getMaxBlood() { return maxBlood; }
+	void recover();
 
 	/*******************************12.30添加(可能有已经添加过的，如type)*************************/
 
@@ -83,43 +80,12 @@ public:
 	int getPrice() { return price; }
 	void setPlayer(int player) {
 		ofPlayer = player;
-		/*
-		if (player == 0)
-		{
-
-			Blood->setSprite(Sprite::create("OurBlood.png"));
-		}
-		*/
 	}
 
 	int getType() { return type; }//返回的是每种英雄的类型，playerData中的enum，默认每种英雄已经有了各自的type
 
 	/*******************************12.30添加*************************/
-
-
-	//装备？？？
-	/*---------------set类型----------------------*/
-
-	/*void setPlayer(int player) { ofplayer = player; }
-	void setSpeed(double a) { speed = a; }
-	void setBlood(int a) { blood = a; }
-	void set(Point point)
-	{
-		x = point.x;
-		y = point.y;
-	};
-	void setTempPosition() { xtemp = x; ytemp = y; }*/
-
-	//////////////可视化部分，不会
-	/*------------------所需子类----------------*/
-	/*Sprite* bloodFrame = Sprite::create("BloodFrame.jpg");
-	ProgressTimer* Blood = ProgressTimer::create(Sprite::create("Blood.jpg"));
-	ProgressTimer* magic = ProgressTimer::create(Sprite::create("magic.png"));
-	Sprite* magicFrame = Sprite::create("BloodFrame.jpg");
-	Label* Star = Label::createWithTTF("", "fonts/arial.ttf", 24);
-
-	void update(float dt);         //子类update函数
-	void bloodUpdate(float dt);*/
+	virtual void upLevel(Hero* hero) {};
 
 	/*用于装备修改属性*/
 	void changeAttackDistance(int value) { attackDistance += value; }
@@ -128,7 +94,7 @@ public:
 	void changeAttack(int value) { attack += value; }
 	//void equimentchange();
 	void heroAnimation(string picturename, const int picturenum, Sprite* sprite, const double speed, const int loop);
-	Node* createHealthBar(const string& backgroundTexture, const string& foregroundTexture, double initialPercentage, const Vec2& position);
+	Node* Hero::createHealthBar(double percentage);
 
 };
 
@@ -141,30 +107,6 @@ void sevInjure(Hero* enemy);
 void relProtect(Hero* enemy);
 void immune(Hero* enemy);
 
-/*template <typename T>
-class Battle
-{
-	T* my;
-public:
-	Battle(string n);
-	string getMyName() { return my.name; };
-	string getSkillName() { return my.skillname; };
-	int getType() { return my.skillType; };
-	int getBlood() { return my.blood; };
-	int getMaxBlood() { return my.maxBlood; };
-	int getLevel() { return my.level; };
-	int getAttack() { return my.attack; };
-	double getSpeed() { return my.speed };
-	int getMagicPro() { return my.magicpro };
-	int getProtect() { return my.protect };
-	myPoint getCoordinate();
-	int getPrice() { return my.price; }
-	int getSoldMoney() { return my.soldMoney; }
-	int getPlayer() { return my.ofPlayer; }           //返回所属玩家
-	float getSpeed() { return my.speed; }
-	int getAttackDistance() { return attackDistance; };        //获得攻击距离
-	const cocos2d::Size getContentSize() { return Size(width, height); }   //获得图片长宽
-};*/
 
 
 

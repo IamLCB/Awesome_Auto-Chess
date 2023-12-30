@@ -20,7 +20,7 @@ bool mapLayer::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    auto gameBackGround = Sprite::create("./game/gameBackground.png");
+    auto gameBackGround = Sprite::create("./gameScene/gameBackground.png");
 
     gameBackGround->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
     gameBackGround->setScale(visibleSize.width / gameBackGround->getContentSize().width,
@@ -49,3 +49,7 @@ Pair pairReturn(Point point)
     return Pair(-1, -1);
 }
 
+void mapLayer::update(float dt)
+{
+
+}

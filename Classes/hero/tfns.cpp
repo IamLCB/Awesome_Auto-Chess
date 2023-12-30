@@ -3,7 +3,7 @@
 
 tfns::tfns()
 {
-    name = "天罚弩神", skillname = "圣银弩箭";
+    name = "天罚弩神", skillname = "圣银弩箭",advice="后排";
     skillType = PHYSICS;
     blood = 550;//当前血量
     maxBlood = 550;//生命值
@@ -17,39 +17,38 @@ tfns::tfns()
     speed = 0.7;//攻速
 }
 
-void tfns::upLeveltfns(Hero* tfns1, Hero* tfns2, Hero* tfns3)
+void tfns::upLevel(Hero* tfns1)
 {
     tfns1->blood = 990;//当前血量
     tfns1->maxBlood = 990;//生命值
     tfns1->level = 2; //等级
     tfns1->attack = 72; //攻击力
-    tfns2->removeFromParent();
-    tfns3->removeFromParent();
+
 }
 
 void tfns::Play()
 {
-    static Hero* enemy = getEnemyByDistance(this, false, this->ofPlayer);
+    static Hero* enemy;
     static int attackNum = 0;
         auto lambda = [=](float dt) {
-            this->update(this, enemy, dt);
+            enemy = getEnemyByDistance(this, false, this->ofPlayer);
+            if (enemy != nullptr)
+                this->update(this, enemy, dt);
             this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
             isDead();
         };
         this->schedule(lambda, 1 / 60.f, "tfnsMove");
-        //while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续攻击条件则持续攻击 
-        //{
-        attackNum++;//对该敌人的攻击次数+1
         auto lambdb = [=](float dt) {
-            tfns::tfnsAttack(enemy, attackNum);
+            if (enemy != nullptr && state == ATTACK) {
+                tfns::tfnsAttack(enemy, attackNum);
+                attackNum++;//对该敌人的攻击次数+1
+            }
         };
         this->schedule(lambdb, 1 / speed, "tfnsAttack");
         auto lambdc = [=](float dt) {
             enemy->setColor(Color3B::GREEN);
         };
         this->schedule(lambdc, speed, "tmp");
-    //}
-
 }
 
 Hero* tfns::inittfns()

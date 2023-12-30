@@ -2,7 +2,7 @@
 
 wlshz::wlshz()
 {
-    name = "未来守护者", skillname = "闪电领域";
+    name = "未来守护者", skillname = "闪电领域", advice = "前排";
     skillType = TANK;
     blood = 700;//当前血量
     maxBlood = 700;//生命值
@@ -17,37 +17,31 @@ wlshz::wlshz()
     speed = 0.65;//攻速
 }
 
-void wlshz::upLevelwlshz(Hero* wlshz1, Hero* wlshz2, Hero* wlshz3)
+void wlshz::upLevel(Hero* wlshz1)
 {
     wlshz1->blood = 1260;//当前血量
     wlshz1->maxBlood = 1260;//生命值
     wlshz1->level = 2; //等级
     wlshz1->attack = 108; //攻击力
-    wlshz2->removeFromParent();
-    wlshz3->removeFromParent();
 }
 
 void wlshz::Play()
 {
-    static Hero* enemy = getEnemyByDistance(this, false, this->ofPlayer);
+    static Hero* enemy;
     static int attackNum = 0;
     auto lambda = [=](float dt) {
-        this->update(this, enemy, dt);
+        enemy = getEnemyByDistance(this, false, this->ofPlayer);
+        if (enemy != nullptr)
+            this->update(this, enemy, dt);
         this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
         isDead();
     };
     this->schedule(lambda, 1 / 60.f, "wlshzMove");
-    //while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续攻击条件则持续攻击 
-    //{
     auto lambdb = [=](float dt) {
-        wlshz::wlshzAttack(enemy);
+        if (enemy != nullptr && state == ATTACK)
+            wlshz::wlshzAttack(enemy);
     };
     this->schedule(lambdb, 1 / speed, "wlshzAttack");
-    auto lambdc = [=](float dt) {
-        enemy->setColor(Color3B::RED);
-    };
-    this->schedule(lambdc, speed, "tmp");
-    //}
 }
 
 Hero* wlshz::initwlshz()
@@ -63,7 +57,6 @@ Hero* wlshz::initwlshz()
 void wlshz::wlshzAttack(Hero* enemy)
 {
     int hurt = (int)((level == 1 ? 2.00 : 3.50) * attack * enemy->attackRate);//伤害值
-    enemy->setColor(Color3B::ORANGE);
     blue += 30;
     Dizzy(enemy);
     if (blue == blueMax)//如果连续攻击五次

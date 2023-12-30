@@ -45,6 +45,8 @@ Hero* createHero(int name)
             ynyn* ynynHero = new ynyn();
             hero = ynynHero->initynyn();
             hero->type = YN;
+        }
+        break;
         case WLSHZ:
         {
             wlshz* wlshzHero = new wlshz();
@@ -66,14 +68,9 @@ Hero* createHero(int name)
             hero->type = SNZX;
         }
         break;
-        }
     }
     hero->setScale(0.25f);
     hero->addChild(hero->createHealthBar(100));
-    /*auto lambda = [=](float dt) {
-        hero->createHealthBar((hero->getBlood() + 0.0) / (hero->getMaxBlood() + 0.0) * 100);
-    };
-    hero->schedule(lambda, 1 / hero->speed, "healthBar");*/
     return hero;
 }
 
@@ -114,9 +111,7 @@ Node* Hero::createHealthBar(double percentage)
 bool Hero::isDead()
 {
     if (this->blood <= 0) {
-        haveChess[pairReturn(getPosition()).x]w[pairReturn(getPosition()).y] = 0;
-        setPosition(10000, 10000);
-        set(10000, 10000);
+        this->removeFromParentAndCleanup(true);
         return true;
     }
     return false;
@@ -240,7 +235,6 @@ void Dizzy(Hero* enemy)
     enemy->setColor(Color3B::GRAY);
     // 创建精灵
     Sprite* dizzy = Sprite::create("./hero/dizzy.png");
-    dizzy->setColor(Color3B::YELLOW);
     enemy->addChild(dizzy);
     dizzy->setPosition(Vec2(500, 400));
 
@@ -309,8 +303,6 @@ void immune(Hero* enemy)
 
 void bomb(Hero* enemy, int attack)
 {
-    //英雄变成黄色
-    enemy->setColor(Color3B::YELLOW);
     // 创建精灵
     Sprite* bomb = Sprite::create("./hero/bomb.png");
     enemy->addChild(bomb);
@@ -343,4 +335,11 @@ void lightning(Hero* enemy, const int hurt)
     light->runAction(sequence);
     enemy->setColor(Color3B::GRAY);
     enemy->blood -= hurt * 0.9;//造成额外90%的伤害
+}
+void Hero::recover()
+{
+    blood = maxBlood;
+    blue = 0;
+    healthBar->setPercentage(100.f);
+
 }

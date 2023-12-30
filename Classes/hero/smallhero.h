@@ -1,6 +1,5 @@
-#ifndef _SMALLHERO_H_
-#define _SMALLHERO_H_
-#include"hero/hero.h"
+#pragma once
+#include"hero.h"
 class smallHero :public Hero {
 public:
 	smallHero() {};
@@ -8,4 +7,3 @@ public:
 	smallHero* initSmall();
 	void moveByMouse_R(Hero* myHero);
 };
-#endif

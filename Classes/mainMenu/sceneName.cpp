@@ -105,7 +105,7 @@ bool sceneName::init()
 	Sprite* aiSelected = Sprite::create("./mainMenu/modeAiSelected.png");
 
 	MenuItemSprite* aiMode = MenuItemSprite::create(aiNormal, aiSelected,
-		CC_CALLBACK_1(sceneName::returnToMenu, this));
+		CC_CALLBACK_1(sceneName::modeAI, this));
 
 	if (aiMode == nullptr ||
 		aiMode->getContentSize().width <= 0 ||
