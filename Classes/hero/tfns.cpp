@@ -29,27 +29,27 @@ void tfns::upLeveltfns(Hero* tfns1, Hero* tfns2, Hero* tfns3)
 
 void tfns::Play()
 {
-    static Hero* enemy = getEnemyByDistance(this, false, this->ofPlayer);
+    static Hero* enemy;
     static int attackNum = 0;
         auto lambda = [=](float dt) {
-            this->update(this, enemy, dt);
+            enemy = getEnemyByDistance(this, false, this->ofPlayer);
+            if (enemy != nullptr)
+                this->update(this, enemy, dt);
             this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
             isDead();
         };
         this->schedule(lambda, 1 / 60.f, "tfnsMove");
-        //while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续攻击条件则持续攻击 
-        //{
-        attackNum++;//对该敌人的攻击次数+1
         auto lambdb = [=](float dt) {
-            tfns::tfnsAttack(enemy, attackNum);
+            if (enemy != nullptr && state == ATTACK) {
+                tfns::tfnsAttack(enemy, attackNum);
+                attackNum++;//对该敌人的攻击次数+1
+            }
         };
         this->schedule(lambdb, 1 / speed, "tfnsAttack");
         auto lambdc = [=](float dt) {
             enemy->setColor(Color3B::GREEN);
         };
         this->schedule(lambdc, speed, "tmp");
-    //}
-
 }
 
 Hero* tfns::inittfns()

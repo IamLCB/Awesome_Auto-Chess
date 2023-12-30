@@ -29,25 +29,21 @@ void wlshz::upLevelwlshz(Hero* wlshz1, Hero* wlshz2, Hero* wlshz3)
 
 void wlshz::Play()
 {
-    static Hero* enemy = getEnemyByDistance(this, false, this->ofPlayer);
+    static Hero* enemy;
     static int attackNum = 0;
     auto lambda = [=](float dt) {
-        this->update(this, enemy, dt);
+        enemy = getEnemyByDistance(this, false, this->ofPlayer);
+        if (enemy != nullptr)
+            this->update(this, enemy, dt);
         this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
         isDead();
     };
     this->schedule(lambda, 1 / 60.f, "wlshzMove");
-    //while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续攻击条件则持续攻击 
-    //{
     auto lambdb = [=](float dt) {
-        wlshz::wlshzAttack(enemy);
+        if (enemy != nullptr && state == ATTACK)
+            wlshz::wlshzAttack(enemy);
     };
     this->schedule(lambdb, 1 / speed, "wlshzAttack");
-    auto lambdc = [=](float dt) {
-        enemy->setColor(Color3B::RED);
-    };
-    this->schedule(lambdc, speed, "tmp");
-    //}
 }
 
 Hero* wlshz::initwlshz()
@@ -63,7 +59,6 @@ Hero* wlshz::initwlshz()
 void wlshz::wlshzAttack(Hero* enemy)
 {
     int hurt = (int)((level == 1 ? 2.00 : 3.50) * attack * enemy->attackRate);//伤害值
-    enemy->setColor(Color3B::ORANGE);
     blue += 30;
     Dizzy(enemy);
     if (blue == blueMax)//如果连续攻击五次

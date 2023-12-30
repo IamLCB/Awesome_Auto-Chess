@@ -109,7 +109,7 @@ Node* Hero::createHealthBar(double percentage)
 
 bool Hero::isDead()
 {
-    if (this->blood == 0) {
+    if (this->blood <= 0) {
         this->removeFromParentAndCleanup(true);
         return true;
     }

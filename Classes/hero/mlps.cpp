@@ -36,28 +36,28 @@ void mlps::upLevelmlps(Hero* mlps1, Hero* mlps2, Hero* mlps3)
 
 void mlps::Play()
 {
-    Hero* enemy;
-    int attackNum = 0;
-    //while (!isDead() && !isWin(&myPlayerData, &opPlayerData))
-    //{
-    enemy = getEnemyByDistance(this, false, this->ofPlayer);//锁敌
+    static Hero* enemy;
+    static int attackNum = 0;
     auto lambda = [=](float dt) {
-        this->update(this, enemy, dt);
+        enemy = getEnemyByDistance(this, false, this->ofPlayer);//锁敌
+        if (enemy != nullptr)
+            this->update(this, enemy, dt);
         this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
         isDead();
     };
     this->schedule(lambda, 1 / 60.f, "mlpsMove");
     attackNum = 0;//进攻次数
-        //while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK) //符合连续进攻条件
-        //{
-    attackNum++;//进攻次数+1
     auto lambdb = [=](float dt) {
-        bomb(enemy, attack);//爆炸特效
-        mlps::mlpsAttack(enemy, attackNum);
+        if (enemy != nullptr) {
+            bomb(enemy, attack);//爆炸特效
+            if (state == ATTACK) 
+            {
+                attackNum++;//进攻次数+1
+                mlps::mlpsAttack(enemy, attackNum);
+            }
+        }
     };
-    this->schedule(lambdb, 1 / speed, "mlpsAttack");
-        //}
-    //}
+    this->schedule(lambdb, 1 / speed, "mlpsAttack");    
 }
 
 void mlps::mlpsAttack(Hero* enemy, const int attackNum)

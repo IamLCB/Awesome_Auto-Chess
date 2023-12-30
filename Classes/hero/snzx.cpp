@@ -30,26 +30,29 @@ void snzx::Play()
 {
     static Hero* enemy;
     static int attackNum = 0;
-    //while (!isDead() && !isWin(&myPlayerData, &opPlayerData))
     {
         auto lambda = [=](float dt) {
-            this->update(this, enemy, dt);
+            enemy = getEnemyByDistance(this, false, this->ofPlayer);//锁敌
+            if (enemy != nullptr)
+                this->update(this, enemy, dt);
             this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
             isDead();
         };
         this->schedule(lambda, 1 / 60.f, "snzxMove");
-        enemy = getEnemyByDistance(this, false, this->ofPlayer);//锁敌
         attackNum = 0;//攻击次数
-        static int hurt = (int)(attack * enemy->attackRate);//伤害值
-        static int add = (level == 1 ? 50 : 100);
-       // while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续攻击条件则持续攻击 
-        {
-            attackNum++;//对该敌人的攻击次数+1
-            auto lambda = [=](float dt) {
-                snzx::snzxAttack(enemy, attackNum,hurt,add);
-            };
-            this->schedule(lambda, 1 / speed, "snzxAttack");
+        if (enemy != nullptr) {
+            static int hurt = (int)(attack * enemy->attackRate);//伤害值
+            static int add = (level == 1 ? 50 : 100);
+            {
+                if (state == ATTACK) {
+                    attackNum++;//对该敌人的攻击次数+1
+                    auto lambda = [=](float dt) {
+                        snzx::snzxAttack(enemy, attackNum, hurt, add);
+                    };
+                    this->schedule(lambda, 1 / speed, "snzxAttack");
+                }
 
+            }
         }
     }
     //this->removeFromParent();
@@ -73,8 +76,9 @@ void snzx::snzxAttack(Hero* enemy, const int attackNum,const int hurt, const int
     if (blue == blueMax)//如果连续对同一目标攻击5
     {
         this->blood += ((level == 1) ? 250 : 450);
-        //createHealthBar(const string& backgroundTexture, const std::string& foregroundTexture, double initialPercentage, const Vec2& position);
         Hero* enemynow = getEnemyByDistance(this,  true,this->ofPlayer);//锁敌最远
+        if (enemynow == nullptr)
+            return;
         moveToFar(enemynow);
         Dizzy(enemynow);
         enemynow->blood -= (hurt + extra + add - enemynow->protect);
@@ -82,7 +86,6 @@ void snzx::snzxAttack(Hero* enemy, const int attackNum,const int hurt, const int
     }
     else
     {
-        //enemy->setColor(Color3B::YELLOW);
         enemy->protect > hurt ? enemy->blood -= 0 : enemy->blood -= hurt - enemy->protect;//护甲抵消部分伤害
     }
     if (enemy->blood < 0)

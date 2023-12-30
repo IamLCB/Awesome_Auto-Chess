@@ -37,34 +37,30 @@ void upLevelltzz(Hero* ltzz1, Hero* ltzz2, Hero* ltzz3)
 
 void ltzz::Play()
 {
-    Hero* enemy, tmpEnemy;
-    //while (!isDead() && !isWin(&myPlayerData, &opPlayerData))
-    //{
-    enemy = getEnemyByDistance(this, false, this->ofPlayer);//锁敌
-        auto lambda = [=](float dt) {
+    static Hero* enemy, *tmpEnemy;
+    auto lambda = [=](float dt) {
+        enemy = getEnemyByDistance(this, false, this->ofPlayer);//锁敌
+        if (enemy != nullptr)
             this->update(this, enemy, dt);
-            this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
-            isDead();
-        };
-        this->schedule(lambda, 1 / 60.f, "ltzzMove");
-        //while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续进攻条件
-        //{
-        auto lambdc = [=](float dt) {
-            if (enemy != nullptr)
-                ltzz::ltzzAttack(enemy);
-        };
-        this->schedule(lambdc, 1 / speed, "ltzzAttack");
+        this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
+        isDead();
+    };
+    this->schedule(lambda, 1 / 60.f, "ltzzMove");
+    auto lambdc = [=](float dt) {
+        if (enemy != nullptr && state == ATTACK)
+            ltzz::ltzzAttack(enemy);
+    };
+    this->schedule(lambdc, 1 / speed, "ltzzAttack");
             //??????????//是否可以同时进行？
-        auto lambdb = [=](float dt) {
-            for (int i = 0; i < 4; i++)//最多附加攻击4名敌人
-            {
-                Hero* tmpenemy = getEnemyByDistance(this, true, this->ofPlayer);//没有距离限制
-                ltzz::ltzzAttack(tmpenemy);
-            }
-        };
-        this->schedule(lambdb, 20, "ltzzlightAttack");
-        //}
-    //}
+    auto lambdb = [=](float dt) {
+        for (int i = 0; i < 4; i++)//最多附加攻击4名敌人
+        {
+            tmpEnemy = getEnemyByDistance(this, true, this->ofPlayer);//没有距离限制
+            if (tmpEnemy != nullptr)
+                ltzz::ltzzAttack(tmpEnemy);
+        }
+    };
+    this->schedule(lambdb, 20, "ltzzlightAttack");
 }
 
 void ltzz::ltzzAttack(Hero* enemy)
