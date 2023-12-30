@@ -14,7 +14,6 @@ tfns::tfns()
     state = ATTACK;//技能状态
     attackDistance = 500;//攻击距离
     price = 1;//花费
-    x = 0, y = 0;//在棋盘上的坐标
     speed = 0.7;//攻速
 }
 
@@ -32,21 +31,23 @@ void tfns::Play()
 {
     static Hero* enemy = getEnemyByDistance(this, false, this->ofPlayer);
     static int attackNum = 0;
-        auto lambda = [=](float dt) {
-            this->update(this, enemy, dt);
-        };
-        this->schedule(lambda, 1 / 60.f, "tfnsMove");
-        //while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续攻击条件则持续攻击 
-        //{
-        attackNum++;//对该敌人的攻击次数+1
-        auto lambdb = [=](float dt) {
-            tfns::tfnsAttack(enemy, attackNum);
-        };
-        this->schedule(lambdb, 1 / speed, "tfnsAttack");
-        auto lambdc = [=](float dt) {
-            enemy->setColor(Color3B::GREEN);
-        };
-        this->schedule(lambdc, speed, "tmp");
+    auto lambda = [=](float dt) {
+        this->update(this, enemy, dt);
+    };
+    this->schedule(lambda, 1 / 60.f, "tfnsMove");
+    //while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续攻击条件则持续攻击 
+    //{
+    attackNum++;//对该敌人的攻击次数+1
+    auto lambdb = [=](float dt) {
+        tfns::tfnsAttack(enemy, attackNum);
+        CCLOG("blood=%f", ((double)blood / (double)maxBlood) * 100);
+        this->createHealthBar(((double)blood / (double)maxBlood) * 100);
+    };
+    this->schedule(lambdb, 1 / speed, "tfnsAttack");
+    auto lambdc = [=](float dt) {
+        enemy->setColor(Color3B::GREEN);
+    };
+    this->schedule(lambdc, speed, "tmp");
     //}
 
 }

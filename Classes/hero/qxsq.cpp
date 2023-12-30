@@ -46,6 +46,9 @@ void qxsq::Play()
             attackNum++;//对该敌人的攻击次数+1
             auto lambda = [=](float dt) {
                 qxsq::qxsqAttack(enemy, attackNum,hurt ,add);
+                if (isDead()) {
+                    this->removeFromParent();
+                }
             };
             this->schedule(lambda, 1 / speed,"qxsqAttack");
             auto lambdc = [=](float dt) {
@@ -54,6 +57,7 @@ void qxsq::Play()
             this->schedule(lambdc,  speed, "tmp22");
         }
     }
+
     //this->removeFromParent();
 }
 

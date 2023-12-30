@@ -12,6 +12,6 @@ public:
 	void bqzs::upLevelbqzs(Hero* bqzs1, Hero* bqzs2, Hero* bqzs3);
 	CREATE_FUNC(bqzs);
 	void bqzsnormalAttack(Hero* enemy,int hurt,double add);
-	/*void swordwaive(string picturename,Hero* my);
-	void swordswing(string picturename, Hero* my);*/
+	void swordwaive(Hero* my);
+	void swordswing(Hero* my);
 };

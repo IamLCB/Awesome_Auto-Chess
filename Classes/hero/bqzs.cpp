@@ -74,7 +74,7 @@ void bqzs::Play()
 					attackRate = 0.25;
 					auto lambda = [=](float dt) {
 						enemy->blood -= (int)(hurt - (enemy->protect) + add);
-						//bqzs::swordswing("",this);//??????????//picture
+						bqzs::swordswing(this);
 					};
 					this->schedule(lambda, 1 / speed * 2,"bqzsSkill");//快速的释放技能
 					//释放技能时候敌人变成橙色
@@ -101,36 +101,43 @@ void bqzs::bqzsnormalAttack(Hero* enemy,int hurt, double add)
 	blue += 30;
 	enemy->protect > hurt ? enemy->blood -= 0 : enemy->blood -= hurt- enemy->protect;//护甲抵消部分伤害
 	enemy->setColor(Color3B::ORANGE);
-	//swordwaive("sword.png",this);//??????????//picture
+	swordwaive(this);
 }
 
-//void bqzs::swordwaive(string picturename, Hero* my)
-//{
-//	Sprite* sword = Sprite::create(picturename);
-//	this->addChild(sword);
-//	sword->setPosition(Vec2(0, 0)); // 设置刀的初始位置//??????????//更改距离？
-//
-//	// 挥舞刀的动作序列
-//	auto waive = Sequence::create(
-//		RotateTo::create(0.05f, -45),   // 刀向左旋转
-//		RotateTo::create(0.1f, 0),      // 刀恢复原始角度
-//		nullptr
-//	);
-//	// 执行动作序列
-//	sword->runAction(waive);
-//}
-//
-//void bqzs::swordswing(string picturename, Hero* my)
-//{
-//	Sprite* sword = Sprite::create(picturename);
-//	this->addChild(sword);
-//	sword->setPosition(Vec2(0, 0)); // 设置刀的初始位置//??????????//更改距离？
-//
-//	// 旋转刀的动作序列
-//	auto swing = Sequence::create(
-//		RotateTo::create(0.1f, 360),   // 刀旋转//??????????//更改time？
-//		nullptr
-//	);
-//	// 执行动作序列
-//	sword->runAction(swing);
-//}
+void bqzs::swordwaive( Hero* my)
+{
+	Sprite* sword = Sprite::create("./hero/sword.png");
+	my->addChild(sword, 3);
+	sword->setScale(2.0f);
+	sword->setPosition(Vec2(600, 300));
+	// 挥舞刀的动作序列
+	auto waive = Sequence::create(
+		RotateTo::create(1.0f, 90),   // 刀向左旋转
+		RotateTo::create(1.0f, 0),      // 刀恢复原始角度
+		CallFunc::create([sword]() {
+			sword->removeFromParent();
+			}),
+		nullptr
+	);
+	// 执行动作序列
+	sword->runAction(waive);
+}
+
+void bqzs::swordswing( Hero* my)
+{
+	Sprite* sword = Sprite::create("./hero/sword.png");
+	my->addChild(sword, 3);
+	sword->setScale(2.0f);
+	sword->setPosition(Vec2(600, 300));
+
+	// 旋转刀的动作序列
+	auto swing = Sequence::create(
+		RotateTo::create(1.0f, 360),
+		CallFunc::create([sword]() {
+			sword->removeFromParent();
+			}),
+		nullptr
+	);
+	// 执行动作序列
+	sword->runAction(swing);
+}

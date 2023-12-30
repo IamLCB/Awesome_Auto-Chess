@@ -2,3 +2,5 @@ OriginalResources/
 proj.win32/
 cocos2d/
 /btns.psd
+Classes/HelloWorldScene.cpp
+Classes/HelloWorldScene.h
