@@ -34,6 +34,7 @@ void wlshz::Play()
     auto lambda = [=](float dt) {
         this->update(this, enemy, dt);
         this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
+        isDead();
     };
     this->schedule(lambda, 1 / 60.f, "wlshzMove");
     //while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续攻击条件则持续攻击 

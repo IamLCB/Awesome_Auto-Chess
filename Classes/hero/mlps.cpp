@@ -44,6 +44,7 @@ void mlps::Play()
         auto lambda = [=](float dt) {
             this->update(this, enemy, dt);
             this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
+            isDead();
         };
         this->schedule(lambda, 1 / 60.f, "mlpsMove");
         attackNum = 0;//½ø¹¥´ÎÊý

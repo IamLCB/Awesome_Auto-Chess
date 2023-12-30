@@ -106,8 +106,10 @@ Node* Hero::createHealthBar(double percentage)
 
 bool Hero::isDead()
 {
-    if (this->blood == 0)
+    if (this->blood == 0) {
+        this->removeFromParentAndCleanup(true);
         return true;
+    }
     return false;
 }
 
@@ -288,6 +290,17 @@ void bomb(Hero* enemy, int attack)
 {
     //英雄变成黄色
     enemy->setColor(Color3B::YELLOW);
+    // 创建精灵
+    Sprite* bomb = Sprite::create("./hero/bomb.png");
+    enemy->addChild(bomb);
+    bomb->setPosition(Vec2(500, 400));
+
+    // 设置消失动作
+    auto removeSprite = CallFunc::create([bomb]() {
+        bomb->removeFromParentAndCleanup(true);
+        });
+    Sequence* sequence = Sequence::create(DelayTime::create(1.f), removeSprite, nullptr);
+    bomb->runAction(sequence);
     auto lambda = [=](float dt) {
         enemy->blood -= (int)(attack * enemy->attackRate * 1.5);
     };
@@ -296,7 +309,17 @@ void bomb(Hero* enemy, int attack)
 
 void lightning(Hero* enemy, const int hurt)
 {
-    //英雄变成蓝色
+    // 创建精灵
+    Sprite* light = Sprite::create("./hero/lightning.png");
+    enemy->addChild(light);
+    light->setPosition(Vec2(500, 400));
+
+    // 设置消失动作
+    auto removeSprite = CallFunc::create([light]() {
+        light->removeFromParentAndCleanup(true);
+        });
+    Sequence* sequence = Sequence::create(DelayTime::create(1.f), removeSprite, nullptr);
+    light->runAction(sequence);
     enemy->setColor(Color3B::GRAY);
     enemy->blood -= hurt * 0.9;//造成额外90%的伤害
 }

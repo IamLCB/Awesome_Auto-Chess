@@ -34,6 +34,7 @@ void qxsq::Play()
     auto lambdb = [=](float dt) {
         this->update(this, enemy, dt);
         this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
+        isDead();
     };
     this->schedule(lambdb, 1 / 60.f, "qxsqMove");
     //while (!isDead() && !isWin(&myPlayerData, &opPlayerData))

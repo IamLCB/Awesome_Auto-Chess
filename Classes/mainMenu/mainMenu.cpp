@@ -1,10 +1,11 @@
 #include "mainMenu.h"
+#include "HelloWorldScene.h"
 #include "globalResSetting.h"
 #include "sceneAbout.h"
 #include "sceneSetting.h"
 #include "game/sceneGame.h"
 #include "sceneName.h"
-#include "hero.h"
+//#include "hero.h"
 
 USING_NS_CC;
 
@@ -155,6 +156,31 @@ bool mainMenu::init()
     menuAbout->setPosition(Vec2::ZERO);
     this->addChild(menuAbout, 1);
 
+    /*----------------MenuItemSprite test--------------------*/
+    Sprite* about1Normal = Sprite::create(BG_BTNS, Rect(singalWidth * 2, 0, singalWidth, singalHeight));
+    Sprite* about1Selected = Sprite::create(BG_BTNS, Rect(singalWidth * 2, singalHeight, singalWidth, singalHeight));
+    MenuItemSprite* test = MenuItemSprite::create(about1Normal, about1Selected,
+        CC_CALLBACK_1(mainMenu::onTest, this));
+
+    //“关于”按钮tag为21
+    test->setTag(26);
+
+    if (test == nullptr ||
+        test->getContentSize().width <= 0 ||
+        test->getContentSize().height <= 0)
+    {
+        problemLoading("'aboutNormal.png' and 'aboutSelected.png'");
+    }
+    else
+    {
+        test->setPosition(LEFT_TOP_WIN);
+        test->setScale(BG_SCALE);
+    }
+
+    auto menutest = Menu::create(test, nullptr);
+    menutest->setPosition(Vec2::ZERO);
+    this->addChild(menutest, 1);
+
     return true;
 }
 
@@ -180,3 +206,9 @@ void mainMenu::onAbout(Ref* pSender)
 {
     _director->pushScene(TransitionFade::create(1.0f, sceneAbout::createScene()));
 }
+
+void mainMenu::onTest(Ref* pSender)
+{
+    _director->pushScene(TransitionFade::create(1.0f, sceneTest::createScene()));
+}
+
