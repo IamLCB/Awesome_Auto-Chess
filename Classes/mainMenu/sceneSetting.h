@@ -14,7 +14,6 @@ public:
 	void soundOn(cocos2d::Ref* pSender);
 	void soundOff(cocos2d::Ref* pSender);
 
-
 	CREATE_FUNC(sceneSettings);
 
 };
