@@ -2,7 +2,7 @@
 //全能坦克
 snzx::snzx()
 {
-    name = "狻猊之心", skillname = "呐啊！";
+    name = "狻猊之心", skillname = "呐啊！", advice = "中排";
     skillType = PHYSICS;
     blood = 800;//当前血量
     maxBlood = 800;//生命值
@@ -16,14 +16,13 @@ snzx::snzx()
     speed = 0.7;//攻速
 }
 
-void snzx::upLevelsnzx(Hero* snzx1, Hero* snzx2, Hero* snzx3)
+void snzx::upLevel(Hero* snzx1)
 {
     snzx1->blood = 1440;//当前血量
     snzx1->maxBlood = 1440;//生命值
     snzx1->level = 2; //等级
     snzx1->attack = 90; //攻击力
-    snzx2->removeFromParent();
-    snzx3->removeFromParent();
+
 }
 
 void snzx::Play()

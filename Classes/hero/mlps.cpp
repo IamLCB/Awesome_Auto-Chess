@@ -2,7 +2,7 @@
 
 mlps::mlps()
 {
-    name = "麦林炮手", skillname = "爆炸火花";
+    name = "麦林炮手", skillname = "爆炸火花", advice = "后排";
     skillType = MAGIC;
     blood = 500;//当前血量
     maxBlood = 500;//生命值
@@ -24,14 +24,13 @@ Hero* mlps::initmlps()
     return mlps;
 }
 
-void mlps::upLevelmlps(Hero* mlps1, Hero* mlps2, Hero* mlps3)
+void mlps::upLevel(Hero* mlps1)
 {
     mlps1->blood = 900;//当前血量
     mlps1->maxBlood = 900;//生命值
     mlps1->level = 2; //等级
     mlps1->attack = 90; //攻击力
-    mlps2->removeFromParent();
-    mlps3->removeFromParent();
+
 }
 
 void mlps::Play()

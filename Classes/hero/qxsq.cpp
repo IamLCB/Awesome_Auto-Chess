@@ -3,7 +3,7 @@
 
 qxsq::qxsq()
 {
-    name = "ÇıĞ°Ê¥Ç¹", skillname = "Àä¿á×·»÷";
+    name = "ÇıĞ°Ê¥Ç¹", skillname = "Àä¿á×·»÷", advice = "ÖĞÅÅ";
     skillType = PHYSICS;
     blood = 600;//µ±Ç°ÑªÁ¿
     maxBlood = 600;//ÉúÃüÖµ
@@ -17,14 +17,12 @@ qxsq::qxsq()
     speed = 0.65;//¹¥ËÙ
 }
 
-void qxsq::upLevelqxsq(Hero* qxsq1, Hero* qxsq2, Hero* qxsq3)
+void qxsq::upLevel(Hero* qxsq1)
 {
     qxsq1->blood = 1080;//µ±Ç°ÑªÁ¿
     qxsq1->maxBlood = 1080;//ÉúÃüÖµ
     qxsq1->level = 2; //µÈ¼¶
     qxsq1->attack = 117; //¹¥»÷Á¦
-    qxsq2->removeFromParent();
-    qxsq3->removeFromParent();
 }
 
 void qxsq::Play()
@@ -39,7 +37,7 @@ void qxsq::Play()
     this->schedule(lambdb, 1 / 60.f, "qxsqMove");
     //while (!isDead() && !isWin(&myPlayerData, &opPlayerData))
     {
-        enemy = getEnemyByDistance(this, true, this->ofPlayer);//ËøµĞ
+        enemy = getEnemyByDistance(this, false, this->ofPlayer);//ËøµĞ
         attackNum = 0;//¹¥»÷´ÎÊı
         static int hurt = (int)(attack * enemy->attackRate);//ÉËº¦Öµ
         static int add = (level == 1 ? 125 : 250);

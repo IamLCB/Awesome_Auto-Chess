@@ -3,7 +3,7 @@
 
 ynyn::ynyn()
 {
-    name = "隐娘", skillname = "影遁忍术";
+    name = "隐娘", skillname = "影遁忍术", advice = "中排";
     skillType = PHYSICS;
     blood = 550;//当前血量
     maxBlood = 550;//生命值
@@ -17,14 +17,12 @@ ynyn::ynyn()
     speed = 0.6;//攻速
 }
 
-void ynyn::upLevelynyn(Hero* yn1, Hero* yn2, Hero* yn3)
+void ynyn::upLevel(Hero* yn1)
 {
     yn1->blood = 990;//当前血量
     yn1->maxBlood = 990;//生命值
     yn1->level = 2; //等级
     yn1->attack = 126; //攻击力
-    yn2->removeFromParent();
-    yn3->removeFromParent();
 }
 
 Hero* ynyn::initynyn()

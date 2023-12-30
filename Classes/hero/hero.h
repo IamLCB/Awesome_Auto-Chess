@@ -21,6 +21,7 @@ class Hero :public Sprite
 public:
 	//friend Battle<T>;
 	string name, skillname;
+	string advice;//前排中排后排建议
 	ProgressTimer* healthBar;
 	int skillType = -1;
 	int blood = 500;
@@ -30,6 +31,7 @@ public:
 	int protect = 0;//护甲
 	int magicPro = 10;//魔抗
 	int state;//技能状态
+	
 
 	double speed = 0.6;//攻速
 	double attackRate = 1;
@@ -57,6 +59,7 @@ public:
 	bool isWin(playerData* myPlayer, playerData* opPlayer);
 	int getBlood() { return blood; }
 	int getMaxBlood() { return maxBlood; }
+	virtual void upLevel(Hero* hero) {};
 
 	//装备？？？
 	/*---------------set类型----------------------*/
