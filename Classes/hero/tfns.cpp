@@ -40,6 +40,7 @@ void tfns::Play()
         attackNum++;//对该敌人的攻击次数+1
         auto lambdb = [=](float dt) {
             tfns::tfnsAttack(enemy, attackNum);
+            this->createHealthBar((blood + 0.0) / (maxBlood + 0.0) * 100);
         };
         this->schedule(lambdb, 1 / speed, "tfnsAttack");
         auto lambdc = [=](float dt) {

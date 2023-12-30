@@ -8,7 +8,8 @@
 #include "qxsq.h"
 #include "snzx.h"
 
-Hero* createHero(int name) {
+Hero* createHero(int name)
+{
     Hero* hero = nullptr;
     switch (name) {
         case TFNS:
@@ -39,7 +40,9 @@ Hero* createHero(int name) {
         {
             ynyn* ynynHero = new ynyn();
             hero = ynynHero->initynyn();
-        case WLSHZ :
+        }
+        break;
+        case WLSHZ:
         {
             wlshz* wlshzHero = new wlshz();
             hero = wlshzHero->initwlshz();
@@ -58,28 +61,39 @@ Hero* createHero(int name) {
         }
         break;
     }
+    hero->setScale(0.25f);
+    hero->addChild(hero->createHealthBar(100));
+    /*auto lambda = [=](float dt) {
+        hero->createHealthBar((hero->getBlood() + 0.0) / (hero->getMaxBlood() + 0.0) * 100);
+    };
+    hero->schedule(lambda, 1 / hero->speed, "healthBar");*/
     return hero;
 }
 
-Node* Hero::createHealthBar(const string& backgroundTexture, const std::string& foregroundTexture, double initialPercentage, const Vec2& position) {
+
+Node* Hero::createHealthBar(double percentage)
+{
+    string backgroundTexture = "./hero/backgroundTexture.png";
+    string foregroundTexture = "./hero/foregroundTexture.png";
     // 创建血条底部背景精灵
     Sprite* backgroundSprite = Sprite::create(backgroundTexture);
-    backgroundSprite->setScale(250 / backgroundSprite->getContentSize().width, 50 / backgroundSprite->getContentSize().height);
+    backgroundSprite->setScale(0.25f);
 
     // 创建血条前景精灵
-    Sprite* foregroundSprite = Sprite::create(foregroundTexture);
-    foregroundSprite->setScale(10 / foregroundSprite->getContentSize().width, 10 / foregroundSprite->getContentSize().height);
+    /*Sprite* foregroundSprite = Sprite::create(foregroundTexture);
+    foregroundSprite->setScale(0.25f);*/
 
     // 创建血条的 ProgressTimer
-    ProgressTimer* healthBar = ProgressTimer::create(foregroundSprite);
+    ProgressTimer* healthBar = ProgressTimer::create(Sprite::create(foregroundTexture));
+    healthBar->setScale(0.25f);
     healthBar->setType(ProgressTimer::Type::BAR);
-    healthBar->setMidpoint(Vec2(0, 0));//??????????//更改位置？
-    healthBar->setBarChangeRate(Vec2(1, 0));//??????????//更改位置？
-    healthBar->setPercentage(initialPercentage);
+    healthBar->setMidpoint(Point(0, 1));
+    healthBar->setBarChangeRate(Point(1, 0));
+    healthBar->setPercentage(percentage);
 
     // 设置血条底部背景精灵和 ProgressTimer 的位置
-    backgroundSprite->setPosition(position);
-    healthBar->setPosition(position);
+    backgroundSprite->setPosition(Point(400, 500));
+    healthBar->setPosition(Point(400,500));
 
     // 创建容器节点，将血条底部背景精灵和 ProgressTimer 添加到容器中
     Node* containerNode = Node::create();
@@ -118,7 +132,7 @@ void Hero::heroAnimation(string picturename, const int picturenum, Sprite* sprit
 Hero* Hero::getEnemyByDistance(Hero* myHero, bool mode, bool isMyHero)
 {
     playerData opPlayer;
-    if(isMyHero){
+    if (isMyHero) {
         opPlayer = opPlayerData;
     }
     else {

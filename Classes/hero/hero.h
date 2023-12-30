@@ -29,7 +29,7 @@ public:
 	int protect = 0;//护甲
 	int magicPro = 10;//魔抗
 	int state;//技能状态
-	
+
 	double speed = 0.6;//攻速
 	double attackRate = 1;
 
@@ -60,6 +60,8 @@ public:
 	Hero* getEnemyByDistance(Hero* myHero, bool mode, bool isMyHero);
 	bool isInAttackRange(Hero* myHero, Hero* enemyHero);
 	bool isWin(playerData* myPlayer, playerData* opPlayer);
+	int getBlood() { return blood; }
+	int getMaxBlood() { return maxBlood; }
 
 	//装备？？？
 	/*---------------set类型----------------------*/
@@ -92,7 +94,7 @@ public:
 	void changeAttack(int value) { attack += value; }
 	//void equimentchange();
 	void heroAnimation(string picturename, const int picturenum, Sprite* sprite, const double speed, const int loop);
-	Node* createHealthBar(const string& backgroundTexture, const string& foregroundTexture, double initialPercentage, const Vec2& position);
+	Node* Hero::createHealthBar(double percentage);
 
 };
 
@@ -114,7 +116,6 @@ public:
 	string getMyName() { return my.name; };
 	string getSkillName() { return my.skillname; };
 	int getType() { return my.skillType; };
-	int getBlood() { return my.blood; };
 	int getMaxBlood() { return my.maxBlood; };
 	int getLevel() { return my.level; };
 	int getAttack() { return my.attack; };
