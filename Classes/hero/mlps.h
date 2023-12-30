@@ -10,5 +10,5 @@ public:
     Hero* initmlps();
     void mlpsAttack(Hero* enemy, const int attackNum);
     CREATE_FUNC(mlps);
-    void upLevelmlps(Hero* mlps1, Hero* mlps2, Hero* mlps3);
+    void upLevel(Hero* mlps1);
 };

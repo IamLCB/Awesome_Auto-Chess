@@ -8,7 +8,8 @@
 #include "qxsq.h"
 #include "snzx.h"
 
-Hero* createHero(int name) {
+Hero* createHero(int name)
+{
     Hero* hero = nullptr;
     switch (name) {
         case TFNS:

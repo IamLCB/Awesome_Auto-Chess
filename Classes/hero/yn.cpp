@@ -3,7 +3,7 @@
 
 ynyn::ynyn()
 {
-    name = "隐娘", skillname = "影遁忍术";
+    name = "隐娘", skillname = "影遁忍术", advice = "中排";
     skillType = PHYSICS;
     blood = 550;//当前血量
     maxBlood = 550;//生命值
@@ -17,14 +17,12 @@ ynyn::ynyn()
     speed = 0.6;//攻速
 }
 
-void ynyn::upLevelynyn(Hero* yn1, Hero* yn2, Hero* yn3)
+void ynyn::upLevel(Hero* yn1)
 {
     yn1->blood = 990;//当前血量
     yn1->maxBlood = 990;//生命值
     yn1->level = 2; //等级
     yn1->attack = 126; //攻击力
-    yn2->removeFromParent();
-    yn3->removeFromParent();
 }
 
 Hero* ynyn::initynyn()
@@ -69,7 +67,7 @@ void ynyn::Play()
         // 释放技能
         if (blue == blueMax) {
             auto lambdc = [=](float dt) {
-                ynyn::swordwaive("sword.png", this);//??????????//picture
+                ynyn::swordwaive(this);//??????????//picture
                 if (enemy != nullptr)
                 {
                     if (enemy->blood > (int)(0.5 * enemy->maxBlood)) {
@@ -95,17 +93,21 @@ void ynyn::ynynNormalAttack(Hero* enemy, const int attackNum,const double add,co
     goaway(enemy->getPosition(), this);
 }
 
-void ynyn::swordwaive(string picturename, Hero* my)
+void ynyn::swordwaive(Hero* my)
 {
-    Sprite* sword = Sprite::create(picturename);
-    this->addChild(sword);
-    sword->setPosition(Vec2(0, 0)); // 设置刀的初始位置//??????????//更改距离？
+    Sprite* sword = Sprite::create("./hero/sword.png");
+    my->addChild(sword, 3);
+    sword->setScale(2.0f);
+    sword->setPosition(Vec2(600, 300));
     // 挥舞刀的动作序列
     auto waive = Sequence::create(
-        RotateTo::create(0.05f, -45),   // 刀向左旋转
-        RotateTo::create(0.1f, 0),      // 刀恢复原始角度
+        RotateTo::create(1.0f, 90),   // 刀向左旋转
+        RotateTo::create(1.0f, 0),      // 刀恢复原始角度
+        CallFunc::create([sword]() {
+            sword->removeFromParent();
+            }),
         nullptr
-    );
+                );
     // 执行动作序列
     sword->runAction(waive);
 }

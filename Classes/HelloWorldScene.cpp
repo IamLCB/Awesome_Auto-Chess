@@ -131,6 +131,11 @@ bool sceneTest::init()
         tmp->Play();
     }
 
+        hero1->Play();
+        hero2->Play();
+        hero3->Play();
+        hero4->Play();
+    
     return true;
 
 }

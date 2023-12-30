@@ -2,7 +2,7 @@
 
 bqzs::bqzs()
 {
-	name = "不屈战神", skillname = "审判";
+	name = "不屈战神", skillname = "审判", advice = "前排";
 	skillType = PHYSICS;//坦克
 	blood = 600;
 	maxBlood = 600;//血量
@@ -15,14 +15,12 @@ bqzs::bqzs()
 	speed = 0.6;//攻速
 }
 
-void bqzs::upLevelbqzs(Hero* bqzs1, Hero* bqzs2, Hero* bqzs3)
+void bqzs::upLevel(Hero* bqzs1)
 {
 	bqzs1->blood = 1080;//当前血量
 	bqzs1->maxBlood = 1080;//生命值
 	bqzs1->level = 2; //等级
 	bqzs1->attack = 90; //攻击力
-	bqzs2->removeFromParent();
-	bqzs3->removeFromParent();
 }
 
 

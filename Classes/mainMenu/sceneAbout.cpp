@@ -9,6 +9,7 @@
 #include "hero/yn.h"
 #include "hero/qxsq.h"
 #include "hero/snzx.h"
+#include "hero/smallhero.h"
 #include <vector>
 
 using std::vector;

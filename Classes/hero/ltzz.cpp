@@ -2,7 +2,7 @@
 
 ltzz::ltzz()
 {
-    name = "雷霆之主", skillname = "雷霆怒爪";
+    name = "雷霆之主", skillname = "雷霆怒爪", advice = "后排";
     skillType = MAGIC;
     blood = 750;//当前血量
     maxBlood = 750;//生命值
@@ -25,14 +25,12 @@ Hero* ltzz::initltzz()
     return ltzz;
 }
 
-void upLevelltzz(Hero* ltzz1, Hero* ltzz2, Hero* ltzz3)
+void ltzz::upLevel(Hero* ltzz1)
 {
     ltzz1->blood = 1350;//当前血量
     ltzz1->maxBlood = 1350;//生命值
     ltzz1->level = 2; //等级
     ltzz1->attack = 126; //攻击力
-    ltzz2->removeFromParent();
-    ltzz3->removeFromParent();
 }
 
 void ltzz::Play()

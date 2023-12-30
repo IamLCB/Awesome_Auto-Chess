@@ -1,5 +1,5 @@
 #pragma once
-#include "Hero.h"
+#include "hero.h"
 
 class ltzz :public Hero
 {
@@ -10,5 +10,5 @@ public:
     Hero* initltzz();
     void ltzzAttack(Hero* enemy);
     CREATE_FUNC(ltzz);
-    void upLevelltzz(Hero* ltzz1, Hero* ltzz2, Hero* ltzz3);
+    void upLevel(Hero* ltzz1);
 };

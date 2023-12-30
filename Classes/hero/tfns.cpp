@@ -3,7 +3,7 @@
 
 tfns::tfns()
 {
-    name = "天罚弩神", skillname = "圣银弩箭";
+    name = "天罚弩神", skillname = "圣银弩箭",advice="后排";
     skillType = PHYSICS;
     blood = 550;//当前血量
     maxBlood = 550;//生命值
@@ -17,14 +17,13 @@ tfns::tfns()
     speed = 0.7;//攻速
 }
 
-void tfns::upLeveltfns(Hero* tfns1, Hero* tfns2, Hero* tfns3)
+void tfns::upLevel(Hero* tfns1)
 {
     tfns1->blood = 990;//当前血量
     tfns1->maxBlood = 990;//生命值
     tfns1->level = 2; //等级
     tfns1->attack = 72; //攻击力
-    tfns2->removeFromParent();
-    tfns3->removeFromParent();
+
 }
 
 void tfns::Play()
