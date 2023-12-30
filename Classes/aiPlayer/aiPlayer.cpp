@@ -14,11 +14,10 @@ Hero* aiPlayer::soldHero()
 
 void aiPlayer::judgeGold()
 {
-	bool ifBuy = 0;
-	refresh();
-	if (checkUpgrade())			//如果升级
-		return;
-	judgeExp();					//检查买经验
+	refresh();					//刷新商店
+	opPlayerData.playerMoney += 2;
+	checkUpgrade();				//买升级
+	judgeExp();					//买经验
 	if (checkLimit() && checkHighGoldHero() && opPlayerData.playerMoney >= 2)//不超过人数限制且购买了高费英雄
 		refresh();//刷新商店
 }
@@ -118,6 +117,7 @@ void aiPlayer::refresh()
 		opPlayerData.heroForBuy[i].picName = heroList[hero - 1].picName;
 		opPlayerData.heroForBuy[i].cost = heroList[hero - 1].cost;
 	}
+	opPlayerData.playerMoney -= 2;
 }
 
 void aiPlayer::creatBattleArray()
