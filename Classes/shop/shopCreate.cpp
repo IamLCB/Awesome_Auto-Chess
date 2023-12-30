@@ -21,40 +21,77 @@ bool shopCreate::init()
 	menuLayer->setPosition(Vec2::ZERO);
 	this->addChild(menuLayer, 1);
 
-	//create the three buttons, the shopcreator/the shopcloser/the shoprefresher
+	//tag the three buttons, the shopcreator/the shopcloser/the shoprefresher
 	shopCreatorButton->setTag(TAG_SCTBTN);
 	shopCloserButton->setTag(TAG_SCLBTN);
 	shopRefresherButton->setTag(TAG_SRFBTN);
+
+	//tag the background of shop
+	shopBackground->setTag(TAG_BG_SHOP);
+
+	//set the position of the buttons
+	shopCreatorButton->setPosition(Vec2(CENTER_BUTTON_X, CENTER_BUTTON_Y));
+	shopCloserButton->setPosition(Vec2(CENTER_BUTTON_X, CENTER_BUTTON_Y));
+	shopRefresherButton->setPosition(Vec2(CENTER_BUTTON_X, CENTER_BUTTON_Y - 150));
+
+	//set the position of the background
+	shopBackground->setPosition(Vec2(100, 20));
+
+	//define the size of the shop about
+	shopCreatorButton->setScale(BT_SCALE);
+	shopCloserButton->setScale(BT_SCALE);
+	shopRefresherButton->setScale(BT_SCALE);
+	shopBackground->setScale(BG_SCALE);
 
 	//the order of the buttons in the first time
 	creatorOrder = INT_MAX;
 	CaRBO = 1;
 
 	//put the order
-	this->addChild(shopCreatorButton, creatorOrder);
-	this->addChild(shopCloserButton, CaRBO);
-	this->addChild(shopRefresherButton, CaRBO);
+	this->addChild(shopCreatorButton, INT_MAX);
+	this->addChild(shopCloserButton, 1);
+	this->addChild(shopRefresherButton, 1);
+	this->addChild(shopBackground, 1);
 
-	//create the background of shop
-	auto backgroundShop = Sprite::create("backgroundofshop.png", Rect(0, 50, 0, 0));
-	backgroundShop->setTag(TAG_BG_SHOP);
-
-	//mouse pause
-	MenuItemSprite* pauseButton = MenuItemSprite::create(shopCreatorButton, shopCreatorButton, 
-		CC_CALLBACK_1(shopCreate::shopReflect, this));
-
+	//===================mouse pause to open the shop==========================
+	
+		//===================mouse pause to close the shop=========================
 
 }
 
-//
-void shopCreate::shopReflect(cocos2d::Ref* pSender)
+//if the shopCreatorButton has been touched
+bool shopCreate::openShop(Touch* touch, Event* event)
 {
-    //change the order of the buttons
-	creatorOrder = 1;
-	CaRBO = INT_MAX;
+	auto target = static_cast<Sprite*>(event->getCurrentTarget());
+	Point locationInNode = target->convertToNodeSpace(touch->getLocation());
+	Size s = target->getContentSize();
+	Rect rect = Rect(0, 0, s.width, s.height);
 
+	if (rect.containsPoint(locationInNode))
+	{
+		//some controls
+		shopReflect();
+		shoprefresh();
+	}
+}
+
+//open the shop
+void shopCreate::shopReflect()
+{
 	//put the order
-	this->addChild(shopCreatorButton, creatorOrder);
-	this->addChild(shopCloserButton, CaRBO);
-	this->addChild(shopRefresherButton, CaRBO);
+	shopCreatorButton->setLocalZOrder(1);
+	shopCloserButton->setLocalZOrder(INT_MAX);
+	shopRefresherButton->setLocalZOrder(INT_MAX);
+	shopBackground->setLocalZOrder(INT_MAX - 1);
+}
+
+//to refresh the shop
+void shopCreate::shoprefresh() 
+{
+	int rands[5] = { 0 };
+	srand(time(0));
+	for (int i = 0; i < 5; i++)
+	{
+		rands[i] = rand() % 8;
+	}
 }
