@@ -9,6 +9,7 @@
 #include "hero/yn.h"
 #include "hero/qxsq.h"
 #include "hero/snzx.h"
+#include "hero/smallhero.h"
 #include <vector>
 
 using std::vector;
@@ -105,6 +106,13 @@ bool sceneAbout::init()
     Hero* hero6 = createHero(MLPS);
     Hero* hero7 = createHero(WLSHZ);
     Hero* hero8 = createHero(LTZZ);
+    smallHero* hero;
+    smallHero* myyHero =new smallHero();
+    hero = myyHero->initSmall();
+    hero->moveByMouse_R(hero);
+    hero->setPosition(150, 200);
+    this->addChild(hero, 1);
+    
 
     heros.push_back(hero1);
     heros.push_back(hero2);

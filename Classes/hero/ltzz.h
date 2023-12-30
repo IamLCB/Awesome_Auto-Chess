@@ -1,5 +1,5 @@
 #pragma once
-#include "Hero.h"
+#include "hero.h"
 
 class ltzz :public Hero
 {

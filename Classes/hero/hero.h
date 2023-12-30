@@ -48,11 +48,10 @@ public:
 public:
 	string picturename;   //图片名字
 	int picturenum;       //图片张数
-	//virtual void Play();//用于各个子类的进行
+	virtual void Play() {}//用于各个子类的进行
 	Hero() = default;
 	bool isDead();//判断是否死亡
 	void update(Hero* my, Hero* enemy, float dt);
-	virtual void Play() {}
 	Hero* getEnemyByDistance(Hero* myHero, bool mode, bool isMyHero);
 	bool isInAttackRange(Hero* myHero, Hero* enemyHero);
 	bool isWin(playerData* myPlayer, playerData* opPlayer);

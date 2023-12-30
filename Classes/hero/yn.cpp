@@ -67,7 +67,7 @@ void ynyn::Play()
             // 释放技能
             if (blue == blueMax) {
                 auto lambdc = [=](float dt) {
-                    ynyn::swordwaive("sword.png", this);//??????????//picture
+                    ynyn::swordwaive(this);
                     //yn::goaway(enemy->getPosition(),this);//跑到远处//??????????//getposition
                     if (enemy->blood > (int)(0.5 * enemy->maxBlood)) {
                         enemy->blood -= (int)(hurt - (enemy->protect) + add);//高血量加成伤害
@@ -92,21 +92,25 @@ void ynyn::ynynNormalAttack(Hero* enemy, const int attackNum,const double add,co
     enemy->protect > hurt ? enemy->blood -= 0 : enemy->blood -= hurt - enemy->protect;//护甲抵消部分伤害
     if (enemy->blood < 0)
         enemy->blood = 0;//敌方已死
-    //swordwaive("sword.png", this);
+    swordwaive(this);
     goaway(enemy->getPosition(), this);
 }
 
-void ynyn::swordwaive(string picturename, Hero* my)
+void ynyn::swordwaive(Hero* my)
 {
-    Sprite* sword = Sprite::create(picturename);
-    this->addChild(sword);
-    sword->setPosition(Vec2(0, 0)); // 设置刀的初始位置//??????????//更改距离？
+    Sprite* sword = Sprite::create("./hero/sword.png");
+    my->addChild(sword, 3);
+    sword->setScale(2.0f);
+    sword->setPosition(Vec2(600, 300));
     // 挥舞刀的动作序列
     auto waive = Sequence::create(
-        RotateTo::create(0.05f, -45),   // 刀向左旋转
-        RotateTo::create(0.1f, 0),      // 刀恢复原始角度
+        RotateTo::create(1.0f, 90),   // 刀向左旋转
+        RotateTo::create(1.0f, 0),      // 刀恢复原始角度
+        CallFunc::create([sword]() {
+            sword->removeFromParent();
+            }),
         nullptr
-    );
+                );
     // 执行动作序列
     sword->runAction(waive);
 }
