@@ -17,7 +17,7 @@ bool sceneLoading::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	totalResources = 5;
+	totalResources = 16;
 	loadedResources = 0;
 
 	/**************MenuBackground**************/

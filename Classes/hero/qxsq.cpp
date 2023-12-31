@@ -12,7 +12,7 @@ qxsq::qxsq()
     protect = 25;//»¤¼×
     magicPro = 20;//Ä§¿¹
     state = ATTACK;//¼¼ÄÜ×´Ì¬
-    attackDistance = 3;//¹¥»÷¾àÀë
+    attackDistance = 100;//¹¥»÷¾àÀë
     price = 2;//»¨·Ñ
     speed = 0.65;//¹¥ËÙ
 }
@@ -23,6 +23,7 @@ void qxsq::upLevel(Hero* qxsq1)
     qxsq1->maxBlood = 1080;//ÉúÃüÖµ
     qxsq1->level = 2; //µÈ¼¶
     qxsq1->attack = 117; //¹¥»÷Á¦
+    setScale(0.35f);
 }
 
 void qxsq::Play()

@@ -47,10 +47,15 @@ bool layerPlayer::init()
 	}
 
 	/*************buyExp***************/
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	MenuItemImage* buyExp = MenuItemImage::create("./player/buyExpNormal.png", "./player/buyExpSelected.png", 
 		CC_CALLBACK_1(layerPlayer::buyExp, this));
 	Menu* menuBuyExp = Menu::create(buyExp, nullptr);
-	menuBuyExp->setPosition(-590, -250);
+	menuBuyExp->setAnchorPoint(Vec2(0, 0));
+	buyExp->setScale(2.0f);
+	menuBuyExp->setPosition(origin.x + buyExp->getContentSize().width , origin.y + buyExp->getContentSize().height);
+	
 	this->addChild(menuBuyExp, 1);
 
 	/*************myPlayer UIs***************/
@@ -125,9 +130,6 @@ bool layerPlayer::init()
 	opLevels->setPosition(opExpPos.x + 110, opExpPos.y);
 	this->addChild(opLevels, 3);
 
-	/**************Coins**************/
-	opCoins->setPosition(300,740);
-	this->addChild(opCoins, 3);
 
 	return true;
 }
@@ -172,7 +174,7 @@ void layerPlayer::update(float dt)
 	opplayerHP->setString(to_string(opPlayerData.playerHealth));
 
 	/**************Coins**************/
-	opCoins->setString("Coins: " + to_string(opPlayerData.playerMoney));
+//	opCoins->setString("Coins: " + to_string(opPlayerData.playerMoney));
 
 	/**************Level**************/
 	opplayerExpBar->setPercentage(opPlayerData.playerExp * 100 / opPlayerData.expToLevelUp);

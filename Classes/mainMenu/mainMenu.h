@@ -17,8 +17,6 @@ public:
 
 	void onSettings(cocos2d::Ref* pSender);
 
-	void onTest(cocos2d::Ref* pSender);
-
 	//void onButtonEffect();
 
 

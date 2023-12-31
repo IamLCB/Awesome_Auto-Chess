@@ -16,7 +16,7 @@ void aiPlayer::judgeGold()
 {
 	refresh();					//刷新商店
 	opPlayerData.playerMoney += 2;
-	checkUpgrade();				//买升级
+	checkUpgrade();
 	judgeExp();					//买经验
 	if (checkLimit() && checkHighGoldHero() && opPlayerData.playerMoney >= 2)//不超过人数限制且购买了高费英雄
 		refresh();//刷新商店
@@ -61,13 +61,17 @@ void aiPlayer::judgeExp()
 {
 	int expGap = myPlayerData.playerExp - opPlayerData.playerExp;
 	//?????????//while可用否？
-	while (expGap > 5 && opPlayerData.playerMoney >= 4) 
-	{
+	//while (expGap > 5 && opPlayerData.playerMoney >= 4)
+	//{
+	if (expGap > 5 && opPlayerData.playerMoney >= 4) {
 		opPlayerData.playerMoney -= 4;
 		opPlayerData.playerExp += 4;
 		opPlayerData.calExp();
 		expGap = myPlayerData.playerExp - opPlayerData.playerExp;
+		if (opPlayerData.playerMoney < 0)
+			opPlayerData.playerMoney = 0;
 	}
+	//}
 }
 
 bool aiPlayer::checkHighGoldHero()
@@ -97,6 +101,9 @@ bool aiPlayer::aiBuy(int id)
 			opPlayerData.playerHaveNewHero = true;
 			opPlayerData.heroForBuy[id].buy = true;
 			opPlayerData.playerMoney -= opPlayerData.heroForBuy[id].cost;
+			opPlayerData.heroNum[id]++;
+			if (opPlayerData.playerMoney < 0)
+				opPlayerData.playerMoney = 0;
 			return true;
 		}
 		else
@@ -109,28 +116,31 @@ bool aiPlayer::aiBuy(int id)
 void aiPlayer::refresh()
 {
 	int hero = 0;
+	srand((unsigned int)time(NULL));
 	for (int i = 0; i < 5; i++)
 	{
-		hero = rand() % 8 + 1;
+		hero = rand() % 7 + 1;
 		opPlayerData.heroForBuy[i].buy = false;
 		opPlayerData.heroForBuy[i].id = heroList[hero - 1].id;
 		opPlayerData.heroForBuy[i].picName = heroList[hero - 1].picName;
 		opPlayerData.heroForBuy[i].cost = heroList[hero - 1].cost;
 	}
 	opPlayerData.playerMoney -= 2;
+	if (opPlayerData.playerMoney < 0)
+		opPlayerData.playerMoney = 0;
 }
 
 void aiPlayer::creatBattleArray()
 {
 	for (int i = 0; i < opPlayerData.waitingArray->num; i++)
 	{
-		if (static_cast<Hero*>(opPlayerData.waitingArray->arr[i])->level > 1 && opPlayerData.battleArray->num <= opPlayerData.playerLevel)
+		if (opPlayerData.playerLevel > 0 && opPlayerData.battleArray->num < opPlayerData.playerLevel)
 		{
 			ccArrayAppendObject(opPlayerData.battleArray, opPlayerData.waitingArray->arr[i]);
 			ccArrayRemoveObject(opPlayerData.waitingArray, opPlayerData.waitingArray->arr[i]);
 		}
 	}
-	for (int j = opPlayerData.battleArray->num; j <= opPlayerData.playerLevel; j++)
+	for (int j = opPlayerData.battleArray->num; j < opPlayerData.playerLevel; j++)
 	{
 		ccArrayAppendObject(opPlayerData.battleArray, opPlayerData.waitingArray->arr[j]);
 		ccArrayRemoveObject(opPlayerData.waitingArray, opPlayerData.waitingArray->arr[j]);

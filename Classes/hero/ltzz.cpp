@@ -4,9 +4,9 @@ ltzz::ltzz()
 {
     name = "雷霆之主", skillname = "雷霆怒爪", advice = "后排";
     skillType = MAGIC;
-    blood = 750;//当前血量
-    maxBlood = 750;//生命值
-    attack = 70; //攻击力
+    blood = 550;//当前血量
+    maxBlood = 550;//生命值
+    attack = 50; //攻击力
     protect = 30;//护甲
     magicPro = 20;//魔抗
     state = ATTACK;//技能状态
@@ -31,6 +31,7 @@ void ltzz::upLevel(Hero* ltzz1)
     ltzz1->maxBlood = 1350;//生命值
     ltzz1->level = 2; //等级
     ltzz1->attack = 126; //攻击力
+    setScale(0.35f);
 }
 
 void ltzz::Play()

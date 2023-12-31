@@ -2,6 +2,7 @@
 #define _IN_GAME_TIMER_H_
 
 #include "cocos2d.h"
+#include "globalResSetting.h"
 USING_NS_CC;
 
 class inGameTimer : public cocos2d::Node

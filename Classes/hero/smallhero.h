@@ -6,4 +6,5 @@ public:
 	CREATE_FUNC(smallHero);
 	smallHero* initSmall();
 	void moveByMouse_R(Hero* myHero);
+	friend class sceneGame;
 };

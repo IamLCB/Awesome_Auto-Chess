@@ -10,6 +10,7 @@ bqzs::bqzs()
 	attack = 50; //¹¥»÷Á¦
 	protect = 40;//»¤¼×
 	magicPro = 20;//Ä§¿¹
+	attackDistance = 1;//¹¥»÷¾àÀë
 	state = 1;//¼¼ÄÜ×´Ì¬
 	price = 1;//»¨·Ñ
 	speed = 0.6;//¹¥ËÙ
@@ -21,6 +22,7 @@ void bqzs::upLevel(Hero* bqzs1)
 	bqzs1->maxBlood = 1080;//ÉúÃüÖµ
 	bqzs1->level = 2; //µÈ¼¶
 	bqzs1->attack = 90; //¹¥»÷Á¦
+	setScale(0.35f);
 }
 
 
@@ -40,9 +42,10 @@ void bqzs::Play()
 {
 	int magicpro = magicPro;
 	int pro = protect;
-	static Hero* enemy = getEnemyByDistance(this, false, this->ofPlayer);//ËøµÐ
+	static Hero* enemy;
 	static int attackNum = 0;
 	auto lambda = [=](float dt) {
+		enemy = getEnemyByDistance(this, true, this->ofPlayer);//ËøµÐ
 		if (enemy != nullptr)
 			this->update(this, enemy, dt);
 		this->healthBar->setPercentage(((double)blood / (double)maxBlood) * 100);
@@ -53,7 +56,10 @@ void bqzs::Play()
 	protect = pro;
 	attackNum = 0;
 	static double add = (level == 1) ? 40 : 65;
-	static int hurt = (int)(enemy->attackRate * attack);
+	static int hurt = attack;
+	if (enemy != nullptr) {
+		hurt = (int)(enemy->attackRate * attack);
+	}
 	auto lambdb = [=](float dt) {
 		if(enemy!=nullptr&&state==ATTACK)
 		{

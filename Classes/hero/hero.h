@@ -60,6 +60,7 @@ public:
 	int getBlood() { return blood; }
 	int getMaxBlood() { return maxBlood; }
 	void recover();
+	bool connection(const playerData& myPlayerData);
 
 	/*******************************12.30添加(可能有已经添加过的，如type)*************************/
 

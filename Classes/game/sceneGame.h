@@ -14,16 +14,16 @@
 #include "game/mapLayer.h"
 #include"game/layerPlayer.h"
 #include"game/layerHero.h"
-//#include"shop/shopCreate.h"
+#include"shop/layerShop.h"
 #include"game/layerSettings.h"
 #include"aiPlayer/aiPlayer.h"
-
 #include "hero/allheros.h"
+#include "hero/smallhero.h"
 #include <string>
 USING_NS_CC;
 
-#define BASICAL_HURT 3 // 基础伤害
-#define EACH_CHESS_HURT 2 // 每存留一个英雄，造成两点伤害
+#define BASICAL_HURT 5 // 基础伤害
+#define EACH_CHESS_HURT 3 // 每存留一个英雄，造成两点伤害
 #define CAN_BE_SELECTED 50
 #define SEPARATION 20 //用于区分棋子位于战斗区还是备战区,小于为战斗区，大于为备战区
 
@@ -48,8 +48,10 @@ private:
 	void mouseInit(); // 鼠标初始化
 
 	/***********计时器************/
-	inGameTimer* afterFight = inGameTimer::create(10);//10?
+	inGameTimer* afterFight = inGameTimer::create(15);//10?
 	void update(float dt);
+	void startBattle(); //开始战斗
+	bool battleStarted = false;
 
 /***********鼠标操作************/
 	void mouseMainEvent(); //鼠标事件
@@ -75,8 +77,11 @@ private:
 	mapLayer* map = mapLayer::createMapLayer(); //地图层
 	layerPlayer* playerLayer = layerPlayer::createPlayer(playerName); //玩家层
 	layerHero* heroExist = layerHero::createLayerHero(); //英雄层
-	//shopCreate* shopLayer = shopCreate::createShop(); //商店层
+	layerShop* shopLayer = layerShop::createLayerShop(); //商店层
 	layerSettings* settingsLayer = layerSettings::createLayer(); //设置层
+	smallHero* myyhero;
+
+
 
 	int gameTurn = 0; //游戏回合数
 	void addTurn() { gameTurn++; }

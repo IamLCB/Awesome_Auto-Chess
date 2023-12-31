@@ -30,7 +30,7 @@ void mlps::upLevel(Hero* mlps1)
     mlps1->maxBlood = 900;//生命值
     mlps1->level = 2; //等级
     mlps1->attack = 90; //攻击力
-
+    setScale(0.35f);
 }
 
 void mlps::Play()
@@ -48,10 +48,10 @@ void mlps::Play()
     attackNum = 0;//进攻次数
     auto lambdb = [=](float dt) {
         if (enemy != nullptr) {
-            bomb(enemy, attack);//爆炸特效
             if (state == ATTACK) 
             {
                 attackNum++;//进攻次数+1
+                bomb(enemy, attack);//爆炸特效
                 mlps::mlpsAttack(enemy, attackNum);
             }
         }
@@ -75,7 +75,7 @@ void mlps::mlpsAttack(Hero* enemy, const int attackNum)
     }
     if (enemy->blood < 0)
         enemy->blood = 0;//敌方已死
-    attack += attack / 2;//每次攻击会增加50%的伤害
+    //attack += attack / 2;//每次攻击会增加50%的伤害
     
     //延迟四秒
     auto lambda = [=](float dt) {

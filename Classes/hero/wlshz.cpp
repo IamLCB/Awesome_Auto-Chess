@@ -23,6 +23,7 @@ void wlshz::upLevel(Hero* wlshz1)
     wlshz1->maxBlood = 1260;//生命值
     wlshz1->level = 2; //等级
     wlshz1->attack = 108; //攻击力
+    setScale(0.35f);
 }
 
 void wlshz::Play()
@@ -58,10 +59,10 @@ void wlshz::wlshzAttack(Hero* enemy)
 {
     int hurt = (int)((level == 1 ? 2.00 : 3.50) * attack * enemy->attackRate);//伤害值
     blue += 30;
-    Dizzy(enemy);
     if (blue == blueMax)//如果连续攻击五次
     {
         enemy->blood -= hurt;//造成真实伤害
+        Dizzy(enemy);
         blue = 0;
     }
     else

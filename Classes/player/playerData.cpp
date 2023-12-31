@@ -38,4 +38,15 @@ void playerData::playerInit()
 	this->playerMoney = 10;
 	this->expToLevelUp = 2;
 	for (int i = 0; i < maxHeroNum; i++) this->heroNum[i] = 0;
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
+			haveChess[i][j] = false;
+		}
+	}
+	for (auto& hero : heroForBuy) {
+		hero.buy = false;
+		hero.picName = "";
+		hero.cost = 0;
+		hero.id = -1;
+	}
 }

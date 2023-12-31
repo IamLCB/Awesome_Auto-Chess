@@ -3,7 +3,7 @@
 smallHero* smallHero::initSmall()
 {
     smallHero* smallmy = smallHero::create();
-    smallmy->picturename = "./hero/smallhero.png";
+    smallmy->picturename = "./hero/smallHero.png";
     smallmy->picturenum = 1;
     smallmy->heroAnimation(smallmy->picturename, smallmy->picturenum, smallmy, speed, -1);
     return smallmy;

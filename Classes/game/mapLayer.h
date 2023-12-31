@@ -2,7 +2,7 @@
 #define _MAP_LAYER_H_
 
 #define NO_CHESS 0
-#define EFF_RADIUS 10 // ´ýÐÞÕý °ë¾¶
+#define EFF_RADIUS 30 // ´ýÐÞÕý °ë¾¶
 
 #include"cocos2d.h"
 #include"globalResSetting.h"

@@ -9,6 +9,7 @@
 #include "hero/yn.h"
 #include "hero/qxsq.h"
 #include "hero/snzx.h"
+#include "shop/layerShop.h"
 #include <vector>
 #include "inGameTimer/inGameTimer.h"
 
@@ -98,54 +99,10 @@ bool sceneAbout::init()
 
     sprite1->setPosition(800, 460);
     this->addChild(sprite1);
-/*
-    Hero* hero1 = createHero(BQZS);
-    Hero* hero2 = createHero(QXSQ);
-    Hero* hero3 = createHero(YN);
-    Hero* hero4 = createHero(SNZX);
-    Hero* hero5 = createHero(TFNS);
-    Hero* hero6 = createHero(MLPS);
-    Hero* hero7 = createHero(WLSHZ);
-    Hero* hero8 = createHero(LTZZ);
+    
 
-    heros.push_back(hero1);
-    heros.push_back(hero2);
-    heros.push_back(hero3);
-    heros.push_back(hero4);
-
-    ccArrayAppendObject(myPlayerData.battleArray, hero1);
-    hero1->ofPlayer = HUMAN;
-
-    ccArrayAppendObject(opPlayerData.battleArray, hero2);
-    hero2->ofPlayer = AI;
-
-    ccArrayAppendObject(myPlayerData.battleArray, hero3);
-    hero3->ofPlayer = HUMAN;
-
-    ccArrayAppendObject(opPlayerData.battleArray, hero4);
-    hero4->ofPlayer = AI;
-
-    hero1->setPosition(80, 46);
-    hero2->setPosition(800, 460);
-    hero2->addChild(hero2->createHealthBar("./hero/backgroundTexture.png", "./hero/foregroundTexture.png", 1, hero2->getPosition()));
-    hero3->setPosition(0, 500);
-    hero4->setPosition(1500, 800);
-
-    this->addChild(hero1, 1);
-    this->addChild(hero2, 1);
-    this->addChild(hero3, 1);
-    this->addChild(hero4, 1);
-
-    hero1->Play();
-    hero2->Play();
-    hero3->Play();
-    hero4->Play();
-*/
     return true;
-
 }
-
-
 
 void sceneAbout::aboutBack(cocos2d::Ref* pSender)
 {

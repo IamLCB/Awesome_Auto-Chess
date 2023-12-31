@@ -17,8 +17,7 @@ bool layerSettings::init()
 	MenuItemImage* back = MenuItemImage::create("CloseNormal.png", "CloseSelected.png",
 		CC_CALLBACK_1(layerSettings::onBack, this));
 	Menu* menuBack = Menu::create(back, nullptr);
-	menuBack->setPosition(RIGHT_TOP_WIN);
-	this->addChild(menuBack, 1);
+	menuBack->setPosition(Vec2(origin.x + visibleSize.width - 100, origin.y + visibleSize.height - 100));
 
 	return true;
 }

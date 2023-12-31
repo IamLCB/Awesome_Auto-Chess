@@ -4,8 +4,9 @@
 bool inGameTimer::init(float time)
 {
 	totalTime = time;
-	timerLabel = Label::createWithTTF("0", "fonts/Marker Felt.ttf", 24);
-	timerLabel->setPosition(200,200);
+	timerLabel = Label::createWithTTF("0", "fonts/Marker Felt.ttf", 36);
+	timerLabel->setPosition(100,800);
+	timerLabel->setColor(Color3B::ORANGE);
 	this->addChild(timerLabel);
 	this->scheduleUpdate();//update the timer
 	return true;

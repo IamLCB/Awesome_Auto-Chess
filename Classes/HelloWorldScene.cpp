@@ -67,8 +67,8 @@ bool sceneTest::init()
 
     sprite1->setPosition(800, 460);
     this->addChild(sprite1);
-    /*
-        Hero* hero1 = createHero(BQZS);
+    
+  /*      Hero* hero1 = createHero(BQZS);
         Hero* hero2 = createHero(QXSQ);
         Hero* hero3 = createHero(YN);
         Hero* hero4 = createHero(SNZX);
@@ -96,7 +96,6 @@ bool sceneTest::init()
 
         hero1->setPosition(80, 46);
         hero2->setPosition(800, 460);
-        hero2->addChild(hero2->createHealthBar("./hero/backgroundTexture.png", "./hero/foregroundTexture.png", 1, hero2->getPosition()));
         hero3->setPosition(0, 500);
         hero4->setPosition(1500, 800);
 
@@ -108,8 +107,8 @@ bool sceneTest::init()
         hero1->Play();
         hero2->Play();
         hero3->Play();
-        hero4->Play();
-    */
+        hero4->Play();*/
+    
     return true;
 
 }

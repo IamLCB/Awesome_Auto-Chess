@@ -12,7 +12,7 @@ tfns::tfns()
     protect = 25;//»¤¼×
     magicPro = 20;//Ä§¿¹
     state = ATTACK;//¼¼ÄÜ×´Ì¬
-    attackDistance = 500;//¹¥»÷¾àÀë
+    attackDistance = 50;//¹¥»÷¾àÀë
     price = 1;//»¨·Ñ
     speed = 0.7;//¹¥ËÙ
 }
@@ -23,7 +23,7 @@ void tfns::upLevel(Hero* tfns1)
     tfns1->maxBlood = 990;//ÉúÃüÖµ
     tfns1->level = 2; //µÈ¼¶
     tfns1->attack = 72; //¹¥»÷Á¦
-
+    setScale(0.35f);
 }
 
 void tfns::Play()
@@ -46,7 +46,8 @@ void tfns::Play()
         };
         this->schedule(lambdb, 1 / speed, "tfnsAttack");
         auto lambdc = [=](float dt) {
-            enemy->setColor(Color3B::GREEN);
+            if (enemy != nullptr)
+                enemy->setColor(Color3B::WHITE);
         };
         this->schedule(lambdc, speed, "tmp");
 }

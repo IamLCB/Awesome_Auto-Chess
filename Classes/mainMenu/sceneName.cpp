@@ -160,7 +160,8 @@ void sceneName::editBoxReturn(EditBox* editBox)
 
 void sceneName::returnToMenu(Ref* pSender)
 {
-	_director->pushScene(TransitionFade::create(1.0f, mainMenu::createScene()));
+	Scene* newScene = mainMenu::createScene();
+	_director->replaceScene(TransitionFade::create(1.0f, newScene));
 }
 
 void sceneName::modeAI(Ref* pSender) {

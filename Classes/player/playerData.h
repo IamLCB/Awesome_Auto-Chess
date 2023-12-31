@@ -27,6 +27,7 @@ private:
 	friend class layerHero;
 	friend class aiPlayer;
 	friend class layerSettings;
+	friend class layerShop;
 
 public:
 	void playerHurt(int damageBlood) { this->playerHealth -= damageBlood; }		//Íæ¼ÒÊÜÉË

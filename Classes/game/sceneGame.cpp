@@ -1,7 +1,6 @@
 #include "sceneGame.h"
 USING_NS_CC;
 
-
 /**************初始化函数*************/
 bool sceneGame::init()
 {
@@ -11,21 +10,29 @@ bool sceneGame::init()
     }
     mapInit();
     whichTurn();
-    /*******初始化回合数*******/
     /*******初始化音频*******/
 
+    smallHero* myyhero1 = new smallHero();
+    this->myyhero = myyhero1->initSmall();
+    myyhero->moveByMouse_R(myyhero);
+    myyhero->setPosition(150, 200);
+   
 
     this->addChild(map, 0);
 
-    this->addChild(playerLayer, 1);
+    this->addChild(afterFight, 1);
 
-    this->addChild(afterFight, 2);
+    this->addChild(myyhero, 2);
 
     this->addChild(heroExist, 3);
 
-    //this->addChild(shopLayer, 4);
+    this->addChild(playerLayer, 4);
 
-    this->addChild(settingsLayer, 5);
+    this->addChild(shopLayer, 5);
+
+    this->addChild(settingsLayer, 6);
+
+    //this->addChild(info, 6);
 
     this->scheduleUpdate();
 
@@ -61,12 +68,12 @@ void sceneGame::mapInit()
 
 void sceneGame::whichTurn()
 {
-    addTurn();
+    globalGameData->changeGameTurn();
     auto turn_label = Label::createWithTTF("TURN", "fonts/Marker Felt.ttf", 24);
     turn_label->setPosition(200, 800);
     this->addChild(turn_label, 2);
     char* mTurn = new char[8];
-    sprintf(mTurn, "Turn %02d", gameTurn);
+    sprintf(mTurn, "Turn %02d", globalGameData->gameTurn);
     turn_label->setString(mTurn);
 }
 
@@ -102,9 +109,9 @@ void sceneGame::mouseUp(Event* event)
 
     if ((int)e->getMouseButton() == 0) // 左键
     {
-        if (chessSelected >= 0 && chessSelected < SEPARATION)
+        if (chessSelected >= 0 && chessSelected < SEPARATION) // 选中战斗区棋子
         {
-            auto crt = static_cast<Hero*>(myPlayerData.waitingArray->arr[chessSelected]);
+            auto crt = static_cast<Hero*>(myPlayerData.battleArray->arr[chessSelected]);
             if (haveChess[pairReturn(crt->getPosition()).x][pairReturn(crt->getPosition()).y] == 1)   // 避免重复选择
             {
                 crt->setPosition(inWhichCell(crt->getTempPosition()));
@@ -124,9 +131,9 @@ void sceneGame::mouseUp(Event* event)
                 toWaitingArray(crt, myPlayerData);
             }
         }
-        else if (chessSelected >= SEPARATION) // 备战区的棋子
+        else if (chessSelected >= SEPARATION) // 选中备战区的棋子
         {
-            auto crt = ((Hero*)(myPlayerData.battleArray->arr[chessSelected - SEPARATION - 1]));
+            auto crt = static_cast<Hero*>(myPlayerData.waitingArray->arr[chessSelected - SEPARATION]);
             if (haveChess[pairReturn(crt->getPosition()).x][pairReturn(crt->getPosition()).y] == 1)   // 避免重复选择
             {
                 crt->setPosition(inWhichCell(crt->getTempPosition()));
@@ -150,7 +157,12 @@ void sceneGame::mouseUp(Event* event)
                 {
                     crt->setPosition(inWhichCell(crt->getTempPosition()));
                     crt->set(inWhichCell(crt->getTempPosition()));
-                    /*************添加不够升级（标签）******************/
+                    auto label = Label::createWithTTF("Not enough Grade!", "fonts/Marker Felt.ttf", 36);
+                    this->addChild(label);
+                    label->setTextColor(Color4B::WHITE);
+                    label->setPosition(800, 400);
+                    auto move = FadeOut::create(2.0f);
+                    label->runAction(move);
 
                     chessSelected = -1;
                 }
@@ -171,7 +183,7 @@ void sceneGame::mouseDown(Event* event)
     auto e = static_cast<EventMouse*>(event);
 
     // 判断鼠标按下是在备战区还是战斗区
-    if (mouseInBattleArray(myPlayerData.battleArray, e) == 1)
+    if (mouseInBattleArray(myPlayerData.battleArray, e) == 1) // 获得了chessSelected
         mouseInBattleArray(myPlayerData.waitingArray, e);
 }
 
@@ -185,18 +197,18 @@ void sceneGame::mouseMove(Event* event)
     {
         if (chessSelected < SEPARATION && afterFight->totalTime < 1e-2)// 没时间了,不进行移动操作
         {
-            auto crt = static_cast<Hero*>(myPlayerData.battleArray->arr[chessSelected - 1]);
+            auto crt = static_cast<Hero*>(myPlayerData.battleArray->arr[chessSelected]); // -1?
             crt->setPosition(inWhichCell(crt->getTempPosition()));
             crt->set(inWhichCell(crt->getTempPosition()));
             chessSelected = -1; // 完成操作，鼠标回到未选中状态
             return;
         }
-        else if (chessSelected < SEPARATION) // 可以移动备战区的棋子到棋盘上
+        else if (chessSelected < SEPARATION) // 可以移动战斗区的棋子
         {
-            auto crt = static_cast<Hero*>(myPlayerData.battleArray->arr[chessSelected - 1]);
+            auto crt = static_cast<Hero*>(myPlayerData.battleArray->arr[chessSelected]);// -1?
             auto crtPosition = inWhichCell(crt->getPosition());
 
-            if (crtPosition != Point(-1, -1) && crtPosition.x <= chessMap[3][0].x + eachCell_y / 2) //  空气墙，限制在我方场上
+            if (crtPosition != Point(-1, -1) && crtPosition.y <= chessMap[3][0].y + eachCell_y / 2) //  空气墙，限制在我方场上
             {
                 crt->setPosition(e->getCursorX(), e->getCursorY());
                 crt->set(e->getCursorX(), e->getCursorY());  // 移动
@@ -208,11 +220,11 @@ void sceneGame::mouseMove(Event* event)
                 chessSelected = -1;  // 重置棋子的位置并清除选中状态
             }
         }
-        else if (chessSelected >= SEPARATION) // 对于战斗区的棋子
+        else if (chessSelected >= SEPARATION) // 对于备战区的棋子
         {
-            auto crt = static_cast<Hero*>(myPlayerData.waitingArray->arr[chessSelected - SEPARATION - 1]);
+            auto crt = static_cast<Hero*>(myPlayerData.waitingArray->arr[chessSelected - SEPARATION]);//-1?
             auto crtPosition = inWhichCell(crt->getPosition());
-            if (crtPosition != Point(-1, -1) && crtPosition.x <= chessMap[3][0].x + eachCell_y / 2) //  空气墙，限制在我方场上
+            if (crtPosition != Point(-1, -1) && crtPosition.y <= chessMap[3][0].y + eachCell_y / 2) //  空气墙，限制在我方场上 chessMap的x是width，这里要用y
             {
                 crt->setPosition(e->getCursorX(), e->getCursorY());
                 crt->set(e->getCursorX(), e->getCursorY());  // 移动
@@ -234,7 +246,7 @@ Point sceneGame::inWhichCell(const Point point) const
         for (int j = 0; j < CHESS_IN_A_ROW; j++)
         {
             if (sqrt((point.x - chessMap[i][j].x) * (point.x - chessMap[i][j].x)
-                + (point.y - chessMap[i][j].y) * (point.y - chessMap[i][j].y)) < JUDGE_SELECTED_RADIUS)
+                + (point.y - chessMap[i][j].y) * (point.y - chessMap[i][j].y)) < 80)
                 return Point(chessMap[i][j].x, chessMap[i][j].y);
         }
     }
@@ -244,26 +256,18 @@ Point sceneGame::inWhichCell(const Point point) const
 /**************计时器***************/
 void sceneGame::update(float dt) // 实时更新
 {
-    static int test = 0;
-    if (test == 0) {
-        Hero* newHero1 = createHero(TFNS);
-        //Hero* newHero2 = createHero(TFNS);
-        ccArrayAppendObject(myPlayerData.waitingArray, newHero1);
-        //ccArrayAppendObject(myPlayerData.waitingArray, newHero2);
-        myPlayerData.playerHaveNewHero = 1;
-        test++;
-    }
     if (afterFight->totalTime > 1e-6) //备战时间
     {
         heroExist->heroUpgrade(myPlayerData);
         heroExist->heroUpgrade(opPlayerData);
-        addHeroToWaiting(myPlayerData, 0);
-        addHeroToWaiting(opPlayerData, 1);
-        AIPlayer.judgeGold(); 
+        //addHeroToWaiting(myPlayerData, 0);
+        //addHeroToWaiting(opPlayerData, 1);
+        AIPlayer.judgeGold();
 
     }
-
-    mouseMainEvent(); 
+    addHeroToWaiting(myPlayerData, 0);
+    addHeroToWaiting(opPlayerData, 1);
+    mouseMainEvent();
 
     if (afterFight->totalTime < -1e-2) // 战斗时间
     {
@@ -279,6 +283,11 @@ void sceneGame::update(float dt) // 实时更新
         mouseInit();   //取消对战斗区棋子的选取
         afterFight->setPosition(10000, 10000);
         heroExist->scheduleUpdate();
+        if (!this->battleStarted)
+        {
+            startBattle();
+            battleStarted = true; // 确保战斗只开始一次
+        }
         win();
     }
 }
@@ -300,7 +309,7 @@ void sceneGame::addHeroToWaiting(playerData& player, int playerInfo)
                 {
                     player.playerHaveNewHero = 0;
                     heroExist->addChild(selected);
-                    player.playerMoney -= selected->getPrice();
+                    //player.playerMoney -= selected->getPrice();
                     selected->setPosition(chessMap[0][i].x, chessMap[0][i].y);
                     selected->set(chessMap[0][i].x, chessMap[0][i].y);
                     selected->setTempPosition();
@@ -315,12 +324,12 @@ void sceneGame::addHeroToWaiting(playerData& player, int playerInfo)
         }
         else
         {
-            player.playerMoney -= selected->getPrice();
+            //player.playerMoney -= selected->getPrice();
             heroExist->addChild(selected);
             selected->setPosition(10000, 10000);
             selected->set(10000, 10000); // ?
             selected->setPlayer(playerInfo);
-            player.heroNum[selected->getResourceType()]++;
+            player.heroNum[selected->getType()]++;
             player.playerHaveNewHero = 0;
             haveAdded = true;
         }
@@ -355,11 +364,11 @@ void sceneGame::win()
     {
         if (myAlivePieces == 0)
         {
-            opPlayerData.playerHurt(BASICAL_HURT + EACH_CHESS_HURT * opAlivePieces);
+            myPlayerData.playerHurt(BASICAL_HURT + EACH_CHESS_HURT * opAlivePieces);
         }
         else if (opAlivePieces == 0)
         {
-            myPlayerData.playerHurt(BASICAL_HURT + EACH_CHESS_HURT * myAlivePieces);
+            opPlayerData.playerHurt(BASICAL_HURT + EACH_CHESS_HURT * myAlivePieces);
         }
         afterWin(myPlayerData.waitingArray);
         afterWin(myPlayerData.battleArray);
@@ -367,25 +376,36 @@ void sceneGame::win()
         afterWin(opPlayerData.battleArray);
         /*********************************/
         // 添加音频
-        //heroExist->unscheduleUpdate();     
+        heroExist->unscheduleUpdate();     
         /*********************************/
 
         myPlayerData.updateMoneyAndExp();
         opPlayerData.updateMoneyAndExp();
-
+        battleStarted = false;
         if (myPlayerData.playerHealth > 0 && opPlayerData.playerHealth > 0) // 双方依然存活
         {
             _director->replaceScene(sceneGame::createScene(playerName));
         }
         else
         {
-            string winner = myPlayerData.playerHealth > 0 ? "You" : "AI";
-            auto label = Label::createWithTTF(playerName + " win!", "fonts/Marker Felt.ttf", 36);
+            string winner = myPlayerData.playerHealth > 0 ? playerName : "opPlayer";
+            winner += " win!";
+            auto label = Label::createWithTTF(winner, "fonts/Marker Felt.ttf", 36);
             this->addChild(label);
             label->setTextColor(Color4B::WHITE);
             label->setPosition(800, 400);
             auto move = FadeOut::create(5.0f);
             label->runAction(move);
+
+
+            auto sprite2 = Sprite::create("vict.png");
+            this->addChild(sprite2);
+            sprite2->setPosition(800, 460);
+            sprite2->setScale(2.0f);
+            auto move2 = FadeOut::create(2.0f);
+            sprite2->runAction(move2);
+
+
             this->unscheduleUpdate();
 
             myPlayerData.playerInit();
@@ -410,11 +430,9 @@ void sceneGame::afterWin(ccArray* crtArray)
         Hero* crt = static_cast<Hero*>(crtArray->arr[i]);
 
         crt->retain();
-        crt->removeFromParentAndCleanup(true);
         /************释放/恢复******************/
-        Hero* temp = createHero(crt->getType());
-        crt = temp;
-        //crt->recover();
+        crt->removeFromParent();
+        crt->recover();
     }
 }
 
@@ -429,9 +447,10 @@ void sceneGame::soldHero(playerData& player, Hero* hero, ccArray* Array)
 
 bool sceneGame::mouseInBattleArray(ccArray* Array, EventMouse* e)
 {
-    int temp = (Array == myPlayerData.battleArray) ? SEPARATION : 0;
+    int temp = (Array == myPlayerData.waitingArray) ? SEPARATION : 0;
+    // 战斗区从0开始，备战区从SEPARATION开始
 
-    if (afterFight->totalTime > 0)// 在备战时间
+    if (afterFight->totalTime > 0 || afterFight->totalTime <= 0 && temp == SEPARATION)// 确保在备战时间
     {
         for (int m = 0; m < Array->num; m++)
         {
@@ -503,4 +522,22 @@ sceneGame::sceneGame()
 sceneGame::~sceneGame()
 {
 
+}
+
+void sceneGame::startBattle()
+{
+    // 遍历战斗区数组中的每个 Hero 对象并调用 play 函数
+    for (int i = 0; i < myPlayerData.battleArray->num; i++)
+    {
+        auto hero = static_cast<Hero*>(myPlayerData.battleArray->arr[i]);
+        hero->ofPlayer = HUMAN;
+        hero->connection(myPlayerData);
+        hero->Play(); 
+    }
+    for (int i = 0; i < opPlayerData.battleArray->num; i++)
+    {
+        auto hero = static_cast<Hero*>(opPlayerData.battleArray->arr[i]);
+        hero->ofPlayer = AI;
+        hero->Play();
+    }
 }
