@@ -21,6 +21,7 @@ void bqzs::upLevel(Hero* bqzs1)
 	bqzs1->maxBlood = 1080;//生命值
 	bqzs1->level = 2; //等级
 	bqzs1->attack = 90; //攻击力
+	setScale(0.35f);
 }
 
 

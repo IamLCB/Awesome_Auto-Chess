@@ -23,7 +23,7 @@ void tfns::upLevel(Hero* tfns1)
     tfns1->maxBlood = 990;//生命值
     tfns1->level = 2; //等级
     tfns1->attack = 72; //攻击力
-
+    setScale(0.35f);
 }
 
 void tfns::Play()
@@ -46,7 +46,8 @@ void tfns::Play()
         };
         this->schedule(lambdb, 1 / speed, "tfnsAttack");
         auto lambdc = [=](float dt) {
-            enemy->setColor(Color3B::GREEN);
+            if (enemy != nullptr)
+                enemy->setColor(Color3B::WHITE);
         };
         this->schedule(lambdc, speed, "tmp");
 }

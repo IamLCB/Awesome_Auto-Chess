@@ -23,6 +23,7 @@ void ynyn::upLevel(Hero* yn1)
     yn1->maxBlood = 990;//生命值
     yn1->level = 2; //等级
     yn1->attack = 126; //攻击力
+    setScale(0.35f);
 }
 
 Hero* ynyn::initynyn()

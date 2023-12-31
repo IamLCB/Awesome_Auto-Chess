@@ -1,4 +1,5 @@
 #include "./aiPlayer/aiPlayer.h"
+#include <ctime>
 
 Hero* aiPlayer::soldHero()
 {
@@ -109,6 +110,7 @@ bool aiPlayer::aiBuy(int id)
 void aiPlayer::refresh()
 {
 	int hero = 0;
+	srand(static_cast<unsigned int>(time(NULL)));
 	for (int i = 0; i < 5; i++)
 	{
 		hero = rand() % 8 + 1;

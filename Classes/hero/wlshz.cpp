@@ -23,6 +23,7 @@ void wlshz::upLevel(Hero* wlshz1)
     wlshz1->maxBlood = 1260;//生命值
     wlshz1->level = 2; //等级
     wlshz1->attack = 108; //攻击力
+    setScale(0.35f);
 }
 
 void wlshz::Play()

@@ -23,6 +23,7 @@ void qxsq::upLevel(Hero* qxsq1)
     qxsq1->maxBlood = 1080;//生命值
     qxsq1->level = 2; //等级
     qxsq1->attack = 117; //攻击力
+    setScale(0.35f);
 }
 
 void qxsq::Play()

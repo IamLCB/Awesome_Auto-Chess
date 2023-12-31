@@ -74,6 +74,38 @@ Hero* createHero(int name)
     return hero;
 }
 
+bool Hero::connection(const playerData& myPlayerData) 
+{
+    for (size_t i = 0; i < myPlayerData.battleArray->num; i++)
+    {
+        Hero* tmp = static_cast<Hero*>(myPlayerData.battleArray->arr[i]);
+        if (tmp->name == "天罚弩神") 
+        {
+            for (size_t j = 0; j < myPlayerData.battleArray->num; j++) 
+            {
+                Hero* tmp2 = static_cast<Hero*>(myPlayerData.battleArray->arr[j]);
+                if (tmp2->name == "未来守护者") 
+                {
+                    Sprite* connect1 = Sprite::create("./hero/connect.png");
+                    Sprite* connect2 = Sprite::create("./hero/connect.png");
+                    connect1->setScale(2.5f);
+                    connect2->setScale(2.5f);
+                    tmp->addChild(connect1);
+                    tmp2->addChild(connect2);
+                    connect1->setPosition(Vec2(600, 400));
+                    connect2->setPosition(Vec2(600, 400));
+                    auto lambda = [=](float dt) {
+                        tmp2->attack += 10;
+                    };
+                    this->schedule(lambda, 1 / 60.f, "connection");
+                    return true;
+                }
+            }
+        }
+
+    }
+    return false;
+}
 
 Node* Hero::createHealthBar(double percentage)
 {
@@ -242,7 +274,7 @@ void Dizzy(Hero* enemy)
     auto removeSprite = CallFunc::create([dizzy]() {
         dizzy->removeFromParentAndCleanup(true);
         });
-    Sequence* sequence = Sequence::create(DelayTime::create(2.f), removeSprite, nullptr);
+    Sequence* sequence = Sequence::create(DelayTime::create(4.f), removeSprite, nullptr);
     dizzy->runAction(sequence);
     //禁用英雄的动作
     enemy->stopAllActions();
@@ -341,5 +373,4 @@ void Hero::recover()
     blood = maxBlood;
     blue = 0;
     healthBar->setPercentage(100.f);
-
 }

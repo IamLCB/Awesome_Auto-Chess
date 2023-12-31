@@ -31,6 +31,7 @@ void ltzz::upLevel(Hero* ltzz1)
     ltzz1->maxBlood = 1350;//生命值
     ltzz1->level = 2; //等级
     ltzz1->attack = 126; //攻击力
+    setScale(0.35f);
 }
 
 void ltzz::Play()

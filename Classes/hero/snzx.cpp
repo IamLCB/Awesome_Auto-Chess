@@ -22,7 +22,7 @@ void snzx::upLevel(Hero* snzx1)
     snzx1->maxBlood = 1440;//生命值
     snzx1->level = 2; //等级
     snzx1->attack = 90; //攻击力
-
+    setScale(0.35f);
 }
 
 void snzx::Play()
@@ -46,7 +46,8 @@ void snzx::Play()
                 if (state == ATTACK) {
                     attackNum++;//对该敌人的攻击次数+1
                     auto lambda = [=](float dt) {
-                        snzx::snzxAttack(enemy, attackNum, hurt, add);
+                        if (enemy != nullptr)
+                            snzx::snzxAttack(enemy, attackNum, hurt, add);
                     };
                     this->schedule(lambda, 1 / speed, "snzxAttack");
                 }
