@@ -13,5 +13,5 @@ public:
     void upLevel(Hero* snzx1);
     Hero* initsnzx();
     void snzxAttack(Hero* enemy, const int attackNum, const int hurt, const int add);
-    void moveToFar(Hero* my);
+    //void goaway(Point Pos, Hero* my);
 };

@@ -19,15 +19,18 @@
 #define RIGHT_BOTTOM_WIN Vec2(origin.x + visibleSize.width, origin.y)
 #define RIGHT_TOP_WIN Vec2(origin.x + visibleSize.width, origin.y + visibleSize.height)
 
-#define TFNS 1
-#define BQZS 2
-#define MLPS 3
-#define QXSQ 4
-#define WLSHZ 5
-#define YN 6
-#define LTZZ 7
-#define SNZX 8
-
+enum heroType
+{
+	None = 0,
+	TFNS,
+	BQZS,
+	MLPS,
+	QXSQ,
+	WLSHZ,
+	YN,
+	LTZZ,
+	SNZX
+};
 constexpr auto AI = 0;
 constexpr auto HUMAN = 1;
 

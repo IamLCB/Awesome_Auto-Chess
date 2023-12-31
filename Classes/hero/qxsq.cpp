@@ -41,17 +41,17 @@ void qxsq::Play()
         attackNum = 0;//攻击次数
         static int hurt = (int)(attack * enemy->attackRate);//伤害值
         static int add = (level == 1 ? 125 : 250);
-       // while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续攻击条件则持续攻击 
+        // while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续攻击条件则持续攻击 
         {
             attackNum++;//对该敌人的攻击次数+1
             auto lambda = [=](float dt) {
-                qxsq::qxsqAttack(enemy, attackNum,hurt ,add);
+                qxsq::qxsqAttack(enemy, attackNum, hurt, add);
             };
-            this->schedule(lambda, 1 / speed,"qxsqAttack");
+            this->schedule(lambda, 1 / speed, "qxsqAttack");
             auto lambdc = [=](float dt) {
                 enemy->setColor(Color3B::GRAY);
             };
-            this->schedule(lambdc,  speed, "tmp22");
+            this->schedule(lambdc, speed, "tmp22");
         }
     }
     //this->removeFromParent();
@@ -61,7 +61,7 @@ void qxsq::Play()
 Hero* qxsq::initqxsq()
 {
     Hero* qxsq = static_cast<Hero*>(qxsq::create());
-   // my = qxsq;
+    // my = qxsq;
     qxsq->picturename = "./hero/qxsq.png";
     qxsq->picturenum = 1;
     qxsq->heroAnimation(qxsq->picturename, qxsq->picturenum, qxsq, speed, -1);
@@ -72,7 +72,7 @@ Hero* qxsq::initqxsq()
 
 
 
-void qxsq::qxsqAttack(Hero* enemy, const int attackNum,const int hurt,const int add)
+void qxsq::qxsqAttack(Hero* enemy, const int attackNum, const int hurt, const int add)
 {
     blue += 50;
     enemy->setColor(Color3B::BLUE);
@@ -90,19 +90,19 @@ void qxsq::qxsqAttack(Hero* enemy, const int attackNum,const int hurt,const int 
 }
 
 
-void qxsq::shootbullet(string picturename, Point Pos, Hero* my)
-{
-    Sprite* bullet = Sprite::create(picturename);
-    this->addChild(bullet);
-    bullet->setPosition(400,230);//??????????//更改距离？
-
-    auto move = MoveBy::create(1.f, Pos);
-    auto back = MoveTo::create(0.f, Vec2(40, 30));//??????????//更改距离？
-    auto appear = FadeIn::create(0.f);
-    auto disappear = FadeOut::create(0.f);
-
-    auto actionTo = Sequence::createWithTwoActions(appear, move);
-    auto actionBack = Sequence::createWithTwoActions(disappear, back);
-    auto all = Sequence::createWithTwoActions(actionTo, actionBack);
-    bullet->runAction(Repeat::create(all, 1));
-}
+//void qxsq::shootbullet(string picturename, Point Pos, Hero* my)
+//{
+//    Sprite* bullet = Sprite::create(picturename);
+//    this->addChild(bullet);
+//    bullet->setPosition(400, 230);//??????????//更改距离？
+//
+//    auto move = MoveBy::create(1.f, Pos);
+//    auto back = MoveTo::create(0.f, Vec2(40, 30));//??????????//更改距离？
+//    auto appear = FadeIn::create(0.f);
+//    auto disappear = FadeOut::create(0.f);
+//
+//    auto actionTo = Sequence::createWithTwoActions(appear, move);
+//    auto actionBack = Sequence::createWithTwoActions(disappear, back);
+//    auto all = Sequence::createWithTwoActions(actionTo, actionBack);
+//    bullet->runAction(Repeat::create(all, 1));
+//}

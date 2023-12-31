@@ -40,8 +40,6 @@ void bqzs::Play()
 {
 	int magicpro = magicPro;
 	int pro = protect;
-	
-	//while (!isDead() && !isWin(&myPlayerData, &opPlayerData)) {
 	static Hero* enemy = getEnemyByDistance(this, false, this->ofPlayer);//锁敌
 	static int attackNum = 0;
 	auto lambda = [=](float dt) {
@@ -50,48 +48,34 @@ void bqzs::Play()
 		isDead();
 	};
 	this->schedule(lambda, 1 / 60.f, "bqzsMove");
-		magicPro = magicpro;
-		protect = pro;
-		attackNum = 0;
-		static double add = (level == 1) ? 40 : 65;
-		static int hurt = (int)(enemy->attackRate * attack);
-		//while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK) {
-			attackNum++;//对该敌人的攻击次数+1
-			auto lambdb = [=](float dt) {
-				bqzs::bqzsnormalAttack(enemy,hurt,add);
-			};
-			this->schedule(lambdb, 1 / speed, "bqzsAttack");
-			auto lambdc = [=](float dt) {
-				enemy->setColor(Color3B::RED);
-			};
-			this->schedule(lambdc, speed, "tmp");
-			//释放技能
-			if (blue == blueMax) {
-				int i = 0;
-				while (i < 9) {
-					attackRate = 0.25;
-					auto lambda = [=](float dt) {
-						enemy->blood -= (int)(hurt - (enemy->protect) + add);
-						//bqzs::swordswing("",this);//??????????//picture
-					};
-					this->schedule(lambda, 1 / speed * 2,"bqzsSkill");//快速的释放技能
-					//释放技能时候敌人变成橙色
-					auto lambdc = [=](float dt) {
-						enemy->setColor(Color3B::BLACK);
-					};
-					this->schedule(lambdc, 1/speed*2, "tmp11");
-					i++;
-				}
-				blue = 0;
-				attackRate = 1;//恢复
-			}
-			if (enemy->blood < 0)
-				enemy->blood = 0;//敌方死亡
-		//}
 	magicPro = magicpro;
 	protect = pro;
-	//}
-	//this->removeFromParent();
+	static double add = (level == 1) ? 40 : 65;
+	static int hurt = (int)(enemy->attackRate * attack);
+	auto lambdb = [=](float dt) {
+		enemy = getEnemyByDistance(this, false, this->ofPlayer);//锁敌
+		if (enemy != nullptr &&state==ATTACK )
+		{
+			bqzs::bqzsnormalAttack(enemy, hurt, add);
+			attackNum++;//对该敌人的攻击次数+1
+		}
+	};
+	this->schedule(lambdb, 1 / speed, "bqzsAttack");
+	//释放技能
+	if (blue == blueMax) {
+		attackRate = 0.25;
+		auto lambda = [=](float dt) {
+			enemy->blood -= (int)(hurt - (enemy->protect) + add);
+			//bqzs::swordswing(this);
+		};
+		this->scheduleOnce(lambda, 1 / speed * 2, "bqzsSkill");//快速的释放技能
+		blue = 0;
+		attackRate = 1;//恢复
+	}
+	if (enemy->blood < 0)
+		enemy->blood = 0;//敌方死亡
+	magicPro = magicpro;
+	protect = pro;
 }
 
 void bqzs::bqzsnormalAttack(Hero* enemy, int hurt, double add)
@@ -100,7 +84,6 @@ void bqzs::bqzsnormalAttack(Hero* enemy, int hurt, double add)
 	enemy->protect > hurt ? enemy->blood -= 0 : enemy->blood -= hurt - enemy->protect;//护甲抵消部分伤害
 	if (enemy->blood < 0)
 		enemy->blood = 0;
-	enemy->setColor(Color3B::ORANGE);
 	swordwaive(this);
 }
 
@@ -123,21 +106,21 @@ void bqzs::swordwaive(Hero* my)
 	sword->runAction(waive);
 }
 
-void bqzs::swordswing(Hero* my)
-{
-	Sprite* sword = Sprite::create("./hero/sword.png");
-	my->addChild(sword, 3);
-	sword->setScale(2.0f);
-	sword->setPosition(Vec2(600, 300));
-
-	// 旋转刀的动作序列
-	auto swing = Sequence::create(
-		RotateTo::create(1.0f, 360),
-		CallFunc::create([sword]() {
-			sword->removeFromParent();
-			}),
-		nullptr
-				);
-	// 执行动作序列
-	sword->runAction(swing);
-}
+//void bqzs::swordswing(Hero* my)
+//{
+//	Sprite* sword = Sprite::create("./hero/sword.png");
+//	my->addChild(sword, 3);
+//	sword->setScale(2.0f);
+//	sword->setPosition(Vec2(600, 300));
+//
+//	// 旋转刀的动作序列
+//	auto swing = Sequence::create(
+//		RotateTo::create(1.0f, 360),
+//		CallFunc::create([sword]() {
+//			sword->removeFromParent();
+//			}),
+//		nullptr
+//				);
+//	// 执行动作序列
+//	sword->runAction(swing);
+//}

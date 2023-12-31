@@ -41,11 +41,13 @@ void snzx::Play()
         attackNum = 0;//攻击次数
         static int hurt = (int)(attack * enemy->attackRate);//伤害值
         static int add = (level == 1 ? 50 : 100);
-       // while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续攻击条件则持续攻击 
+        // while (!enemy->isDead() && isInAttackRange(this, enemy) && !isDead() && state == ATTACK)//符合连续攻击条件则持续攻击 
         {
             attackNum++;//对该敌人的攻击次数+1
             auto lambda = [=](float dt) {
-                snzx::snzxAttack(enemy, attackNum,hurt,add);
+                if (enemy != nullptr && state == ATTACK) {
+                    snzx::snzxAttack(enemy, attackNum, hurt, add);
+                }
             };
             this->schedule(lambda, 1 / speed, "snzxAttack");
 
@@ -65,7 +67,7 @@ Hero* snzx::initsnzx()
 }
 
 
-void snzx::snzxAttack(Hero* enemy, const int attackNum,const int hurt, const int add)
+void snzx::snzxAttack(Hero* enemy, const int attackNum, const int hurt, const int add)
 {
     blue += 30;
     int extra = (level == 1) ? 200 : 300;
@@ -73,8 +75,8 @@ void snzx::snzxAttack(Hero* enemy, const int attackNum,const int hurt, const int
     {
         this->blood += ((level == 1) ? 250 : 450);
         //createHealthBar(const string& backgroundTexture, const std::string& foregroundTexture, double initialPercentage, const Vec2& position);
-        Hero* enemynow = getEnemyByDistance(this,  true,this->ofPlayer);//锁敌最远
-        moveToFar(enemynow);
+        Hero* enemynow = getEnemyByDistance(this, true, this->ofPlayer);//锁敌最远
+        //moveToFar(enemynow);
         Dizzy(enemynow);
         enemynow->blood -= (hurt + extra + add - enemynow->protect);
         blue = 0;
@@ -88,25 +90,25 @@ void snzx::snzxAttack(Hero* enemy, const int attackNum,const int hurt, const int
         enemy->blood = 0;//敌方死亡
 }
 
-//暂时没有实现，可以参考已经实现了的隐娘
-void snzx::moveToFar( Hero* enemy)
-{
-    // 获取敌人的位置信息
-    cocos2d::Vec2 enemyPosition = enemy->getPosition();
-
-    // 获取自身的位置信息
-    cocos2d::Vec2 selfPosition = getPosition();
-
-    // 计算敌人和自身之间的距离
-    float distance = enemyPosition.distance(selfPosition);
-
-    // 确保距离大于零
-    if (distance > 0)
-    {
-        // 计算目标位置在敌人身后的位置
-        cocos2d::Vec2 targetPosition = enemyPosition - (enemyPosition - selfPosition);
-
-        // 使用Cocos系统函数将角色移动到目标位置
-        runAction(cocos2d::MoveTo::create(0.f, targetPosition));
-    }
-}
+////暂时没有实现，可以参考已经实现了的隐娘
+//void snzx::moveToFar(Hero* enemy)
+//{
+//    // 获取敌人的位置信息
+//    cocos2d::Vec2 enemyPosition = enemy->getPosition();
+//
+//    // 获取自身的位置信息
+//    cocos2d::Vec2 selfPosition = getPosition();
+//
+//    // 计算敌人和自身之间的距离
+//    float distance = enemyPosition.distance(selfPosition);
+//
+//    // 确保距离大于零
+//    if (distance > 0)
+//    {
+//        // 计算目标位置在敌人身后的位置
+//        cocos2d::Vec2 targetPosition = enemyPosition - (enemyPosition - selfPosition);
+//
+//        // 使用Cocos系统函数将角色移动到目标位置
+//        runAction(cocos2d::MoveTo::create(0.f, targetPosition));
+//    }
+//}

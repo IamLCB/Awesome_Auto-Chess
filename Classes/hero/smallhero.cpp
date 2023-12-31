@@ -16,6 +16,7 @@ void smallHero::moveByMouse_R(Hero* myHero) {
         if (mouseEvent->getMouseButton() == EventMouse::MouseButton::BUTTON_RIGHT)
         {
             auto location = mouseEvent->getLocationInView();
+
             // 在这里添加一个停止所有动作的调用，以防止动作冲突
             myHero->runAction(MoveTo::create(1.0f, location));
         }

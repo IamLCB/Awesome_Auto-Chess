@@ -13,6 +13,6 @@ public:
     CREATE_FUNC(qxsq);
     Hero* initqxsq();
     void qxsqAttack(Hero* enemy, const int attackNum, const int hurt,const int add);
-    void shootbullet(string picturename, Point Pos, Hero* my);
+    //void shootbullet( Point Pos, Hero* my);
 };
 
