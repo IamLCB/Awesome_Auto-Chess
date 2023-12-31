@@ -98,6 +98,8 @@ bool aiPlayer::aiBuy(int id)
 			opPlayerData.playerHaveNewHero = true;
 			opPlayerData.heroForBuy[id].buy = true;
 			opPlayerData.playerMoney -= opPlayerData.heroForBuy[id].cost;
+			if (opPlayerData.playerMoney < 0)
+				opPlayerData.playerMoney = 0;
 			return true;
 		}
 		else
